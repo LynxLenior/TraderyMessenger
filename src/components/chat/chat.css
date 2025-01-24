@@ -57,7 +57,8 @@
     .center{
         padding: 20px;
         flex: 1;
-        overflow: scroll;
+        overflow: auto;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         gap: 20px;
