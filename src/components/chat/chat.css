@@ -57,6 +57,20 @@
     .center{
         padding: 20px;
         flex: 1;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .message{
+            max-width: 70%;
+            display: flex;
+            gap: 20px;
+
+            &.own{
+                align-self: flex-end;
+            }
+        }
     }
     .bottom{
         padding: 20px;
