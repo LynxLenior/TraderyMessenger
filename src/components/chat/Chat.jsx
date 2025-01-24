@@ -5,7 +5,7 @@ const Chat = () => {
     const [open,setOpen] = useState(false);
     const [text, setText] = useState("");
 
-    const handleEmoji = e =>{
+    const handleEmoji = (e) =>{
         setText((prev) => prev + e.emoji);
         setOpen(false)
     }
