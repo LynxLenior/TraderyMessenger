@@ -62,9 +62,9 @@ const Chat = () => {
                     <span>1 Min</span>
                 </div>
             </div>
-            <div className="message">
-                <img src="./avatar.png" alt="" />
+            <div className="message own">
                 <div className="texts">
+                    <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
                     <p>
                     Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
