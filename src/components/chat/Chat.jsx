@@ -26,7 +26,7 @@ const Chat = () => {
             </div>
             <input type="text" placeholder="Type a message..." />
             <div className="emoji">
-                <img src="./emoji.png>" alt="" />
+                <img src="./emoji.png" alt="" />
             </div>
             <button className="sendButton">Send</button>
         </div>
