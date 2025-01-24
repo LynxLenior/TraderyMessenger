@@ -32,7 +32,7 @@ const Chat = () => {
                 <img src="./avatar.png" alt="" />
                 <div className="texts">
                     <p>
-                        Skibidi Toilet
+                    Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
                     <span>1 Min</span>
                 </div>
@@ -40,7 +40,7 @@ const Chat = () => {
             <div className="message own">
                 <div className="texts">
                     <p>
-                        Skibidi Toilet
+                        Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao 
                     </p>
                     <span>1 Min</span>
                 </div>
@@ -49,7 +49,7 @@ const Chat = () => {
                 <img src="./avatar.png" alt="" />
                 <div className="texts">
                     <p>
-                        Skibidi Toilet
+                    Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
                     <span>1 Min</span>
                 </div>
@@ -57,7 +57,7 @@ const Chat = () => {
             <div className="message own">
                 <div className="texts">
                     <p>
-                        Skibidi Toilet
+                    Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
                     <span>1 Min</span>
                 </div>
@@ -66,7 +66,7 @@ const Chat = () => {
                 <img src="./avatar.png" alt="" />
                 <div className="texts">
                     <p>
-                        Skibidi Toilet
+                    Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
                     <span>1 Min</span>
                 </div>

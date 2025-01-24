@@ -70,8 +70,8 @@
             &.own{
                 align-self: flex-end;
 
-                .text{
-                    p{
+                .texts{
+                    p {
                         background-color: #5183fe;
                     }
                 }
@@ -83,7 +83,7 @@
                 border-radius: 50%;
                 object-fit: cover;
             }
-            .text{
+            .texts{
                 flex: 1;
                 display: flex;
                 flex-direction: column;
