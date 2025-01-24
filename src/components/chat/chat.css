@@ -69,6 +69,35 @@
 
             &.own{
                 align-self: flex-end;
+
+                .text{
+                    p{
+                        background-color: #5183fe;
+                    }
+                }
+            }
+
+            img{
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            .text{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                p{
+                    padding: 20px;
+                    background-color: rgba(17, 25, 40, 0.3);
+                    border-radius: 10px;
+                }
+
+                span{
+                    font-style: 13px;
+                }
             }
         }
     }
