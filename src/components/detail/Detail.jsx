@@ -21,31 +21,50 @@ const Detail = () => {
                 <img src="./arrowUp.png" alt="" />
                 </div>  
                 <div className="photos">
-                    <div className="photoI">
+                    <div className="photoItem">
+                        <div className="photoDetail">
                         <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
                         <span>photo_2024_2.png</span>
-                    </div>
+                        </div>
                     <img src="./download.png" alt="" />
+                    </div>
+                    <div className="photoItem">
+                        <div className="photoDetail">
+                        <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
+                        <span>photo_2024_2.png</span>
+                        </div>
+                    <img src="./download.png" alt="" />
+                    </div>
+                    <div className="photoItem">
+                        <div className="photoDetail">
+                        <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
+                        <span>photo_2024_2.png</span>
+                        </div>
+                    <img src="./download.png" alt="" />
+                    </div>
+                    <div className="photoItem">
+                        <div className="photoDetail">
+                        <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
+                        <span>photo_2024_2.png</span>
+                        </div>
+                    <img src="./download.png" alt="" />
+                    </div>
+                    <div className="photoItem">
+                        <div className="photoDetail">
+                        <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
+                        <span>photo_2024_2.png</span>
+                        </div>
+                    <img src="./download.png" alt="" />
+                    </div>
                 </div>
             </div>
             <div className="option">
               <div className="title">
-                <span>Shared Photos</span>
+                <span>Shared Files</span>
                 <img src="./arrowDown.png" alt="" />
                 </div>  
             </div>
-            <div className="option">
-              <div className="title">
-                <span>Chat Settings</span>
-                <img src="./arrowUp.png" alt="" />
-                </div>  
-            </div>
-            <div className="option">
-              <div className="title">
-                <span>Chat Settings</span>
-                <img src="./arrowUp.png" alt="" />
-                </div>  
-            </div>
+            <button>Block User</button>
         </div>
     </div>
   )

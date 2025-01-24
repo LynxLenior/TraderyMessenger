@@ -1,3 +1,19 @@
  .detail{
     flex: 1;
+
+    .user{
+        padding: 30px 20px;
+        display: flex;
+        font-display: column;
+        align-items: center;
+        gap: 20px;
+        border-bottom: 1px solid #dddddd35;
+
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
  }
