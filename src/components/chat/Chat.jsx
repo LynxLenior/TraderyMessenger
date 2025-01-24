@@ -1,12 +1,13 @@
 import "./chat.css"
 import EmojiPicker from "emoji-picker-react"
+import { useState } from 'react'
 
 const Chat = () => {
-    const [open,setOpen] = useState(false);
-    const [text, setText] = useState("");
+    const [open, setOpen] = useState(false)
+    const [text, setText] = useState("")
 
-    const handleEmoji = (e) =>{
-        setText((prev) => prev + e.emoji);
+    const handleEmoji = e =>{
+        setText((prev) => prev + e.emoji)
         setOpen(false)
     }
 
@@ -41,9 +42,9 @@ const Chat = () => {
                 />
             <div className="emoji">
                 <img 
-                src="./emoji.png" 
-                alt=""
-                onClick={() => setOpen((prev) => !prev)}
+                    src="./emoji.png" 
+                    alt=""
+                    onClick={() => setOpen((prev) => !prev)}
                 />
                 <EmojiPicker open={open} onEmojiClick={handleEmoji} />
             </div>
