@@ -2,7 +2,7 @@
   "name": "traderymessenger",
   "private": true,
   "version": "0.0.0",
-  "homepage": "",
+  "homepage": "https://lynxlenior.github.io/TraderyMessenger",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
