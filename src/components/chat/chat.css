@@ -23,7 +23,7 @@
                 object-fit: cover;
             }
 
-            .text{
+            .texts{
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
