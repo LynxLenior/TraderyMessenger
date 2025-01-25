@@ -50,8 +50,8 @@ const Detail = () => {
                 <img src="./arrowDown.png" alt="" />
                 </div>  
             </div>
-            <button>Block User</button>
         </div>
+        <button>Block User</button>
     </div>
   )
 }
