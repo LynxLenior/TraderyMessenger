@@ -70,7 +70,7 @@ const Chat = () => {
             </div>
             <div className="message own">
                 <div className="texts">
-                    <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/images/background.jpg" alt="" />
+                    <img src="https://raw.githubusercontent.com/Sonny4546/Tradery/refs/heads/main/public/images/errormask.jpg" alt="" />
                     <p>
                     Skibidi Toilet Fanum tax Sigma male Ohio gyatt kai cenat rizz the rizzler in ohio skill issue L ratio L bozo lmao
                     </p>
