@@ -1,5 +1,6 @@
 import { useState } from "react"
 import "./login.css"
+import { toast } from "react-toastify"
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
     const [avatar,setAvatar] = useState({
@@ -16,10 +17,15 @@ const Login = () => {
         })
     }
 }
+//error popout
+    const handleLogin = e =>{
+        e.preventDefault()
+    }
+
   return <div className='login'>
         <div className="item">
             <h2>Welcome back,</h2>
-            <form>
+            <form onSubmit={handleLogin}>
                 <input type="text" placeholder="Email" name="email"/>
                 <input type="text" placeholder="Password" name="password"/>
                 <button>Sign In</button>
