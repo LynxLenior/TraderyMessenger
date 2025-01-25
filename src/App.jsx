@@ -17,7 +17,7 @@ const user = false
           <Chat/>
           <Detail/>
           </>
-        ) : (<Login/)
+        ) : <Login/>
       }
     </div>
   )
