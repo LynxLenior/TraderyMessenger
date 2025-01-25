@@ -19,6 +19,10 @@
         }
     }
     .info{
+        flex: 1;
+        display: flex;
+        overflow: auto;
+        overflow-x: hidden;
         padding: 20px;
         display: flex;
         flex-direction: column;
