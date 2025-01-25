@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: "/TraderyMessenger"
+  build: {
+    chunkSizeWarningLimit: 1000, // Increase to 1MB (or adjust as needed)
+  },
 });
