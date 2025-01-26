@@ -23,7 +23,7 @@ const Login = () => {
 //error popout
     const handleRegister = async e =>{
         e.preventDefault()
-        const formDate = new FormData()
+        const formData = new FormData(e.target)
 
         const {username,email,password} = Object.fromEntries(formData)
 
