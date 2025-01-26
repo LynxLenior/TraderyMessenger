@@ -28,7 +28,7 @@ const Login = () => {
 
         try{
 
-        const res = await createUserWithEmailAndPassword(email,password)
+        const res = await createUserWithEmailAndPassword(auth, email,password)
 
             
         }catch(err){
