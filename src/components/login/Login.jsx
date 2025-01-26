@@ -2,6 +2,7 @@ import { useState } from "react"
 import "./login.css"
 import { toast } from "react-toastify"
 import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from "../lib/firebase.js"
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
