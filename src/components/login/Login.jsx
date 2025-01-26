@@ -20,7 +20,7 @@ const Login = () => {
 }
 
 //error popout
-    const handleRegister = async e =>{
+    const handleRegister = e =>{
         e.preventDefault()
         const formData = new FormData(e.target)
 
