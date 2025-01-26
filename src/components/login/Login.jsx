@@ -1,6 +1,6 @@
 import { useState } from "react"
 import "./login.css"
-import { auth } from '../lib/firebase';
+import { auth } from "./src/lib/firebase";
 import { toast } from "react-toastify"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 
