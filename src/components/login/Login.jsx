@@ -10,12 +10,11 @@ const Login = () => {
         url:""
     })
 
-    const handleAvatar = e =>{
-        if(e.target.files[0]){
-        
-        setAvatar({
-            file:e.target.files[0],
-            url: URL.createObjectURL(e.target.files[0])
+    const handleAvatar = e => {
+        if (e.target.files[0]){
+            setAvatar({
+                file: e.target.files[0],
+                url: URL.createObjectURL(e.target.files[0]),
         })
     }
 }
@@ -27,14 +26,7 @@ const Login = () => {
 
         const {username,email,password} = Object.fromEntries(formData)
 
-        try{
-
-            const res = await createUserWithEmailAndPassword(auth,email,password)
-
-        }catch(err){
-            console.log(err)
-            toast.error(err.message)
-        }
+        console.log(username)
     }
 
 
