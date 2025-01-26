@@ -20,13 +20,21 @@ const Login = () => {
 }
 
 //error popout
-    const handleRegister = e =>{
+    const handleRegister = async e =>{
         e.preventDefault()
         const formData = new FormData(e.target)
 
-        const {username,email,password} = Object.fromEntries(formData)
+        const { username,email,password } = Object.fromEntries(formData)
 
-        console.log(username)
+        try{
+
+        const res = await createUserWithEmailAndPassword(auth,email,password)
+
+            
+        }catch(err){
+        console.log(err)
+        toast.error(err.message)
+        }
     }
 
 
@@ -49,8 +57,14 @@ const Login = () => {
             <form onSubmit={handleRegister}>
                 <label htmlFor="file">
                     <img src={avatar.url || "./avatar.png"} alt="" />
-                    Upload and image</label>
-                <input type="file" id="file" style={{display:"none"}} onChange={handleAvatar}/>
+                    Upload and image
+                </label>
+                <input 
+                type="file" 
+                id="file" 
+                style={{display:"none"}} 
+                onChange={handleAvatar}
+                />
                 <input type="text" placeholder="Username" name="username"/>
                 <input type="text" placeholder="Email" name="email"/>
                 <input type="password" placeholder="Password" name="password"/>
