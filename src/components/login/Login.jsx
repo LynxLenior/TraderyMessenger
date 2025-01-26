@@ -1,6 +1,8 @@
 import { useState } from "react"
 import "./login.css"
 import { toast } from "react-toastify"
+import { createUserWithEmailAndPassword } from "firebase/auth"
+
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
     const [avatar,setAvatar] = useState({
@@ -17,14 +19,22 @@ const Login = () => {
         })
     }
 }
+
 //error popout
-    const handleRegister = e =>{
+    const handleRegister = async e =>{
         e.preventDefault()
         const formDate = new FormData()
 
         const {username,email,password} = Object.fromEntries(formData)
 
-        console.log(username)
+        try{
+
+            const res = await createUserWithEmailAndPassword(auth,email,password)
+
+        }catch(err){
+            console.log(err)
+            toast.error(err.message)
+        }
     }
 
 
