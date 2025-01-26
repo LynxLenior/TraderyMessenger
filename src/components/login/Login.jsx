@@ -24,7 +24,7 @@ const Login = () => {
         e.preventDefault()
         const formData = new FormData(e.target)
 
-        const { username,email,password } = Object.fromEntries(formData)
+        const { username, email, password } = Object.fromEntries(formData)
 
         try{
 
@@ -42,7 +42,7 @@ const Login = () => {
         e.preventDefault()
     }
 
-  return <div className='login'>
+  return (<div className='login'>
         <div className="item">
             <h2>Welcome back,</h2>
             <form onSubmit={handleLogin}>
@@ -72,6 +72,7 @@ const Login = () => {
             </form>
         </div>
     </div>
+  )
 }
 
 export default Login
