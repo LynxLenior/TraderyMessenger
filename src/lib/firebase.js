@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCblep2F44R6hI9j-q4zh8EWUTms43_OJI",
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "traderymessenger.firebaseapp.com",
   projectId: "traderymessenger",
   storageBucket: "traderymessenger.firebasestorage.app",
