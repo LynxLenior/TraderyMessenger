@@ -36,17 +36,17 @@ const Login = () => {
             username,
             email,
             id: res.user.uid,
-            blocked:[],
+            blocked: [],
         });
 
-        await setDoc(doc(db, "userchats", res.user.id), {
+        await setDoc(doc(db, "userchats", res.user.uid), {
             chats: [],
           });
            
           toast.success("Account Created! You can login now!")
-        }catch(err){
-        console.log(err)
-        toast.error(err.message)
+        }   catch(err){
+            console.log(err)
+            toast.error(err.message)
         }
     }
 
