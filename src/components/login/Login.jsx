@@ -39,11 +39,9 @@ const Login = () => {
             blocked:[],
         });
 
-        await setDoc(doc(db, "userschats", res.user.id), {
+        await setDoc(doc(db, "userchats", res.user.id), {
             chats: [],
           });
-
-
            
           toast.success("Account Created! You can login now!")
         }catch(err){
