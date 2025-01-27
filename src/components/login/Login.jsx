@@ -1,9 +1,8 @@
-import { useState } from "react"
-import "./login.css"
-import { toast } from "react-toastify"
-import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "src/lib/firebase.js"
-
+import { useState } from "react";
+import "./login.css";
+import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from ".../lib/firebase"
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
