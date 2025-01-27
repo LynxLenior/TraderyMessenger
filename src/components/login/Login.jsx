@@ -32,7 +32,7 @@ const Login = () => {
 
         const res = await createUserWithEmailAndPassword(auth, email, password)
 
-        await setDoc(doc(db, "users", res.user.id), {
+        await setDoc(doc(db, "users", res.user.uid), {
             username,
             email,
             id: res.user.uid,
