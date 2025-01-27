@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./login.css";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
@@ -31,7 +32,20 @@ const Login = () => {
 
         const res = await createUserWithEmailAndPassword(auth, email, password)
 
-            
+        await setDoc(doc(db, "users", res.user.id), {
+            username,
+            email,
+            id: res.user.uid,
+            blocked:[]
+        });
+
+        await setDoc(doc(db, "userschats", res.user.id), {
+            chats: [],
+          });
+
+
+           
+          toast.success("Account Created! You can login now!")
         }catch(err){
         console.log(err)
         toast.error(err.message)
