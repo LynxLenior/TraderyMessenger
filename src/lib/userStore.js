@@ -10,7 +10,7 @@ export const useUserStore = create((set) => ({
 
         try{
 
-        const doRef =doc(db, "users", uid);
+        const docRef =doc(db, "users", uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
