@@ -12,12 +12,12 @@ const ChatList = () => {
     const {currentUser} = useUserStore()
 
     useEffect(()=>{
-        const unSub = onSnapshot(doc(db, "userchats", currentUser.Id), (doc) =>{
+        const unSub = onSnapshot(doc(db, "userchats", currentUser.id), (doc) =>{
             setChats(doc.data())
         })
     
-        return ()=>{
-        unSub()
+        return () => {
+            unSub()
         }
     }, [currentUser.id])
 
