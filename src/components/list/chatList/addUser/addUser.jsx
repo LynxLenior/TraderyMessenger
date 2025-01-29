@@ -18,7 +18,7 @@ import { useUserStore } from "../../../../lib/userStore"
 const AddUser = () => {
   const [user, setUser] = useState(null)
 
-  const {currentUser} = useUserStore
+  const {currentUser} = useUserStore()
 
   const handleSearch = async e=> {
     e.preventDefault()
