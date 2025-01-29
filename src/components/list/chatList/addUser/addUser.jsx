@@ -3,6 +3,7 @@ import { db } from "../../../../lib/firebase"
 import "./addUser.css"
 import { 
   collection,  
+  doc,  
   getDocs, 
   query, 
   serverTimestamp, 
@@ -13,6 +14,8 @@ import {
 
 const AddUser = () => {
   const [user, setUser] = useState(null)
+
+  
 
   const handleSearch = async e=> {
     e.preventDefault()
@@ -35,7 +38,6 @@ const AddUser = () => {
   }
 
   const handleAdd = async () => {
-
     const chatRef = collection(db, "chats")
     const userChatsRef = collection(db, "userchats")
 
@@ -44,7 +46,7 @@ const AddUser = () => {
 
        await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
-          messages: [],
+        messages: [],
       })
 
       console.log(newChatRef.id)
