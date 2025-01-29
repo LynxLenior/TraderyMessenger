@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() =>{
     const unSub = onAuthStateChanged(auth, (user)=>{
-      fetchUserInfo(user.uid)
+      const user = false;
     })
 
     return () => {
@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     <div className="container">
-      {currentUser ? (
+      {user ? (
           <>
           <List/>
           <Chat/>
