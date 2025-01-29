@@ -11,7 +11,6 @@ import { useUserStore } from "./lib/userStore";
 
 const App = () => {
 //open login page = false close = true
-
   const {currentUser, isLoading, fetchUserInfo} = useUserStore()
 
   useEffect(() =>{
@@ -29,7 +28,7 @@ const App = () => {
   if (isLoading) return <div className="loading">Loading...</div>
 
   return (
-    <div className='container'>
+    <div className="container">
       {currentUser ? (
           <>
           <List/>
