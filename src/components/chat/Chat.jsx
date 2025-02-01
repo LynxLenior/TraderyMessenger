@@ -94,12 +94,10 @@ const Chat = () => {
         </div>
         <div className="center">
             { chat?.messages?.map((message) => (
-            <div className="message own" key={message.createAt}>
+            <div className={message.senderId === currentUser?.id ? "message own" : "message"} key={message.createAt}>
                 
                 <div className="texts">
-                    <p>
-                    {message.text}
-                    </p>
+                    <p>{message.text} </p>
                    {/* <span>1 Min</span>*/}
                 </div>
             </div>
@@ -107,11 +105,12 @@ const Chat = () => {
             <div ref={endRef}></div>
         </div>
         <div className="bottom">
-            <div className="icons">
+            {/*<div className="icons">
                 <img src="./img.png" alt="" />
                 <img src="./camera.png" alt="" />
                 <img src="./mic.png" alt="" />
             </div>
+            */}
             <input 
                 type="text" 
                 placeholder="Type a message..."
