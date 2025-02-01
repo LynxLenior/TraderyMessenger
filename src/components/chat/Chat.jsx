@@ -80,16 +80,9 @@ const Chat = () => {
     <div className='chat'>
         <div className="top">
             <div className="user">
-                <img src="./avatar.png" alt="" />
                 <div className="texts">
-                    <span>Jane Doe</span>
-                    <p>What The Sigmar</p>
+                    <span>{chat.user.username}</span>
                 </div>
-            </div>
-            <div className="icons">
-                <img src="./phone.png" alt="" />
-                <img src="./video.png" alt="" />
-                <img src="./info.png" alt="" />
             </div>
         </div>
         <div className="center">
@@ -105,12 +98,6 @@ const Chat = () => {
             <div ref={endRef}></div>
         </div>
         <div className="bottom">
-            {/*<div className="icons">
-                <img src="./img.png" alt="" />
-                <img src="./camera.png" alt="" />
-                <img src="./mic.png" alt="" />
-            </div>
-            */}
             <input 
                 type="text" 
                 placeholder="Type a message..."
