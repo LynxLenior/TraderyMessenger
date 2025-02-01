@@ -10,7 +10,8 @@ const ChatList = () => {
     const [addMode, setAddMode]= useState(false);
 
     const {currentUser} = useUserStore()
-
+    const { chatId, changeChat} = useChatStore()
+    
     useEffect(()=>{
         const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) =>{
             const items = res.data().chats
@@ -34,6 +35,12 @@ const ChatList = () => {
         }
     }, [currentUser.id])
 
+    const handleSelect = async (chat) =>{
+
+        changeChat(chat.chatId,chat.user)
+
+    }
+
     
 
   return (
@@ -50,7 +57,7 @@ const ChatList = () => {
             />
         </div>
         {chats.map((chat) => (
-        <div className="item" key={chat.chatId}>
+        <div className="item" key={chat.chatId} onClick={()=>handleSelect(chat)}>
             <div className="texts">
                 <span>{chat.user.username}</span>
                 <p>{chat.lastMessage}</p>
