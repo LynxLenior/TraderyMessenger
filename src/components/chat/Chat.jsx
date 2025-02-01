@@ -12,6 +12,10 @@ const Chat = () => {
         endRef.current?.scrollIntoView({ behavior: "smooth"})
     }, [])
 
+    useEffect(()=>{
+        const unSub = onSnapshot(doc(db,"chats",))
+    })
+
     const handleEmoji = e =>{
         setText((prev) => prev + e.emoji)
         setOpen(false)
