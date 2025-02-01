@@ -26,7 +26,7 @@ const Chat = () => {
         })
 
         return () =>{
-            unsub()
+            unSub()
         }
     }, [chatId])
 
