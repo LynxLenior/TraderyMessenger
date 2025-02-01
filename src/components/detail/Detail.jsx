@@ -5,7 +5,7 @@ const Detail = () => {
   return (
     <div className='detail'>
         <div className="user">
-            <h2>{chat.user.username}</h2>
+            <h2>Ethan</h2>
         </div>
         <div className="info">
             <button>Block User</button>
