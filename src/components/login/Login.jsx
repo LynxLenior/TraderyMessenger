@@ -1,14 +1,14 @@
 import { useState } from "react";
-import "./login.css";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../lib/firebase";
+import "./login.css";
+import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 //Something in the way
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 
-
+const Login = () => {
 const handleGoogle = async () => {
     try {
         const provider = new GoogleAuthProvider();
@@ -32,6 +32,7 @@ const handleGoogle = async () => {
     } catch (error) {
         console.error("Error during login:", error);
     }
+}
 
 
 //Login thingies, delete for GoogleAuthenticator login thingy
