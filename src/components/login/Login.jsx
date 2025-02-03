@@ -1,35 +1,53 @@
 import { useState } from "react";
 import "./login.css";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+//Something in the way
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
+import { doc, setDoc, getDoc } from "firebase/firestore";
+
+const handleGoogle = async () => {
+    try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        // Check if user exists in Firestore
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            // Save new user to Firestore
+            await setDoc(userRef, {
+                uid: user.uid,
+                email: user.email,
+                username: user.displayName,
+                photoURL: user.photoURL,
+                createdAt: new Date(),
+            });
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+    }
+};
 
 //Login thingies, delete for GoogleAuthenticator login thingy
-const Login = () => {
-    const handleGoogle = async () => {
-        try {
-            const provider = new GoogleAuthProvider();
-            const auth = getAuth();
-            const result = await signInWithPopup(auth, provider);
-            console.log("User logged in:", result.user);
-        } catch (error) {
-            console.error("Error signing in:", error);
-        }
-    };
-    // const handleGoogle = async (e) => {
-    //     const provider = await new GoogleAuthProvider();
-    //     return signInWithPopup(auth, provider)
-    // }
+// const Login = () => {
+//     const handleGoogle = async (e) => {
+//         const provider = new GoogleAuthProvider();
+//         return signInWithPopup(auth, provider)
+//     }
 
 return (
-<div class="login">
-    <div class="center">
-        <button class="button" onClick={handleGoogle}>Button</button>
+<div className="login">
+    <div className="center">
+        <button className="button" onClick={handleGoogle}>Button</button>
         </div>
 </div>
+)
 
 
 //     const [avatar,setAvatar] = useState({
@@ -133,7 +151,6 @@ return (
 //             </form>
 //         </div>
 //     </div>
-    )
-}
+
 
 export default Login

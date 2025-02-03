@@ -14,6 +14,9 @@ const ChatList = () => {
     const { chatId, changeChat} = useChatStore()
     
     useEffect(()=>{
+
+        if (!currentUser?.id) return
+
         const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) =>{
             const items = res.data().chats
 
