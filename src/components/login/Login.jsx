@@ -32,7 +32,7 @@ const handleGoogle = async () => {
     } catch (error) {
         console.error("Error during login:", error);
     }
-};
+
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 // const Login = () => {
@@ -48,6 +48,7 @@ return (
         </div>
 </div>
 )
+}
 
 
 //     const [avatar,setAvatar] = useState({
