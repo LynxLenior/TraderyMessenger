@@ -75,7 +75,7 @@ const Login = () => {
 //         }
 //     }
 
-        <div className="login">
+        <div className="GoogleButton">
             <button>Buttones</button>
         </div>
 
