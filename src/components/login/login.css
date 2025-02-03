@@ -6,11 +6,8 @@
     gap: 100px;
 
 
-    .GoogleButton{
-        justify-content: center;
-        align-items: center;
     .button {
-        width: 100%;
+        width: 25%;
         padding: 20px;
         border: none;
         background-color: #1f8ef1;

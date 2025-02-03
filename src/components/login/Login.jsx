@@ -9,9 +9,8 @@ import { doc, setDoc } from "firebase/firestore";
 const Login = () => {
 
 return (
-<div className="GoogleButton">
+
             <button>Buttones</button>
-        </div>
 
 
 
