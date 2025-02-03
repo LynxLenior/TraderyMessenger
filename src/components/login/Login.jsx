@@ -9,9 +9,11 @@ import { doc, setDoc } from "firebase/firestore";
 const Login = () => {
 
 return (
-
-    <button class="button" >Button</button>
-
+<div class="login">
+    <div class="center">
+        <button class="button" >Button</button>
+        </div>
+</div>
 
 
 //     const [avatar,setAvatar] = useState({
