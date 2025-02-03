@@ -7,6 +7,14 @@ import { doc, setDoc } from "firebase/firestore";
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
+
+return (
+<div className="GoogleButton">
+            <button>Buttones</button>
+        </div>
+
+
+
 //     const [avatar,setAvatar] = useState({
 //         file:null,
 //         url:"",
@@ -75,9 +83,7 @@ const Login = () => {
 //         }
 //     }
 
-        <div className="GoogleButton">
-            <button>Buttones</button>
-        </div>
+        
 
 //   return (
 //         <div className="login">
@@ -110,7 +116,7 @@ const Login = () => {
 //             </form>
 //         </div>
 //     </div>
-//   )
+    )
 }
 
 export default Login
