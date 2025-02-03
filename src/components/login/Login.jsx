@@ -3,11 +3,11 @@ import "./login.css";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 //Something in the way
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-import { doc, setDoc, getDoc } from "firebase/firestore";
+
 
 const handleGoogle = async () => {
     try {
