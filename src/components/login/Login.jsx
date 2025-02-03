@@ -9,11 +9,20 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
-    const handleGoogle = async (e) => {
-        const provider = await new GoogleAuthProvider(auth);
-        return signInWithPopup(auth, provider)
-    }   
-    
+    const handleGoogle = async () => {
+        try {
+            const provider = new GoogleAuthProvider();
+            const auth = getAuth();
+            const result = await signInWithPopup(auth, provider);
+            console.log("User logged in:", result.user);
+        } catch (error) {
+            console.error("Error signing in:", error);
+        }
+    };
+    // const handleGoogle = async (e) => {
+    //     const provider = await new GoogleAuthProvider();
+    //     return signInWithPopup(auth, provider)
+    // }
 
 return (
 <div class="login">
@@ -79,7 +88,13 @@ return (
 //         const formData = new FormData(e.target)
 //         const { email, password } = Object.fromEntries(formData)
 
-//         
+//         try{
+
+//         await signInWithEmailAndPassword(auth, email, password)
+//         }catch(err){
+//             console.log(err)
+//             toast.error(err.message)
+//         }
 //         finally{
 //             setLoading(false)
 //         }
