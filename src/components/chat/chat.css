@@ -68,14 +68,11 @@
             display: flex;
             gap: 20px;
 
-            &.own{
-                align-self: flex-end;
-
-                .texts{
-                    p {
-                        background-color: #5183fe;
-                    }
-                }
+            &.own .texts p{
+                max-width: fit-content;
+                word-wrap: break-word;
+                padding: 10px 15px;
+                border-radius: 10px;
             }
 
             img{
