@@ -2,16 +2,22 @@ import { useState } from "react";
 import "./login.css";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../lib/firebase";
+import { auth } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 
 //Login thingies, delete for GoogleAuthenticator login thingy
 const Login = () => {
+    const handleGoogle = async (e) => {
+        const provider = await new GoogleAuthProvider();
+        return signInWithPopup(auth, provider)
+    }
 
 return (
 <div class="login">
     <div class="center">
-        <button class="button" >Button</button>
+        <button class="button" onClick={handleGoogle}>Button</button>
         </div>
 </div>
 

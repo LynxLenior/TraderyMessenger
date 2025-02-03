@@ -10,6 +10,7 @@ import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 
 
+
 const App = () => {
 //open login page = false close = true
   const {currentUser, isLoading, fetchUserInfo} = useUserStore()
