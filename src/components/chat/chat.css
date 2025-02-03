@@ -69,10 +69,7 @@
             gap: 20px;
 
             &.own{
-                max-width: fit-content;
-                word-wrap: break-word;
-                padding: 10px 15px;
-                border-radius: 10px;
+                align-self: flex-end;
 
                 .texts{
                     p {
