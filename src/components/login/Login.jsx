@@ -10,7 +10,7 @@ const Login = () => {
 
 return (
 
-            <button>Buttones</button>
+    <button class="button" >Button</button>
 
 
 
