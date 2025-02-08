@@ -15,7 +15,7 @@ const Login = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            const userRef = doc(db, "users", user.uid);
+            const userRef = doc(db, "user", user.uid);
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
@@ -25,6 +25,9 @@ const Login = () => {
                     username: user.displayName || "New User",
                     createdAt: new Date(),
                     blocked: []
+                });
+                await setDoc(doc(db, "userchats", user.uid), {
+                    chats: [],
                 });
             }
 
