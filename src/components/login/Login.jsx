@@ -31,10 +31,8 @@ const Login = () => {
                 });
             }
 
-            toast.success("Google Sign-in successful!");
         } catch (error) {
-            console.error("Error during login:", error);
-            toast.error("Google Sign-in failed. Try again.");
+            console.log("err");
         }
     };
 
