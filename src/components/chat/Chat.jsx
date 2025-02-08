@@ -74,6 +74,8 @@ const Chat = () => {
         }catch(err){
             console.log(err)
         }
+
+        setText("")
     }
 
   return (
@@ -87,7 +89,7 @@ const Chat = () => {
         </div>
         <div className="center">
             { chat?.messages?.map((message) => (
-            <div className={message.senderId === currentUser?.id ? "message own" : "message"} key={message.createAt}>
+            <div className="message own" key={message?.createAt}>
                 
                 <div className="texts">
                     <p>{message.text} </p>

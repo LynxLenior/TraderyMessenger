@@ -52,10 +52,11 @@ const ChatList = () => {
 
         const userChatsRef = doc(db, "userchats", currentUser.id)
 
+        
         try{
-
+            
             await updateDoc(userChatsRef,{
-               chats:userChats, 
+                chats:userChats, 
             })
             changeChat(chat.chatId,chat.user)
         }catch(err){
