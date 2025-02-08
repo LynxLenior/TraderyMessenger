@@ -9,48 +9,47 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 
 const Login = () => {
-const handleGoogle = async () => {
-    try {
-        const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
+    const handleGoogle = async () => {
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
 
-        // Check if user exists in Firestore
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-            // Save new user to Firestore
-            await setDoc(userRef, {
-                uid: user.uid,
-                email: user.email,
-                username: user.displayName,
-                photoURL: user.photoURL,
-                createdAt: new Date(),
-            });
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    id: user.uid,
+                    email: user.email,
+                    username: user.displayName || "New User",
+                    createdAt: new Date(),
+                    blocked: []
+                });
+            }
+
+            toast.success("Google Sign-in successful!");
+        } catch (error) {
+            console.error("Error during login:", error);
+            toast.error("Google Sign-in failed. Try again.");
         }
-    } catch (error) {
-        console.error("Error during login:", error);
-    }
-}
+    };
 
-
-//Login thingies, delete for GoogleAuthenticator login thingy
+    return (
+        <div className="login">
+            <div className="center">
+                <button className="button" onClick={handleGoogle}>
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
+    );
+};
 // const Login = () => {
 //     const handleGoogle = async (e) => {
 //         const provider = new GoogleAuthProvider();
 //         return signInWithPopup(auth, provider)
 //     }
-
-return (
-<div className="login">
-    <div className="center">
-        <button className="button" onClick={handleGoogle}>Button</button>
-        </div>
-</div>
-)
-}
-
 
 //     const [avatar,setAvatar] = useState({
 //         file:null,
