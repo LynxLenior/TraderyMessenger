@@ -81,7 +81,7 @@ const Chat = () => {
         <div className="top">
             <div className="user">
                 <div className="texts">
-                    <span>Ethan</span>
+                    <span>{user?.username}</span>
                 </div>
             </div>
         </div>
