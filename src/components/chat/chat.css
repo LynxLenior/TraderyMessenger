@@ -67,6 +67,7 @@
         .message {
             max-width: 70%; /* Change from 70% */
             display: flex;
+            width: fit-content;
             padding: 10px 15px;
             
             &.own{
