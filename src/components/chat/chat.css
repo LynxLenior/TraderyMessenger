@@ -3,6 +3,7 @@
     border-left: 1px solid #dddddd35;
     border-right: 1px solid #dddddd35;
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -54,19 +55,22 @@
         }  
     }
 
-    .center{
-        padding: 20px;
+    .center {
         flex: 1;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        width: 100%;
+        padding: 0 20px; /* Adjust or remove padding */
+        overflow-y: auto; /* Ensure scrolling */
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        justify-content: flex-end; /* Align messages to bottom */
+    
 
-        .message{
-            max-width: 70%;
+        .message {
+            max-width: 100%; /* Change from 70% */
             display: flex;
-            gap: 20px;
+            width: fit-content;
+            min-width: 40%; /* Ensure a reasonable width */
+            padding: 10px 15px;
             
             &.own{
                 align-self: flex-end;
