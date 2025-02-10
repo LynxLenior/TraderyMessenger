@@ -22,7 +22,7 @@ body{
   height: 90vh;
   background-color: rgba(17, 25, 40, 0.75);
   backdrop-filter: blur(19px) saturate(180%);
-  background-repeat: 12px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.125);
   display: flex;
 }

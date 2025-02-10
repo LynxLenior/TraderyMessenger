@@ -57,18 +57,16 @@
     .center{
         padding: 20px;
         flex: 1;
-        overflow-y: auto;
+        overflow-y: scroll;
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
         gap: 20px;
-        position: absolute;
 
         .message{
             max-width: 70%;
             display: flex;
             gap: 20px;
-            align-items: flex-start;
             
             &.own{
                 align-self: flex-end;
