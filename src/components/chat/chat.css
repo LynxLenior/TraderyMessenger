@@ -54,22 +54,20 @@
         }  
     }
 
-    .center {
+    .center{
+        padding: 20px;
         flex: 1;
-        width: 100%;
-        padding: 0 20px; /* Adjust or remove padding */
-        overflow-y: auto; /* Ensure scrolling */
+        overflow: scroll;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end; /* Align messages to bottom */
-    
+        gap: 20px;
 
-        .message {
-            max-width: 70%; /* Change from 70% */
+        .message{
+            max-width: 70%;
             display: flex;
-            min-width: 20%; /* Ensure a reasonable width */
-            padding: 10px 15px;
-            
+            gap: 20px;
+
             &.own{
                 align-self: flex-end;
 
