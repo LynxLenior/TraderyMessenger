@@ -54,10 +54,10 @@
         }  
     }
 
-    .center{
+    /* .center{
         padding: 20px;
         flex: 1;
-        overflow: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
@@ -67,7 +67,8 @@
             max-width: 70%;
             display: flex;
             gap: 20px;
-
+            align-items: flex-start;
+            
             &.own{
                 align-self: flex-end;
 
@@ -76,7 +77,53 @@
                         background-color: #5183fe;
                     }
                 }
+            } */
+
+            .center {
+                padding: 20px;
+                flex: 1;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 10px; /* Adjust spacing between messages */
             }
+            
+            .message {
+                max-width: 70%;
+                display: flex;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            /* Received messages - align left */
+            .message:not(.own) {
+                align-self: flex-start;
+            }
+            
+            /* Sent messages - align right */
+            .message.own {
+                align-self: flex-end;
+            }
+            
+            /* Message bubble styling */
+            .texts p {
+                padding: 10px 15px;
+                border-radius: 10px;
+                word-wrap: break-word;
+                max-width: 100%;
+                color: white;
+            }
+            
+            /* Received message bubble */
+            .message:not(.own) .texts p {
+                background-color: rgba(17, 25, 40, 0.6);
+            }
+            
+            /* Sent message bubble */
+            .message.own .texts p {
+                background-color: #5183fe;
+            }
+            
 
             img{
                 width: 30px;
@@ -108,7 +155,6 @@
                 }
             }
         }
-    }
     .bottom{
         padding: 20px;
         display: flex;
@@ -159,4 +205,3 @@
             cursor: pointer;
         }
     }
-}
