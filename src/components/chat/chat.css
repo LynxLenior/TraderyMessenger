@@ -85,7 +85,7 @@
                 overflow-y: auto;
                 display: flex;
                 flex-direction: column;
-                gap: 10px; /* Adjust spacing between messages */
+                gap: 10px;
             }
             
             .message {
@@ -95,14 +95,16 @@
                 align-items: flex-start;
             }
             
-            /* Received messages - align left */
+            /* Received messages (align left) */
             .message:not(.own) {
                 align-self: flex-start;
+                justify-content: flex-start;
             }
             
-            /* Sent messages - align right */
+            /* Sent messages (align right) */
             .message.own {
                 align-self: flex-end;
+                justify-content: flex-end;
             }
             
             /* Message bubble styling */
@@ -114,15 +116,16 @@
                 color: white;
             }
             
-            /* Received message bubble */
+            /* Different colors for sent and received messages */
             .message:not(.own) .texts p {
                 background-color: rgba(17, 25, 40, 0.6);
             }
             
-            /* Sent message bubble */
             .message.own .texts p {
                 background-color: #5183fe;
             }
+            
+            
             
 
             img{
