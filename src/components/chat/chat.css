@@ -77,52 +77,7 @@
                         background-color: #5183fe;
                     }
                 }
-            } */
-
-            .center {
-                padding: 20px;
-                flex: 1;
-                overflow-y: auto;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
             }
-            
-            /* Default message style (Received Messages - Left) */
-            .message {
-                max-width: 70%;
-                display: flex;
-                flex-direction: column;  /* Ensure messages stack vertically */
-                gap: 5px;
-                align-items: flex-start;
-                align-self: flex-start;
-            }
-            
-            /* Sent messages (align right against the border) */
-            .message.own {
-                align-self: flex-end;
-                align-items: flex-end; /* Aligns message content to the right */
-                margin-left: auto; /* Pushes message to the right */
-            }
-            
-            /* Message bubble styling */
-            .texts p {
-                padding: 10px 15px;
-                border-radius: 10px;
-                word-wrap: break-word;
-                max-width: 100%;
-                color: white;
-            }
-            
-            /* Different colors for sent and received messages */
-            .message:not(.own) .texts p {
-                background-color: rgba(17, 25, 40, 0.6); /* Darker for received messages */
-            }
-            
-            .message.own .texts p {
-                background-color: #5183fe; /* Blue for sent messages */
-            }
-            
 
             img{
                 width: 30px;
@@ -154,6 +109,37 @@
                 }
             }
         }
+    } */
+
+    .message {
+        max-width: 70%;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .message.own {
+        align-self: flex-end;
+        margin-left: auto; /* Push to the right */
+        text-align: right; /* Ensure text is aligned right */
+    }
+    
+    .texts p {
+        padding: 10px 15px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        max-width: 100%;
+        color: white;
+    }
+    
+    .message:not(.own) .texts p {
+        background-color: rgba(17, 25, 40, 0.6);
+    }
+    
+    .message.own .texts p {
+        background-color: #5183fe;
+    }
+    
     .bottom{
         padding: 20px;
         display: flex;
@@ -204,3 +190,4 @@
             cursor: pointer;
         }
     }
+}
