@@ -88,24 +88,23 @@
                 gap: 10px;
             }
             
+            /* Default message style (Received Messages - Left) */
             .message {
                 max-width: 70%;
                 display: flex;
-                gap: 10px;
+                flex-direction: column;  /* Ensure messages stack vertically */
+                gap: 5px;
                 align-items: flex-start;
+                align-self: flex-start;
             }
             
-            /* Received messages (align left) */
-            .message:not(.own) {
-                align-self: flex-start;
-                justify-content: flex-start;
-            }
             
             /* Sent messages (align right) */
             .message.own {
                 align-self: flex-end;
-                justify-content: flex-end;
+                text-align: right; /* Ensure text inside is also right-aligned */
             }
+            
             
             /* Message bubble styling */
             .texts p {
@@ -124,7 +123,6 @@
             .message.own .texts p {
                 background-color: #5183fe;
             }
-            
             
             
 
