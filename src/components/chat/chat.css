@@ -65,7 +65,7 @@
     
 
         .message {
-            max-width: 100%; /* Change from 70% */
+            max-width: 70%; /* Change from 70% */
             display: flex;
             width: fit-content;
             min-width: 40%; /* Ensure a reasonable width */
