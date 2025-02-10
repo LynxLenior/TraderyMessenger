@@ -98,13 +98,12 @@
                 align-self: flex-start;
             }
             
-            
-            /* Sent messages (align right) */
+            /* Sent messages (align right against the border) */
             .message.own {
                 align-self: flex-end;
-                text-align: right; /* Ensure text inside is also right-aligned */
+                align-items: flex-end; /* Aligns message content to the right */
+                margin-left: auto; /* Pushes message to the right */
             }
-            
             
             /* Message bubble styling */
             .texts p {
@@ -117,13 +116,12 @@
             
             /* Different colors for sent and received messages */
             .message:not(.own) .texts p {
-                background-color: rgba(17, 25, 40, 0.6);
+                background-color: rgba(17, 25, 40, 0.6); /* Darker for received messages */
             }
             
             .message.own .texts p {
-                background-color: #5183fe;
+                background-color: #5183fe; /* Blue for sent messages */
             }
-            
             
 
             img{
