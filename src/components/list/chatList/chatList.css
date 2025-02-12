@@ -63,7 +63,7 @@
             overflow-wrap: break-word;
             text-overflow: ellipsis; /* Adds "..." if text is too long */
             white-space: nowrap;
-            max-width: 30px;
+            max-width: 10px;
 
             span{
                 font-weight: 500;
