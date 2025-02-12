@@ -8,7 +8,6 @@
 
     .top{
         padding: 20px;
-        height: 60px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -58,7 +57,7 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
-        max-height: calc(90vh - 210px);
+        max-height: calc(100vh - 300px);
         scroll-behavior: smooth;
 
         .message .texts p {
