@@ -57,7 +57,7 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
-        max-height: calc(95vh - 230px);
+        max-height: calc(93vh - 210px);
         scroll-behavior: smooth;
 
         .message .texts p {
