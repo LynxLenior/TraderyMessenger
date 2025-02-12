@@ -89,7 +89,8 @@ const Chat = () => {
         </div>
         <div className="center">
             { chat?.messages?.map((message) => (
-            <div className="message own" key={message?.createAt}>
+            <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`} key={message?.createdAt}>
+
                 
                 <div className="texts">
                     <p>{message.text} </p>
@@ -105,6 +106,7 @@ const Chat = () => {
                 placeholder="Type a message..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 />
             <div className="emoji">
                 <img 
