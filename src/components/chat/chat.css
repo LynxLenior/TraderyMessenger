@@ -63,6 +63,7 @@
             word-wrap: break-word; /* Ensures long words break */
             overflow-wrap: break-word; /* Handles breaking */
             white-space: normal; /* Ensures it's on one line */
+            display: flex;
         }
 
         .message{
