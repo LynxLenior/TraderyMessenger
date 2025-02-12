@@ -73,9 +73,15 @@
                 overflow: hidden; /* Hides overflow */
                 text-overflow: ellipsis; /* Adds "..." when text overflows */
                 max-width: 200px; /* Set a reasonable width for truncation */
-                
+                cursor: pointer; /* Indicate clickability */
+                transition: max-width 0.3s ease-in-out; /* Smooth expansion effect */
             }
-            
+        }
+        .texts p.expanded {
+            white-space: normal; /* Allow full text */
+            overflow: visible; /* Show full text */
+            text-overflow: clip; /* Remove ellipsis */
+            max-width: none; /* Allow full expansion */
         }
     }
 }
