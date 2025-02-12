@@ -66,11 +66,10 @@
         max-height: calc(100vh - 120px);
 
         .message .texts p {
-            max-width: 60%; /* Prevents it from stretching across the whole screen */
-            word-wrap: break-word; /* Breaks long words */
-            overflow: hidden; /* Hides overflow */
-            text-overflow: ellipsis; /* Adds "..." when text overflows */
-            white-space: nowrap; /* Ensures it's on one line */
+            max-width: 60%; /* Prevents stretching */
+            word-wrap: break-word; /* Ensures long words break */
+            overflow-wrap: break-word; /* Handles breaking */
+            white-space: normal; /* Ensures it's on one line */
         }
 
         .message{
@@ -132,6 +131,9 @@
         gap: 20px;
         margin-top: auto;
         position: sticky;
+        flex: 1;
+        max-width: 70%; /* Prevents excessive stretching */
+        min-width: 150px;
 
         .icons{
             display: flex;
