@@ -69,7 +69,7 @@
         }
 
         .message{
-            max-width: 70%;
+            max-width: 50%;
             display: flex;
             gap: 20px;
             align-items: flex-start;
@@ -77,6 +77,7 @@
 
             &.own{
                 align-self: flex-end;
+                margin-left: auto;
 
                 .texts{
                     p {
@@ -84,6 +85,10 @@
                         color:white;
                     }
                 }
+            }
+            .message:not(.own) {
+                align-self: flex-start;
+                margin-right: auto; /* Pushes received messages fully to the left */
             }
 
             img{
