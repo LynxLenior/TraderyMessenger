@@ -18,7 +18,7 @@
             align-items: center;
             gap: 20px;
 
-            /* .texts{
+            .texts{
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
@@ -34,7 +34,7 @@
                     color: #a5a5a5;
                 }
             }
-        } */
+        }
 
         .icons{
             display: flex;
