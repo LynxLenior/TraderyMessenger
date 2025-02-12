@@ -59,11 +59,14 @@
         max-height: calc(100vh - 120px);
 
         .message .texts p {
-            max-width: 60%; /* Prevents stretching */
-            word-wrap: break-word; /* Ensures long words break */
-            overflow-wrap: break-word; /* Handles breaking */
-            white-space: normal; /* Ensures it's on one line */
-            display: flex;
+            max-width: 100%; /* Ensures text stays inside */
+            word-wrap: break-word; /* Allows long words to break */
+            overflow-wrap: break-word; /* Handles text wrapping */
+            white-space: pre-wrap; /* Keeps formatting */
+            display: inline-block;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background-color: rgba(17, 25, 40, 0.3);
         }
 
         .message{
@@ -71,6 +74,8 @@
             display: flex;
             gap: 20px;
             align-items: flex-start;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
 
             &.own{
                 align-self: flex-end;
