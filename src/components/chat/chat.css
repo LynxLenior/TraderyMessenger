@@ -58,7 +58,6 @@
         gap: 20px;
         padding-bottom: 20px;
         max-height: calc(100vh - 120px);
-        z-index: 1;
 
         .message .texts p {
             max-width: 60%; 
