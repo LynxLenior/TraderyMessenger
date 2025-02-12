@@ -73,7 +73,7 @@
                 overflow-wrap: break-word;
                 text-overflow: ellipsis; /* Adds "..." if text is too long */
                 white-space: nowrap;
-                max-width: 100px;
+                max-width: 200px;
             }
         }
     }
