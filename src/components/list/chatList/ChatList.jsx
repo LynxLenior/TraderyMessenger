@@ -13,8 +13,6 @@ const ChatList = () => {
     const {currentUser} = useUserStore()
     const { chatId, changeChat} = useChatStore()
     
-    const [expandedMessageId, setExpandedMessageId] = useState(null);
-    
     useEffect(()=>{
 
         if (!currentUser?.id) return
@@ -68,9 +66,7 @@ const ChatList = () => {
             
 
 
-const toggleMessage = (chatId) => {
-        setExpandedMessageId(expandedMessageId === chatId ? null : chatId);
-    };
+
     
 
   return (
@@ -96,12 +92,7 @@ const toggleMessage = (chatId) => {
         >
             <div className="texts">
                 <span>{chat.user.username}</span>
-                <p 
-                    className={expandedMessageId === chat.chatId ? "expanded" : ""}
-                    onClick={() => toggleMessage(chat.chatId)}
-                    >
-                    {chat.lastMessage}
-                </p>
+                <p>{chat.lastMessage}</p>
             </div>
         </div>
     ))}

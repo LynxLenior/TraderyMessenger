@@ -18,14 +18,7 @@
             align-items: center;
             gap: 20px;
 
-            img{
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-
-            .texts{
+            /* .texts{
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
@@ -41,7 +34,7 @@
                     color: #a5a5a5;
                 }
             }
-        }
+        } */
 
         .icons{
             display: flex;
@@ -76,6 +69,7 @@
             max-width: 70%;
             display: flex;
             gap: 20px;
+            align-items: flex-start;
 
             &.own{
                 align-self: flex-end;
@@ -83,8 +77,7 @@
                 .texts{
                     p {
                         background-color: #5183fe;
-                        word-break: break-word;
-                        overflow-wrap: break-word;
+                        color:white;
                     }
                 }
             }
@@ -101,19 +94,16 @@
                 flex-direction: column;
                 gap: 5px;
 
-                img{
-                    width: 100%;
-                    height: 300px;
-                    border-radius: 10px;
-                    object-fit: cover;
-                }
-
                 p{
-                    padding: 20px;
+                    padding: 12px 16px;
                     background-color: rgba(17, 25, 40, 0.3);
                     border-radius: 10px;
                     word-break: break-word;
                     overflow-wrap: break-word;
+                    min-width: 80px; /* Prevents single-letter wrapping */
+                    max-width: 100%; /* Ensures proper wrapping */
+                    display: inline-block;
+                    white-space: pre-wrap; /* Preserves spaces and new lines */
                 }
 
                 span{
@@ -136,12 +126,6 @@
         .icons{
             display: flex;
             gap: 20px;
-
-        img {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            }
         }
 
         input{
