@@ -59,23 +59,21 @@
         max-height: calc(100vh - 120px);
 
         .message .texts p {
-            max-width: 100%; /* Ensures text stays inside */
-            word-wrap: break-word; /* Allows long words to break */
-            overflow-wrap: break-word; /* Handles text wrapping */
-            white-space: pre-wrap; /* Preserves formatting */
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap; /* Preserves spaces and breaks long text */
             display: inline-block;
-            min-width: 80px; /* Prevents single-letter wrapping */
-            max-width: 70%; /* Adjust this for message width */
+            padding: 12px 16px;
+            border-radius: 10px;
         }
 
         .message{
-            max-width: 70%;
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
+            max-width: 70%; /* Ensures messages don’t stretch too far */
             word-wrap: break-word;
             overflow-wrap: break-word;
-
+            display: flex;
+            align-items: flex-start;
             &.own{
                 align-self: flex-end;
 
@@ -98,6 +96,10 @@
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
+                max-width: 100%;
+                overflow: hidden;
+                display: flex;
+}
 
                 p{
                     padding: 12px 16px;
@@ -162,4 +164,3 @@
             cursor: pointer;
         }
     }
-}
