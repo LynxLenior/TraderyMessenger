@@ -59,11 +59,8 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            text-overflow: ellipsis; /* Adds "..." if text is too long */
-            white-space: nowrap;
-            max-width: 10px;
+
+            overflow: hidden;
 
             span{
                 font-weight: 500;
@@ -72,6 +69,11 @@
             p {
                 font-size: 14px;
                 font-weight: 300;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                text-overflow: ellipsis; /* Adds "..." if text is too long */
+                white-space: nowrap;
+                max-width: 10px;
             }
         }
     }
