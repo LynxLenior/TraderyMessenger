@@ -57,7 +57,8 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 160px);
+        scroll-behavior: smooth;
 
         .message .texts p {
             max-width: 60%; 
@@ -73,6 +74,7 @@
             gap: 20px;
             align-items: flex-start;
             z-index: 1;
+        .message::-webkit-scrollbar{
 
             &.own{
                 align-self: flex-end;
@@ -82,6 +84,7 @@
                         background-color: #5183fe;
                         color:white;
                     }
+
                 }
             }
 
@@ -104,10 +107,10 @@
                     border-radius: 10px;
                     word-break: break-word;
                     overflow-wrap: break-word;
-                    min-width: 80px; /* Prevents single-letter wrapping */
-                    max-width: 100%; /* Ensures proper wrapping */
+                    min-width: 80px; 
+                    max-width: 100%; 
                     display: inline-block;
-                    white-space: pre-wrap; /* Preserves spaces and new lines */
+                    white-space: pre-wrap; 
                 }
 
                 span{
@@ -115,6 +118,7 @@
                 }
             }
         }
+    }
     }
     .bottom{
         padding: 20px;
