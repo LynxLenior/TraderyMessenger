@@ -13,7 +13,6 @@
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid #dddddd35;
-        position: sticky;
     
         .user{
             display: flex;
@@ -57,9 +56,8 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-        padding-bottom: 80px;
+        padding-bottom: 20px;
         max-height: calc(100vh - 120px);
-        
 
         .message .texts p {
             max-width: 60%; /* Prevents stretching */
