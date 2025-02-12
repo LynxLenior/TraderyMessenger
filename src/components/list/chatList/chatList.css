@@ -67,14 +67,14 @@
             }
 
             p {
-                Font-size: 14px;
+                font-size: 14px;
                 font-weight: 300;
-                word-break: break-word; /* Ensures words break to the next line */
-                overflow-wrap: break-word; /* Wraps long words */
-                text-overflow: ellipsis; /* Adds "..." for overflow */
-                white-space: normal; /* Allows text to wrap instead of forcing a single line */
-                max-width: 100%; /* Ensures it doesn’t shrink too much */
+                white-space: nowrap; /* Prevents text from wrapping */
+                overflow: hidden; /* Hides overflowed content */
+                text-overflow: ellipsis; /* Adds "..." when text is too long */
+                max-width: 100%; 
             }
+            
         }
     }
 }
