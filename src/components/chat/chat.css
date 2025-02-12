@@ -66,10 +66,11 @@
         max-height: calc(100vh - 120px);
 
         .message .texts p {
-            max-width: 100%; /* Ensures messages don’t overflow */
-            word-break: break-word; /* Breaks long words */
-            overflow-wrap: break-word; /* Wraps words naturally */
-            white-space: pre-wrap; /* Keeps spacing but wraps when needed */
+            max-width: 60%; /* Prevents it from stretching across the whole screen */
+            word-wrap: break-word; /* Breaks long words */
+            overflow: hidden; /* Hides overflow */
+            text-overflow: ellipsis; /* Adds "..." when text overflows */
+            white-space: nowrap; /* Ensures it's on one line */
         }
 
         .message{

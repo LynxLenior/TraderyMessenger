@@ -69,10 +69,11 @@
             p {
                 font-size: 14px;
                 font-weight: 300;
-                white-space: nowrap; /* Prevents text from wrapping */
-                overflow: hidden; /* Hides overflowed content */
-                text-overflow: ellipsis; /* Adds "..." when text is too long */
-                max-width: 100%; 
+                white-space: nowrap; /* Prevents wrapping */
+                overflow: hidden; /* Hides overflow */
+                text-overflow: ellipsis; /* Adds "..." when text overflows */
+                max-width: 200px; /* Set a reasonable width for truncation */
+                
             }
             
         }
