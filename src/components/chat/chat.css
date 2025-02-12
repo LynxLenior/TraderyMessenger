@@ -63,6 +63,7 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
+        max-height: calc(100vh - 120px);
 
         .message .texts p {
             max-width: 100%; /* Ensures messages don’t overflow */
