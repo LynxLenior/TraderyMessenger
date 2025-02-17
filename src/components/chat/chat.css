@@ -63,10 +63,10 @@
         .MessageStarter {
             left: 50%;
             top: 55%;
-            position: absolute;
+            position: relative;
             transform: translate(-50%, -50%);
             font-size: 10px;
-            
+            max-width: 100%;
           }
 
         .message .texts p {
