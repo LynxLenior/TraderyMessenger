@@ -57,7 +57,7 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
-        max-height: calc(110vh - 300px);
+        max-height: calc(110vh - 290vh);
         scroll-behavior: smooth;
 
         .MessageStarter {

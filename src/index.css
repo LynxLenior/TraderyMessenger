@@ -14,10 +14,7 @@ body{
   height: 100vh;
   color:white;
   overflow: hidden;
-  transform: scale(0.9); /* 90% zoom */
-  transform-origin: top center; /* Keeps it centered */
-  width: 111.11%; /* Compensates for scaling */
-  overflow-x: hidden;
+  
 
 }
 
