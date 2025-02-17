@@ -17,7 +17,7 @@ import { useUserStore } from "../../../../lib/userStore"
 
 const AddUser = () => {
   const [user, setUser] = useState(null)
-
+  const [showAddUser, setShowAddUser] = useState(true)
   const {currentUser} = useUserStore()
 
   const handleSearch = async e=> {
@@ -34,6 +34,7 @@ const AddUser = () => {
 
       if(!querySnapShot.empty){
         setUser(querySnapShot.docs[0].data())
+        setShowAddUser(false)
       }
     }catch(err) {
     console.log(err)
