@@ -57,9 +57,9 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 20px;
-        max-height: calc(110vh - 260px);
+        max-height: calc(110vh - 320px);
         scroll-behavior: smooth;
-        max-width: 50%;
+        max-width: 30%; 
 
         .MessageStarter {
             left: 50%;
@@ -73,7 +73,7 @@
           }
 
         .message .texts p {
-            max-width: 60%; 
+
             word-wrap: break-word; 
             overflow-wrap: break-word; 
             white-space: normal; 
@@ -81,7 +81,6 @@
         }
 
         .message{
-            max-width: 50%;
             display: flex;
             gap: 20px;
             align-items: flex-start;
