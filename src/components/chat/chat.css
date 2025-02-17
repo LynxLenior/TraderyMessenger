@@ -61,6 +61,7 @@
         max-height: calc(110vh - 300px);
         scroll-behavior: smooth;
         justify-content: flex-start;
+        max-width: 60%;
         
 
         .MessageStarter {
