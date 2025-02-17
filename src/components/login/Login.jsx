@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import "./login.css";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -40,7 +39,7 @@ const Login = () => {
         <div className="login">
             <div className="center">
                 <button className="button" onClick={handleGoogle}>
-                    Sign in with Google
+                    Continue As...
                 </button>
             </div>
         </div>

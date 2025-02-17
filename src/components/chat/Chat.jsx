@@ -88,9 +88,10 @@ const Chat = () => {
             </div>
         </div>
         <div className="center">
+        <div className="MessageStarter">Start of your chat with {user?.username}</div>
             { chat?.messages?.map((message) => (
             <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`} key={message?.createdAt}>
-
+                
                 
                 <div className="texts">
                     <p>{message.text} </p>

@@ -60,6 +60,15 @@
         max-height: calc(110vh - 300px);
         scroll-behavior: smooth;
 
+        .MessageStarter {
+            left: 50%;
+            top: 55%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            
+          }
+
         .message .texts p {
             max-width: 60%; 
             word-wrap: break-word; 
