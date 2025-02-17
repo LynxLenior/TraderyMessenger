@@ -29,6 +29,7 @@ const Login = () => {
                     chats: [],
                 });
             }
+            window.location.reload();
 
         } catch (error) {
             console.log("err");
