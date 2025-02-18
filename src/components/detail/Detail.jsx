@@ -7,7 +7,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore"
 
 const Detail = () => { 
   
-const { chatId, user, isCurrentUserBlocked, isReceiverblocked, changeBlock } = 
+const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = 
 useChatStore()
 const { currentUser } = useUserStore()
 
@@ -18,9 +18,10 @@ const handleBlock = async () => {
 
   try{
     await updateDoc(userDocRef, {
-    blocked: isReceiverblocked ? arrayRemove(user.id) : arrayUnion(user.id)
+    blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
   })
       changeBlock()
+      
       } catch(err){
         console.log(err)
     }
@@ -32,7 +33,12 @@ const handleBlock = async () => {
             <h2>{user?.username}</h2>
         </div>
         <div className="info">
-            <button onClick={handleBlock}>{ isCurrentUserBlocked ? "you are Blocked!" : isReceiverblocked ? "User Blocked" : "Block User"}
+            <button onClick={handleBlock}>
+              {isCurrentUserBlocked 
+              ? "you are Blocked!" 
+              : isReceiverBlocked 
+              ? "User Blocked" 
+              : "Block User"}
             </button>
             <button className="logout" onClick={()=>auth.signOut()}>Logout</button>
         </div>
