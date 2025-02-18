@@ -39,6 +39,5 @@ const handleBlock = async () => {
     </div>
     )
   }
-}
 
 export default Detail
