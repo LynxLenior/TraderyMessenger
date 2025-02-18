@@ -29,9 +29,11 @@ const AddUser = () => {
     const formData = new FormData(e.target)
     const username = formData.get("username")
 
+    const usernameNormalized = username.toLowerCase().replace(/\s+/g, '');
+
     try {
       const userRef = collection(db, "users")
-      const q = query(userRef, where("username", "==", username))
+      const q = query(userRef, where("username_normalized", "==", usernameNormalized));
       const querySnapShot = await getDocs(q)
 
       if (!querySnapShot.empty) {
