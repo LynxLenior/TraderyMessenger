@@ -20,10 +20,12 @@ const handleBlock = async () => {
     await updateDoc(userDocRef, {
     blocked: isReceiverblocked ? arrayRemove(user.id) : arrayUnion(user.id)
   })
-  changeBlock()
-  } catch(err){
-    console.log(err)
-  }
+      changeBlock()
+      } catch(err){
+        console.log(err)
+    }
+}
+
   return (
     <div className='detail'>
         <div className="user">
