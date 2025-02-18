@@ -72,6 +72,17 @@
             display: flex;
             align-items: center;
           }
+        .date-separator{
+            left: 50%;
+            top: 55%;
+            position: relative;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
         .message .texts p {
 
             word-wrap: break-word; 
@@ -161,9 +172,9 @@
             font-size: 16px;
             z-index: 2;
 
-            &:disabled{
+            /* &:disabled{
                 cursor: not-allowed;
-            }
+            } */
         }
 
         .emoji{
@@ -184,10 +195,10 @@
             border-radius: 5px;
             cursor: pointer;
 
-            &:disabled{
+            /* &:disabled{
                 background-color: #5182feb4;
                 cursor: not-allowed;
-            }
+            } */
         }
     }
 }
