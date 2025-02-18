@@ -9,7 +9,7 @@ import { useChatStore } from "../../../lib/chatStore";
 const ChatList = () => {
     const [chats, setChats]= useState([]);
     const [addMode, setAddMode]= useState(false);
-    const [input, setInput]= useState("false");
+    const [input, setInput]= useState("");
 
     const {currentUser} = useUserStore()
     const { chatId, changeChat} = useChatStore()
@@ -91,7 +91,9 @@ const ChatList = () => {
             }}
         >
             <div className="texts">
-                <span>{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
+                <span>{chat.user.blocked.includes(currentUser.id) 
+                ? "User" 
+                : chat.user.username}</span>
                 <p>{chat.lastMessage}</p>
             </div>
         </div>
