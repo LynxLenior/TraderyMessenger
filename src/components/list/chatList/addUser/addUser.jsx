@@ -123,8 +123,7 @@ const AddUser = () => {
       )}
     </div>
   ) : null;
-
-
+}
 export default AddUser
 
 
