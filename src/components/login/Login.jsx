@@ -18,13 +18,11 @@ const Login = () => {
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
-                const usernameNormalized = username.toLowerCase().replace(/\s+/g, '');
 
                 await setDoc(userRef, {
                     id: user.uid,
                     email: user.email,
                     username: user.displayName || "New User",
-                    username_normalized: usernameNormalized,
                     createdAt: new Date(),
                     blocked: []
                 });
