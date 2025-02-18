@@ -56,9 +56,16 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        /* padding: 20px;
+        flex: 1;
+        overflow: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
         padding-bottom: 20px;
         max-height: calc(110vh - 320px);
-        scroll-behavior: smooth;
+        scroll-behavior: smooth; */
          
 
         .MessageStarter {
@@ -72,20 +79,24 @@
             align-items: center;
           }
 
-        .message .texts p {
+        /* .message .texts p {
 
             word-wrap: break-word; 
             overflow-wrap: break-word; 
             white-space: normal; 
             display: flex;
-        }
+        } */
 
         .message{
+            max-width: 70%;
             display: flex;
+            gap: 20px;
+            
+            /* display: flex;
             gap: 20px;
             align-items: flex-start;
             z-index: 1;
-            max-width: 35%;
+            max-width: 35%; */
 
             &.own{
                 align-self: flex-end;
@@ -98,26 +109,22 @@
                     }
                 }
             }
-            .message:not(.own) {
+            /* .message:not(.own) {
                 align-self: flex-start;
-                margin-right: auto; /* Pushes received messages fully to the left */
-            }
-
-            img{
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
+                margin-right: auto; /* Pushes received messages fully to the left 
+            } */
             .texts{
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
-                z-index: 1;
+                /* z-index: 1; */
 
                 p{
-                    padding: 12px 16px;
+                    padding: 20px;
+                    background-color: rgba(17, 25, 40, 0.3);
+                    border-radius: 10px;
+                    /* padding: 12px 16px;
                     background-color: rgba(17, 25, 40, 0.3);
                     border-radius: 10px;
                     word-break: break-word;
@@ -125,7 +132,7 @@
                     min-width: 80px; 
                     max-width: 100%; 
                     display: inline-block;
-                    white-space: pre-wrap; 
+                    white-space: pre-wrap;  */
                 }
 
                 span{
