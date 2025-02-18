@@ -88,14 +88,14 @@ const Chat = () => {
             </div>
         </div>
         <div className="center">
-        <div className="MessageStarter">-------------------------------- Start of your chat --------------------------------</div>
+        <div className="MessageStarter">-------------------------------- Start of your chat -----------------------------</div>
             { chat?.messages?.map((message) => (
             <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`} key={message?.createdAt}>
                 
                 
                 <div className="texts">
                     <p>{message.text} </p>
-                   {/* <span>1 Min</span>*/}
+                   <span>{new Date(message.createdAt?.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
             </div>
         ))}
