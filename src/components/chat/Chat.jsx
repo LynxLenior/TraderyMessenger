@@ -89,16 +89,28 @@ const Chat = () => {
         </div>
         <div className="center">
         <div className="MessageStarter">-------------------------------- Start of your chat -----------------------------</div>
-            { chat?.messages?.map((message) => (
-            <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`} key={message?.createdAt}>
-                
-                
-                <div className="texts">
-                    <p>{message.text} </p>
-                   <span>{new Date(message.createdAt?.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-            </div>
-        ))}
+        {chat?.messages?.map((message, index) => {
+            const currentMessageDate = new Date(message.createdAt?.seconds * 1000).toLocaleDateString();
+            const previousMessageDate = index > 0 
+                ? new Date(chat.messages[index - 1].createdAt?.seconds * 1000).toLocaleDateString() 
+                : null;
+
+            return (
+                <React.Fragment key={message?.createdAt?.seconds}>
+                    {currentMessageDate !== previousMessageDate && (
+                        <div className="date-separator">
+                            ---------------- {currentMessageDate} ----------------
+                        </div>
+                    )}
+                    <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`}>
+                        <div className="texts">
+                            <p>{message.text}</p>
+                            <span>{new Date(message.createdAt?.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        })}
             <div ref={endRef}></div>
         </div>
         <div className="bottom">
