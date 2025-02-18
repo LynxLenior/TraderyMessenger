@@ -38,9 +38,11 @@ const AddUser = () => {
         setAdded(false) // Reset added state when searching
       }
     } catch (err) {
-      console.log(err)
+      console.log(err)  
     }
   }
+
+  const [showAddUser, setShowAddUser] = useState(true)
 
   const handleAdd = async () => {
     if (!user) return
@@ -91,6 +93,9 @@ const AddUser = () => {
         })
       })
 
+
+      setTimeout(() => setShowAddUser(false), 1000)
+
       console.log(newChatRef.id)
       setAdded(true) // Hide button after adding
       setError(null) // Clear any previous errors
@@ -99,7 +104,7 @@ const AddUser = () => {
     }
   }
 
-  return (
+  return showAddUser ? (
     <div className="addUser">
       <form onSubmit={handleSearch}>
         <input type="text" placeholder="Username" name="username" />
@@ -117,8 +122,8 @@ const AddUser = () => {
         </div>
       )}
     </div>
-  )
-}
+  ) : null;
+
 
 export default AddUser
 
