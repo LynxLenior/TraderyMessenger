@@ -34,3 +34,24 @@ body{
   border-radius: 10px;
   background-color: rgba(17, 25, 40, 0.9);
 }
+
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 90vw;
+    height: 85vh;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 95vw;
+    height: 80vh;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    width: 100vw;
+    height: 75vh;
+  }
+}
