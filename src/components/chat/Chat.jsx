@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react'
 import { db } from "../../lib/firebase"
 import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
+import React from "react";
 
 const Chat = () => {
     const [chat, setChat] = useState()
