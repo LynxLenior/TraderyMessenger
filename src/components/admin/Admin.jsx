@@ -77,7 +77,7 @@ const Admin = () => {
 
             {/* Buttons */}
             <div className="admin-buttons">
-                <button className="back-button" onClick={() => navigate("/")}>Back to Chat</button>
+                <button className="back-button" onClick={() => navigate("/TraderyMessenger")}>Back to Chat</button>
                 <button className="logout" onClick={() => auth.signOut()}>Logout</button>
             </div>
 
