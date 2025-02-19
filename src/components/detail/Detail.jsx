@@ -52,7 +52,7 @@ const Detail = () => {
     <div className='detail'>
       {/* Admin Button - Visible Only to Admin */}
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
-        <button className="adminButton" onClick={() => navigate("admin")}>
+        <button className="adminButton" onClick={() => navigate("/TraderyMessenger/admin")}>
           Admin Panel
         </button>
       )}
