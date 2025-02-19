@@ -10,6 +10,7 @@ const Detail = () => {
   const { currentUser } = useUserStore()
   const [showReport, setShowReport] = useState(false)
   const [reportReason, setReportReason] = useState("")
+  const navigate = useNavigate();
 
   const handleBlock = async () => {
     if (!user) return;
@@ -48,6 +49,12 @@ const Detail = () => {
 
   return (
     <div className='detail'>
+      {/* Admin Button - Visible Only to Admin */}
+      {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
+        <button className="adminButton" onClick={() => navigate("/admin")}>
+          Admin Panel
+        </button>
+      )}
       <div className="user">
         <h2>{user?.username}</h2>
       </div>
