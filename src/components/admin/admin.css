@@ -21,3 +21,16 @@
     margin: 5px 0;
     border-radius: 5px;
 }
+
+button {
+    padding: 15px 20px;
+    background-color: rgba(230, 74, 105, 0.553);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button.logout {
+    padding: 10px;
+    background-color: #1a73e8;
+}

@@ -28,10 +28,11 @@ const Admin = () => {
     }, []);
 
     return (
+        
         <div className="admin-container">
             <h1>Admin Panel</h1>
             <p>Welcome, Admin! Here you can manage users.</p>
-
+                <button className="logout" onClick={() => auth.signOut()}>Logout</button>
             {loading ? (
                 <p>Loading users...</p>
             ) : (
