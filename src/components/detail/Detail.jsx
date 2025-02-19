@@ -37,7 +37,7 @@ const handleBlock = async () => {
               {isCurrentUserBlocked 
               ? "you are Blocked!" 
               : isReceiverBlocked 
-              ? "User Blocked" 
+              ? "Unblock User" 
               : "Block User"}
             </button>
             <button className="logout" onClick={()=>auth.signOut()}>Logout</button>
