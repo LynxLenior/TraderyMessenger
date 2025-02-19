@@ -2,8 +2,8 @@ import { useState } from "react";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import Admin from "../Admin"; // Import your Admin component
-import Chat from "../Chat"; // Import your Chat component
+import Admin from "../admin/Admin"; // Import your Admin component
+import Chat from "../chat/Chat"; // Import your Chat component
 
 const Login = () => {
     const [user, setUser] = useState(null);
