@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import Admin from "../Admin/Admin"; // Import Admin component
+import Admin from "../admin/Admin"; // Import Admin component
 
 const Login = () => {
     const [user, setUser] = useState(null); // Store logged-in user
