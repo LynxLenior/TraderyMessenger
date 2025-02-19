@@ -4,12 +4,12 @@ import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
 import Login from "./components/login/Login";
 import Notification from "./components/notification/Notification";
-import Admin from "./components/admin/Admin"; // Import Admin
+import Admin from "./components/admin/Admin";
 import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
@@ -19,26 +19,17 @@ const App = () => {
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
-      if (user?.email === "bagus.anselliam@ue.edu.ph") {
-        setIsAdmin(true);
-      } else {
-        setIsAdmin(false);
-      }
+      setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
     });
 
-    return () => {
-      unSub();
-    };
+    return () => unSub();
   }, [fetchUserInfo]);
 
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
     <Routes>
-      {/* Admin Route */}
       <Route path="/admin" element={isAdmin ? <Admin /> : <Navigate to="/" />} />
-      
-      {/* Main Chat System */}
       <Route
         path="/*"
         element={
@@ -60,12 +51,4 @@ const App = () => {
   );
 };
 
-const Root = () => {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-};
-
-export default Root;
+export default App;

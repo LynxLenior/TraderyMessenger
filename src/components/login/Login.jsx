@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-import "./login.css";
+import { useNavigate } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-//Something in the way
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import "./login.css";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
+    const navigate = useNavigate(); // ✅ Add this
+
     const handleGoogle = async () => {
         try {
             const provider = new GoogleAuthProvider();
@@ -18,7 +19,6 @@ const Login = () => {
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
-
                 await setDoc(userRef, {
                     id: user.uid,
                     email: user.email,
@@ -30,13 +30,14 @@ const Login = () => {
                     chats: [],
                 });
             }
-            
+
+            // ✅ Redirect to admin if email matches
             if (user.email === "bagus.anselliam@ue.edu.ph") {
-                navigate("/admin"); // Redirect to admin page
+                navigate("/admin");
             }
 
         } catch (error) {
-            console.log("err");
+            console.log("Error:", error);
         }
     };
 
@@ -51,4 +52,4 @@ const Login = () => {
     );
 };
 
-export default Login
+export default Login;
