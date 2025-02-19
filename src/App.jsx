@@ -9,7 +9,7 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter as Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
