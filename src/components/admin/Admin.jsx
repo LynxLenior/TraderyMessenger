@@ -3,9 +3,13 @@ import { db } from "../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import "./admin.css";
 
-<div className="Admin">
+const Admin = () => {
+    return (
+        <div className="admin-container">
+            <h1>Welcome, Admin!</h1>
+            <p>You have access to admin functionalities.</p>
+        </div>
+    );
+};
 
-<h2>Admin Page</h2>
-
-</div>
-export default Admin
+export default Admin;
