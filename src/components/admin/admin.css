@@ -3,7 +3,8 @@
     max-width: 800px;
     margin: auto;
     text-align: center;
-}
+    overflow: scroll;
+
 
 .user-list {
     margin-top: 20px;
@@ -66,4 +67,4 @@
 .logout:hover {
     background-color: #a71d2a;
 }
-
+}
