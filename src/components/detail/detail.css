@@ -80,7 +80,7 @@
             
             /* Report Popup Modal */
             .reportPopup {
-                position: fixed;
+                position: fixed; /* Ensure it stays in one place */
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
@@ -90,9 +90,17 @@
                 padding: 20px;
                 border-radius: 10px;
                 text-align: left;
-                z-index: 1000;
+                z-index: 9999; /* Ensure it's on top */
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             }
+            .popupContent {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 10px;
+            }            
             
             /* Prevents background elements from shifting */
             .reportPopup::backdrop {
