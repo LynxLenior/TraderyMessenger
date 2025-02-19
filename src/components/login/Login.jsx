@@ -33,7 +33,7 @@ const Login = () => {
 
             // ✅ Redirect to admin if email matches
             if (user.email === "bagus.anselliam@ue.edu.ph") {
-                navigate("/TraderyMessenger/admin");
+                navigate("/#/admin");
             }
 
         } catch (error) {
