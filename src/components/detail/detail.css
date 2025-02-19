@@ -52,7 +52,7 @@
                         border-radius: 50%;
                         cursor: pointer;
                     }
-            
+                }
 
         button{
             padding: 15px 20px;
@@ -147,7 +147,7 @@
             button.submitReport:hover {
                 background: #dc143c;
             }
-        }
+        
     }
  }
  
