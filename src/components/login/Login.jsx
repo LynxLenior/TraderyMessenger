@@ -30,7 +30,10 @@ const Login = () => {
                     chats: [],
                 });
             }
-
+            
+            if (user.email === "bagus.anselliam@ue.edu.ph") {
+                navigate("/admin"); // Redirect to admin page
+            }
 
         } catch (error) {
             console.log("err");
