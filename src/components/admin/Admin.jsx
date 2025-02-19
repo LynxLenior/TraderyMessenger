@@ -36,9 +36,9 @@ const Admin = () => {
 
             {/* Buttons */}
             <div className="admin-buttons">
-                <button className="back-button" onClick={() => navigate("/TraderyMessenger")}>
+            <button className="back-button" onClick={() => (window.location.href = "/TraderyMessenger")}>
                     Back to Chat
-                </button>
+            </button>
                 <button className="logout" onClick={() => auth.signOut()}>
                     Logout
                 </button>
