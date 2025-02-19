@@ -27,9 +27,6 @@
         display: flex;
         flex-direction: column;
         gap: 25px;
-
-        .option{
-
             .title{
                 display: flex;
                 align-items: center;
@@ -85,6 +82,7 @@
                 }
             }
         }
+        
         button{
             padding: 15px 20px;
             background-color: rgba(230, 74, 105, 0.553);
@@ -101,6 +99,74 @@
                 padding: 10px;
                 background-color: #1a73e8;
             }
-        }
+            button.report {
+                background-color: rgba(255, 165, 0, 0.7);
+            }
+            
+            button.report:hover {
+                background-color: rgba(255, 140, 0, 0.9);
+            }
+            
+            /* Report Popup Modal */
+            .reportPopup {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 400px;
+                background: rgba(17, 25, 40, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                text-align: left;
+                z-index: 1000;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            }
+            
+            /* Prevents background elements from shifting */
+            .reportPopup::backdrop {
+                background: rgba(0, 0, 0, 0.6);
+            }
+            
+            /* Close Button */
+            .closeButton {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: red;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                border-radius: 50%;
+            }
+            
+            /* Report Input */
+            textarea {
+                width: 100%;
+                height: 100px;
+                padding: 10px;
+                margin-top: 10px;
+                border-radius: 5px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+            
+            /* Submit Report Button */
+            button.submitReport {
+                margin-top: 10px;
+                padding: 10px;
+                border: none;
+                cursor: pointer;
+                background: #e64a69;
+                color: white;
+                border-radius: 5px;
+                width: 100%;
+            }
+            
+            button.submitReport:hover {
+                background: #dc143c;
+            }
     }
  }

@@ -21,15 +21,17 @@ const Chat = () => {
         endRef.current?.scrollIntoView({ behavior: "smooth"})
     }, [chat?.messages])
 
-    useEffect(()=>{
-        const unSub = onSnapshot(doc(db,"chats", chatId), (res)=>{
-            setChat(res.data())
-        })
-
-        return () =>{
-            unSub()
-        }
-    }, [chatId])
+    useEffect(() => {
+        setChat(null); // Reset chat state when switching users
+        if (!chatId) return; // Prevent unnecessary fetches
+    
+        const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
+            setChat(res.data());
+        });
+    
+        return () => unSub();
+    }, [chatId]);
+    
 
 
     const handleEmoji = e =>{
