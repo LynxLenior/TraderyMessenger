@@ -36,7 +36,7 @@ const Admin = () => {
 
             {/* Buttons */}
             <div className="admin-buttons">
-                <button className="back-button" onClick={() => navigate("/")}>
+                <button className="back-button" onClick={() => navigate("/TraderyMessenger")}>
                     Back to Chat
                 </button>
                 <button className="logout" onClick={() => auth.signOut()}>
