@@ -22,15 +22,35 @@
     border-radius: 5px;
 }
 
-button {
-    padding: 15px 20px;
-    background-color: rgba(230, 74, 105, 0.553);
-    color: white;
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.back-button, .logout {
+    padding: 10px 15px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
-button.logout {
-    padding: 10px;
-    background-color: #1a73e8;
+
+.back-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+.logout {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout:hover {
+    background-color: #a71d2a;
 }
