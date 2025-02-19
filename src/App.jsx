@@ -30,11 +30,11 @@ const App = () => {
   return (
     <Routes>
       {/* Admin route */}
-      <Route path="/admin" element={isAdmin ? <Admin /> : <Navigate to="/TraderyMessenger" />} />
+      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="TraderyMessenger" />} />
   
       {/* Messenger as the main page */}
       <Route
-        path="/TraderyMessenger"
+        path="TraderyMessenger"
         element={
           <div className="container">
             {currentUser ? (
@@ -52,7 +52,7 @@ const App = () => {
       />
   
       {/* Redirect "/" to "/TraderyMessenger" */}
-      <Route path="/" element={<Navigate to="TraderyMessenger" />} />
+      <Route path="" element={<Navigate to="TraderyMessenger" />} />
     </Routes>
   );  
 };

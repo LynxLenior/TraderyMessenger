@@ -3,6 +3,7 @@ import { auth, db } from "../../lib/firebase"
 import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
 import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc  } from "firebase/firestore"
+import { useNavigate } from "react-router-dom";
 import "./detail.css"
 
 const Detail = () => { 
@@ -51,7 +52,7 @@ const Detail = () => {
     <div className='detail'>
       {/* Admin Button - Visible Only to Admin */}
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
-        <button className="adminButton" onClick={() => navigate("/admin")}>
+        <button className="adminButton" onClick={() => navigate("admin")}>
           Admin Panel
         </button>
       )}
