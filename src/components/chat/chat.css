@@ -60,6 +60,7 @@
         max-height: calc(110vh - 320px);
         scroll-behavior: smooth;
         left: 52%;
+        overflow-anchor: auto;
          
 
         .MessageStarter {

@@ -32,8 +32,6 @@ const Chat = () => {
         return () => unSub();
     }, [chatId]);
     
-
-
     const handleEmoji = e =>{
         setText((prev) => prev + e.emoji)
         setOpen(false)
@@ -43,7 +41,6 @@ const Chat = () => {
         if (text === "") return
 
         try{
-
             await updateDoc(doc(db,"chats", chatId),{
                 messages:arrayUnion({
                     senderId: currentUser.id,
@@ -69,7 +66,6 @@ const Chat = () => {
 
                 await updateDoc(userChatsRef,{
                     chats: userChatsData.chats,
-
                 })
             }
         })
