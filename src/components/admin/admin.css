@@ -43,14 +43,14 @@
 
 /* Reports List */
 .reports-list {
-    width: 100%; /* Make it take full width */
+    width: 100%; 
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centers the items */
-    align-items: stretch; /* Ensures items stretch properly */
+    justify-content: center; 
+    align-items: stretch; 
     gap: 10px;
     padding: 20px;
-    overflow: auto; /* In case it overflows */
+    overflow: auto; 
 }
 
 .reports-list ul {
@@ -62,7 +62,11 @@
 }
 
 .report-item {
-    flex: 1 1 300px; /* Ensures responsiveness */
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: flex-start; 
     background: #f19d9d;
     padding: 15px;
     border-radius: 5px;
@@ -72,7 +76,6 @@
     max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    
 }
 
 .report-item button {
@@ -153,6 +156,8 @@
         scroll-snap-align: start;
     }
 }
+
+
 /* Read More Button */
 .read-more {
     background: none;
@@ -161,6 +166,8 @@
     cursor: pointer;
     text-decoration: underline;
     font-size: 14px;
+    align-self: flex-start; 
+    margin-top: 5px; 
 }
 
 .read-more:hover {
@@ -186,10 +193,10 @@
     border-radius: 5px;
     max-width: 500px;
     width: 90%;
-    text-align: left; /* Align text properly */
+    text-align: left; 
     position: relative;
-    overflow: auto; /* Ensure scrolling for long content */
-    max-height: 80vh; /* Prevent content from overflowing */
+    overflow: auto; 
+    max-height: 80vh; 
 }
 
 /* Ensure text wraps properly */
