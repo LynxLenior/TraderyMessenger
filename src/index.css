@@ -8,6 +8,10 @@
 
 body{
   background-image: url("/BackgroundWhole.jpg");
+  background-size: cover;  /* Ensures the image covers the entire viewport */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents tiling */
+  background-attachment: fixed; /* Keeps the image fixed while scrolling */
   display: flex;
   align-items: center;
   justify-content: center;
