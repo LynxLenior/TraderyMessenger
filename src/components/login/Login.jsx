@@ -36,6 +36,10 @@ const Login = () => {
                 navigate("/admin");
             }
 
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+
         } catch (error) {
             console.log("Error:", error);
         }

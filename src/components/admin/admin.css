@@ -53,7 +53,7 @@ button {
 /* Reports List */
 .reports-list {
     width: 100%;
-    display: block; /* Ensure it is positioned below */
+    display: block; 
     padding: 20px;
     overflow: auto;
     text-align: center;
@@ -83,7 +83,7 @@ button {
     max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    margin-top: 10px; /* Ensures spacing below heading */
+    margin-top: 10px; 
 }
 
 .report-item button {
