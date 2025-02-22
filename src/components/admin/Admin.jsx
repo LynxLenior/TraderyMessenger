@@ -9,43 +9,25 @@ const Admin = () => {
     const [reports, setReports] = useState([]);
     const [filteredReports, setFilteredReports] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedReport, setSelectedReport] = useState(null); // For modal
+    const [selectedReport, setSelectedReport] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchData = async () => {
             try {
                 const usersSnapshot = await getDocs(collection(db, "users"));
-                const usersList = usersSnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setUsers(usersList);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        };
-
-        const fetchReports = async () => {
-            try {
                 const reportsSnapshot = await getDocs(collection(db, "reports"));
-                const reportsList = reportsSnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setReports(reportsList);
-                setFilteredReports(reportsList);
+
+                setUsers(usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                const reportsData = reportsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setReports(reportsData);
+                setFilteredReports(reportsData);
             } catch (error) {
-                console.error("Error fetching reports:", error);
+                console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
             }
         };
-
-        const fetchData = async () => {
-            await fetchUsers();
-            await fetchReports();
-            setLoading(false);
-        };
-
         fetchData();
     }, []);
 
@@ -53,21 +35,11 @@ const Admin = () => {
     const handleDeleteReport = async (reportId) => {
         try {
             await deleteDoc(doc(db, "reports", reportId));
-            setReports(reports.filter(report => report.id !== reportId));
-            setFilteredReports(filteredReports.filter(report => report.id !== reportId));
+            setReports(prev => prev.filter(report => report.id !== reportId));
+            setFilteredReports(prev => prev.filter(report => report.id !== reportId));
         } catch (error) {
             console.error("Error deleting report:", error);
         }
-    };
-
-    // Show modal with full report
-    const handleShowFullReport = (report) => {
-        setSelectedReport(report);
-    };
-
-    // Close modal
-    const handleCloseModal = () => {
-        setSelectedReport(null);
     };
 
     return (
@@ -92,19 +64,15 @@ const Admin = () => {
                             {users.map(user => (
                                 <li key={user.id} className="user-item">
                                     <strong>{user.username}</strong> - {user.email}
-                                    <button onClick={() => setFilteredReports(reports.filter(report => report.reportedUserId === user.id))}>
+                                    <button onClick={() => setFilteredReports(reports.filter(r => r.reportedUserId === user.id))}>
                                         View Reports
                                     </button>
                                 </li>
                             ))}
                         </ul>
-                        <button 
-                                className="show-all-reports" 
-                                onClick={() => setFilteredReports(reports)}
-                            >
-                                Show All Reported Users
-                            </button>
-                        </div>
+                        <button className="show-all-reports" onClick={() => setFilteredReports(reports)}>
+                            Show All Reported Users
+                        </button>
                     </div>
 
                     {/* Reports List */}
@@ -114,26 +82,28 @@ const Admin = () => {
                             <p>No reports available.</p>
                         ) : (
                             <ul>
-                                {filteredReports.map(report => (
-                                    <li key={report.id} className="report-item">
-                                        <strong>Reporter:</strong> {report.reporterUsername} <br />
-                                        <strong>Reported User:</strong> {report.reportedUsername} <br />
-                                        <strong>Reason:</strong> 
-                                        {report.reason.length > 10 ? (
-                                            <>
-                                                {report.reason.substring(0, 10)}...
-                                                <button className="read-more" onClick={() => handleShowFullReport(report)}>
-                                                    Read More
-                                                </button>
-                                            </>
-                                        ) : (
-                                            report.reason
-                                        )}
-                                        <br />
-                                        <strong>Timestamp:</strong> {new Date(report.timestamp.seconds * 1000).toLocaleString()} <br />
-                                        <button onClick={() => handleDeleteReport(report.id)}>Delete</button>
-                                    </li>
-                                ))}
+                                {filteredReports.map(report => {
+                                    const timestamp = report.timestamp?.seconds ? 
+                                        new Date(report.timestamp.seconds * 1000).toLocaleString() : "Unknown";
+                                    return (
+                                        <li key={report.id} className="report-item">
+                                            <strong>Reporter:</strong> {report.reporterUsername} <br />
+                                            <strong>Reported User:</strong> {report.reportedUsername} <br />
+                                            <strong>Reason:</strong> 
+                                            {report.reason.length > 10 ? (
+                                                <>
+                                                    {report.reason.substring(0, 10)}...
+                                                    <button className="read-more" onClick={() => setSelectedReport(report)}>
+                                                        Read More
+                                                    </button>
+                                                </>
+                                            ) : report.reason}
+                                            <br />
+                                            <strong>Timestamp:</strong> {timestamp} <br />
+                                            <button onClick={() => handleDeleteReport(report.id)}>Delete</button>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
@@ -148,8 +118,8 @@ const Admin = () => {
                                 <p><strong>Reported ID:</strong> {selectedReport.reportedUserId}</p>
                                 <p><strong>Reported User:</strong> {selectedReport.reportedUsername}</p>
                                 <p><strong>Reason:</strong> {selectedReport.reason}</p>
-                                <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp.seconds * 1000).toLocaleString()}</p>
-                                <button className="close-modal" onClick={handleCloseModal}>Close</button>
+                                <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp?.seconds * 1000).toLocaleString()}</p>
+                                <button className="close-modal" onClick={() => setSelectedReport(null)}>Close</button>
                             </div>
                         </div>
                     )}
