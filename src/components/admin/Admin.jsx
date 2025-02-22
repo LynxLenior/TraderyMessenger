@@ -120,15 +120,6 @@ const Admin = () => {
                                                 </button>
                                             </>
                                         ) : (
-                                            <>
-                                                {report.reason}{" "}
-                                                {report.reason.length === 10 && (
-                                                    <button className="read-more" onClick={() => handleShowFullReport(report)}>
-                                                        Read More
-                                                    </button>
-                                                )}
-                                            </>
-                                        ) : (
                                             report.reason
                                         )}
                                         <br />
