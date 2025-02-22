@@ -3,7 +3,7 @@
     max-width: 800px;
     margin: auto;
     text-align: center;
-    overflow: scroll;
+    overflow: hidden;
 
 
 .user-list {
@@ -27,12 +27,20 @@
     margin-top: 20px;
 }
 
+.reports-list ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 10px; /* Space between items */
+    padding: 0;
+    list-style: none;
+}
+
 .report-item {
     background: #f8d7da;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 15px;
     border-radius: 5px;
     border-left: 5px solid #dc3545;
+    box-sizing: border-box;
 }
 
 .admin-buttons {
