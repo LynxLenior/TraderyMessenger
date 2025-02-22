@@ -52,20 +52,17 @@ button {
 
 /* Reports List */
 .reports-list {
-    width: 100%; 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; 
-    align-items: stretch; 
-    gap: 10px;
+    width: 100%;
+    display: block; /* Ensure it is positioned below */
     padding: 20px;
-    overflow: auto; 
+    overflow: auto;
+    text-align: center;
 }
 
 .reports-list ul {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjusted */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     padding: 0;
     list-style: none;
@@ -74,9 +71,9 @@ button {
 .report-item {
     position: relative;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start; 
+    align-items: flex-start;
     background: #f19d9d;
     padding: 15px;
     border-radius: 5px;
@@ -86,8 +83,7 @@ button {
     max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
-
-    
+    margin-top: 10px; /* Ensures spacing below heading */
 }
 
 .report-item button {
@@ -100,7 +96,6 @@ button {
     border-radius: 3px;
     cursor: pointer;
     margin: 10px 0;
-    
 }
 
 .report-item button:hover {
@@ -170,7 +165,6 @@ button {
     }
 }
 
-
 /* Read More Button */
 .read-more {
     background: none;
@@ -179,8 +173,8 @@ button {
     cursor: pointer;
     text-decoration: underline;
     font-size: 14px;
-    align-self: flex-start; 
-    margin-top: 5px; 
+    align-self: flex-start;
+    margin-top: 5px;
 }
 
 .read-more:hover {
@@ -209,8 +203,9 @@ button {
     text-align: left;
     position: relative;
     overflow-y: auto;
-    max-height: 80vh; 
+    max-height: 80vh;
 }
+
 /* Ensure text wraps properly */
 .modal-content p {
     word-wrap: break-word;
@@ -231,4 +226,3 @@ button {
 .close-modal:hover {
     background: #a71d2a;
 }
-
