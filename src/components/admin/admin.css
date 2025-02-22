@@ -44,11 +44,14 @@
 /* Reports List */
 .reports-list {
     margin-top: 20px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    white-space: nowrap;
 }
 
 .reports-list ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    grid-template-rows: repeat(4, auto); /* 4 rows */
+    grid-auto-flow: column; /* Infinite columns */
     gap: 10px; /* Space between items */
     padding: 0;
     list-style: none;
@@ -60,6 +63,7 @@
     border-radius: 5px;
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
+    min-width: 250px; /* Set a minimum width to prevent items from collapsing */
 }
 
 .report-item button {
@@ -126,6 +130,14 @@
     }
     
     .reports-list ul {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .report-item {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
     }
 }
