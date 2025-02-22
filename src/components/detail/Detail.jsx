@@ -27,6 +27,7 @@ const Detail = () => {
       console.log(err)
     }
   }
+  
 
   const handleReportSubmit = async (e) => {
     e.preventDefault();
