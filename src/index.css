@@ -22,8 +22,7 @@ body{
 
 .container{
   width: 80vw;
-  min-height: 90vh; /* Starts at 90vh but expands as needed */
-  height: auto;
+  height: 90vh;
   background-color: rgba(10, 0, 0, 0.84);
   backdrop-filter: blur(19px) saturate(180%);
   border-radius: 12px;
