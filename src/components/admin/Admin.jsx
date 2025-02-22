@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../lib/firebase";
-import { collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./admin.css";
 
 const Admin = () => {
@@ -9,6 +9,7 @@ const Admin = () => {
     const [reports, setReports] = useState([]);
     const [filteredReports, setFilteredReports] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedReport, setSelectedReport] = useState(null); // For modal
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,7 +34,7 @@ const Admin = () => {
                     ...doc.data(),
                 }));
                 setReports(reportsList);
-                setFilteredReports(reportsList); // Initially show all reports
+                setFilteredReports(reportsList);
             } catch (error) {
                 console.error("Error fetching reports:", error);
             }
@@ -59,15 +60,14 @@ const Admin = () => {
         }
     };
 
-    // Filter reports by a specific user
-    const handleViewReports = async (userId) => {
-        const userReports = reports.filter(report => report.reportedUserId === userId);
-        setFilteredReports(userReports);
+    // Show modal with full report
+    const handleShowFullReport = (report) => {
+        setSelectedReport(report);
     };
 
-    // Reset filter to show all reports
-    const handleShowAllReports = () => {
-        setFilteredReports(reports);
+    // Close modal
+    const handleCloseModal = () => {
+        setSelectedReport(null);
     };
 
     return (
@@ -92,7 +92,9 @@ const Admin = () => {
                             {users.map(user => (
                                 <li key={user.id} className="user-item">
                                     <strong>{user.username}</strong> - {user.email}
-                                    <button onClick={() => handleViewReports(user.id)}>View Reports</button>
+                                    <button onClick={() => setFilteredReports(reports.filter(report => report.reportedUserId === user.id))}>
+                                        View Reports
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -104,24 +106,44 @@ const Admin = () => {
                         {filteredReports.length === 0 ? (
                             <p>No reports available.</p>
                         ) : (
-                            <>
-                                <button onClick={handleShowAllReports}>Show All Reports</button>
-                                <ul>
-                                    {filteredReports.map(report => (
-                                        <li key={report.id} className="report-item">
-                                            <strong>Reporters Username:</strong> {report.reporterUsername} <br />
-                                            <strong>Reporter ID:</strong> {report.reporterId} <br />
-                                            <strong>Reporteds Username:</strong> {report.reportedUsername} <br />
-                                            <strong>Reported User ID:</strong> {report.reportedUserId} <br />
-                                            <strong>Reason:</strong> {report.reason} <br />
-                                            <strong>Timestamp:</strong> {new Date(report.timestamp.seconds * 1000).toLocaleString()} <br />
-                                            <button onClick={() => handleDeleteReport(report.id)}>Delete</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
+                            <ul>
+                                {filteredReports.map(report => (
+                                    <li key={report.id} className="report-item">
+                                        <strong>Reporter:</strong> {report.reporterUsername} <br />
+                                        <strong>Reported User:</strong> {report.reportedUsername} <br />
+                                        <strong>Reason:</strong> 
+                                        {report.reason.length > 50 ? (
+                                            <>
+                                                {report.reason.substring(0, 50)}...{" "}
+                                                <button className="read-more" onClick={() => handleShowFullReport(report)}>
+                                                    Read More
+                                                </button>
+                                            </>
+                                        ) : (
+                                            report.reason
+                                        )}
+                                        <br />
+                                        <strong>Timestamp:</strong> {new Date(report.timestamp.seconds * 1000).toLocaleString()} <br />
+                                        <button onClick={() => handleDeleteReport(report.id)}>Delete</button>
+                                    </li>
+                                ))}
+                            </ul>
                         )}
                     </div>
+
+                    {/* Modal for full report */}
+                    {selectedReport && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <h2>Full Report</h2>
+                                <p><strong>Reporter:</strong> {selectedReport.reporterUsername}</p>
+                                <p><strong>Reported User:</strong> {selectedReport.reportedUsername}</p>
+                                <p><strong>Reason:</strong> {selectedReport.reason}</p>
+                                <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp.seconds * 1000).toLocaleString()}</p>
+                                <button className="close-modal" onClick={handleCloseModal}>Close</button>
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>
