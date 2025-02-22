@@ -112,9 +112,9 @@ const Admin = () => {
                                         <strong>Reporter:</strong> {report.reporterUsername} <br />
                                         <strong>Reported User:</strong> {report.reportedUsername} <br />
                                         <strong>Reason:</strong> 
-                                        {report.reason.length > 50 ? (
+                                        {report.reason.length > 10 ? (
                                             <>
-                                                {report.reason.substring(0, 50)}...{" "}
+                                                {report.reason.substring(0, 10)}...{" "}
                                                 <button className="read-more" onClick={() => handleShowFullReport(report)}>
                                                     Read More
                                                 </button>
