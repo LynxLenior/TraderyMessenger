@@ -44,13 +44,15 @@
 /* Reports List */
 .reports-list {
     margin-top: 20px;
-    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    overflow-x: auto; /* Enable horizontal scrolling */
     white-space: nowrap;
+    padding-bottom: 10px; /* Space for scrollbar */
 }
 
 .reports-list ul {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(4, auto); /* 4 rows */
+    grid-auto-flow: column; /* Infinite columns */
     gap: 10px;
     padding: 0;
     list-style: none;
@@ -62,7 +64,7 @@
     border-radius: 5px;
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
-    min-width: 250px; /* Set a minimum width to prevent items from collapsing */
+    min-width: 250px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
