@@ -186,7 +186,17 @@
     border-radius: 5px;
     max-width: 500px;
     width: 90%;
-    text-align: center;
+    text-align: left; /* Align text properly */
+    position: relative;
+    overflow: auto; /* Ensure scrolling for long content */
+    max-height: 80vh; /* Prevent content from overflowing */
+}
+
+/* Ensure text wraps properly */
+.modal-content p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .close-modal {

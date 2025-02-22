@@ -137,6 +137,8 @@ const Admin = () => {
                             <div className="modal-content">
                                 <h2>Full Report</h2>
                                 <p><strong>Reporter:</strong> {selectedReport.reporterUsername}</p>
+                                <p><strong>Reporter ID:</strong> {selectedReport.reporterId}</p>
+                                <p><strong>Reported ID:</strong> {selectedReport.reportedUserId}</p>
                                 <p><strong>Reported User:</strong> {selectedReport.reportedUsername}</p>
                                 <p><strong>Reason:</strong> {selectedReport.reason}</p>
                                 <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp.seconds * 1000).toLocaleString()}</p>
