@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 const Login = () => {
-    const navigate = useNavigate(); // ✅ Add this
+    const navigate = useNavigate(); 
 
     const handleGoogle = async () => {
         try {

@@ -114,7 +114,7 @@ const Admin = () => {
                                         <strong>Reason:</strong> 
                                         {report.reason.length > 10 ? (
                                             <>
-                                                {report.reason.substring(0, 10)}...{" "}
+                                                {report.reason.substring(0, 10)}...
                                                 <button className="read-more" onClick={() => handleShowFullReport(report)}>
                                                     Read More
                                                 </button>

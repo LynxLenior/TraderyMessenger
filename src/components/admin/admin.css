@@ -6,6 +6,15 @@
     overflow: hidden;
 }
 
+button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
 /* User List */
 .user-list {
     margin-top: 20px;
@@ -54,26 +63,31 @@
 }
 
 .reports-list ul {
+    position: relative;
     display: grid;
-    grid-template-rows: repeat(4, 1fr); /* 4 rows */
-    grid-auto-flow: column; /* Infinite columns */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjusted */
     gap: 10px;
     padding: 0;
     list-style: none;
-    overflow-x: auto; /* Enables horizontal scrolling */
-    white-space: nowrap;
 }
 
 .report-item {
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: flex-start; 
     background: #f19d9d;
     padding: 15px;
     border-radius: 5px;
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
-    min-width: 250px; /* Minimum width per report */
-    max-width: 300px;
+    min-width: 280px;
+    max-width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
+
+    
 }
 
 .report-item button {
@@ -86,6 +100,7 @@
     border-radius: 3px;
     cursor: pointer;
     margin: 10px 0;
+    
 }
 
 .report-item button:hover {
@@ -130,17 +145,31 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
+    .user-list li {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .view-reports {
+        margin-top: 5px;
+        width: 100%;
+        text-align: center;
+    }
+    
     .reports-list ul {
-        grid-template-rows: repeat(2, auto); /* Reduce to 2 rows */
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .report-item {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
     }
 }
 
-@media (max-width: 600px) {
-    .reports-list ul {
-        grid-template-rows: repeat(1, auto); /* Single column scrolling on small screens */
-    }
-}
 
 /* Read More Button */
 .read-more {
@@ -177,12 +206,11 @@
     border-radius: 5px;
     max-width: 500px;
     width: 90%;
-    text-align: left; 
+    text-align: left;
     position: relative;
-    overflow: auto; 
+    overflow-y: auto;
     max-height: 80vh; 
 }
-
 /* Ensure text wraps properly */
 .modal-content p {
     word-wrap: break-word;
@@ -203,3 +231,4 @@
 .close-modal:hover {
     background: #a71d2a;
 }
+
