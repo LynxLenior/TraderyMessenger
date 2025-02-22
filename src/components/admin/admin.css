@@ -55,28 +55,23 @@
 
 .reports-list ul {
     display: grid;
-    grid-template-rows: repeat(4, auto); /* 4 rows */
+    grid-template-rows: repeat(4, 1fr); /* 4 rows */
     grid-auto-flow: column; /* Infinite columns */
     gap: 10px;
     padding: 0;
     list-style: none;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto; /* Enables horizontal scrolling */
     white-space: nowrap;
 }
 
 .report-item {
-    position: relative;
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between;
-    align-items: flex-start; 
     background: #f19d9d;
     padding: 15px;
     border-radius: 5px;
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
-    min-width: 300px;
-    max-width: 100%;
+    min-width: 250px; /* Minimum width per report */
+    max-width: 300px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
