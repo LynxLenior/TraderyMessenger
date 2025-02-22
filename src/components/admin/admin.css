@@ -50,9 +50,8 @@
 
 .reports-list ul {
     display: grid;
-    grid-template-rows: repeat(4, auto); /* 4 rows */
-    grid-auto-flow: column; /* Infinite columns */
-    gap: 10px; /* Space between items */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
     padding: 0;
     list-style: none;
 }
@@ -64,6 +63,8 @@
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
     min-width: 250px; /* Set a minimum width to prevent items from collapsing */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .report-item button {
@@ -85,8 +86,10 @@
 .admin-buttons {
     display: flex;
     justify-content: center;
+    flex: 1;
     gap: 10px;
     margin-bottom: 20px;
+    min-width: 120px;
 }
 
 .back-button, .logout {

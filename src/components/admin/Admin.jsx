@@ -73,7 +73,7 @@ const Admin = () => {
     return (
         <div className="admin-container">
             <h1>Admin Panel</h1>
-            <p>Welcome, Admin! Here you can manage users and view reports.</p>
+            <p>Welcome, Admin! Here you can manage users and view reports. Testing also if vscode.dev works</p>
 
             {/* Buttons */}
             <div className="admin-buttons">
