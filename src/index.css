@@ -7,7 +7,7 @@
 }
 
 body{
-  background-image: url(LynxLenior/TraderyMessenger/public/BackgroundWhole.jpg);
+  background-image: url("/BackgroundWhole.jpg");
   display: flex;
   align-items: center;
   justify-content: center;
