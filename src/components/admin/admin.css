@@ -3,7 +3,7 @@
     max-width: 800px;
     margin: auto;
     text-align: center;
-    overflow: hidden;
+    height: auto;
 }
 
 button {

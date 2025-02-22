@@ -15,13 +15,15 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh; /* Ensures at least full viewport height */
+  height: auto;
   color:white;
 }
 
 .container{
   width: 80vw;
-  height: 90vh;
+  min-height: 90vh; /* Starts at 90vh but expands as needed */
+  height: auto;
   background-color: rgba(10, 0, 0, 0.84);
   backdrop-filter: blur(19px) saturate(180%);
   border-radius: 12px;
