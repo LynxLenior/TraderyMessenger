@@ -109,9 +109,10 @@ const Admin = () => {
                                 <ul>
                                     {filteredReports.map(report => (
                                         <li key={report.id} className="report-item">
-                                            <strong>Reporter ID:</strong> {report.reporterId} <br />
-                                            <strong>Reported User ID:</strong> {report.reportedUserId} <br />
                                             <strong>Reporters Username:</strong> {report.reporterUsername} <br />
+                                            <strong>Reporter ID:</strong> {report.reporterId} <br />
+                                            <strong>Reporteds Username:</strong> {report.reportedUsername} <br />
+                                            <strong>Reported User ID:</strong> {report.reportedUserId} <br />
                                             <strong>Reason:</strong> {report.reason} <br />
                                             <strong>Timestamp:</strong> {new Date(report.timestamp.seconds * 1000).toLocaleString()} <br />
                                             <button onClick={() => handleDeleteReport(report.id)}>Delete</button>

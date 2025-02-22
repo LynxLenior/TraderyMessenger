@@ -63,7 +63,7 @@
 
 .report-item {
     flex: 1 1 300px; /* Ensures responsiveness */
-    background: #ffe5e5;
+    background: #f19d9d;
     padding: 15px;
     border-radius: 5px;
     border-left: 5px solid #dc3545;

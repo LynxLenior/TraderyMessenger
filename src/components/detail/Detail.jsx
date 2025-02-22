@@ -36,6 +36,7 @@ const Detail = () => {
         const reportRef = doc(db, "reports", `${currentUser.id}_${user.id}`);
         await setDoc(reportRef, {
             reporterUsername: user.username,
+            reportedUsername: user?.username,
             reporterId: currentUser.id,
             reportedUserId: user.id,
             reason: reportReason,
