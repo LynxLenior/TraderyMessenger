@@ -44,9 +44,8 @@
 /* Reports List */
 .reports-list {
     margin-top: 20px;
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
     white-space: nowrap;
-    padding-bottom: 10px; /* Space for scrollbar */
 }
 
 .reports-list ul {
@@ -64,7 +63,7 @@
     border-radius: 5px;
     border-left: 5px solid #dc3545;
     box-sizing: border-box;
-    min-width: 250px;
+    min-width: 250px; /* Set a minimum width to prevent items from collapsing */
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
