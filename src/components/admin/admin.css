@@ -226,3 +226,18 @@ button {
 .close-modal:hover {
     background: #a71d2a;
 }
+.show-all-reports {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.show-all-reports:hover {
+    background: #0056b3;
+}

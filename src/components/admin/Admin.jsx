@@ -98,6 +98,13 @@ const Admin = () => {
                                 </li>
                             ))}
                         </ul>
+                        <button 
+                                className="show-all-reports" 
+                                onClick={() => setFilteredReports(reports)}
+                            >
+                                Show All Reported Users
+                            </button>
+                        </div>
                     </div>
 
                     {/* Reports List */}
