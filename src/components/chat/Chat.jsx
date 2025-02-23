@@ -11,6 +11,7 @@ const Chat = () => {
     const [chat, setChat] = useState()
     const [open, setOpen] = useState(false)
     const [text, setText] = useState("")
+    const [cooldownActive, setCooldownActive] = useState(false);
     
     const { currentUser } = useUserStore()
     const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
@@ -41,11 +42,17 @@ const Chat = () => {
     const cooldownTime = 3000; // 3 seconds cooldown
 
     const handleSend = async () => {
-        if (text === "") return;
+        if (text === "" || cooldownActive) return;
     
         const now = Date.now();
         if (now - lastSentTimeRef.current < cooldownTime) {
-            console.log("Please wait before sending another message.");
+            setCooldownActive(true);
+            setText("");
+    
+            setTimeout(() => {
+                setCooldownActive(false);
+            }, cooldownTime);
+    
             return;
         }
     
@@ -126,12 +133,13 @@ const Chat = () => {
         <div className="bottom">
             <input 
                 type="text" 
-                placeholder={(isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
+                placeholder={cooldownActive ? "Wait before sending another message..." : (isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                disabled={isCurrentUserBlocked || isReceiverBlocked}
+                disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}
+                className={cooldownActive ? "cooldown" : ""}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                />
+            />
             <div className="emoji">
                 <img 
                     src="./emoji.png" 
@@ -142,9 +150,9 @@ const Chat = () => {
                 <EmojiPicker open={open} onEmojiClick={handleEmoji} />
                 </div>
             </div>
-            <button className="sendButton" onClick={handleSend} disabled={isCurrentUserBlocked || isReceiverBlocked}>
+            <button className="sendButton" onClick={handleSend} disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}>
                 Send
-                </button>
+            </button>
         </div>
     </div>
   )

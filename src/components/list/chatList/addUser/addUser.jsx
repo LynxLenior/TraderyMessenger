@@ -1,161 +1,162 @@
-import "./chat.css"
-import EmojiPicker from "emoji-picker-react"
-import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore"
-import { useState, useRef, useEffect } from 'react'
-import { db } from "../../lib/firebase"
-import { useChatStore } from "../../lib/chatStore"
-import { useUserStore } from "../../lib/userStore"
-import React from "react";
+import { useState } from "react"
+import { db } from "../../../../lib/firebase"
+import "./addUser.css"
+import { 
+  arrayUnion, 
+  collection, 
+  doc, 
+  getDoc, 
+  getDocs, 
+  query, 
+  serverTimestamp, 
+  setDoc, 
+  updateDoc, 
+  where 
+} from "firebase/firestore"
+import { useUserStore } from "../../../../lib/userStore"
 
-const Chat = () => {
-    const [chat, setChat] = useState()
-    const [open, setOpen] = useState(false)
-    const [text, setText] = useState("")
-    const [cooldownActive, setCooldownActive] = useState(false);
-    
-    const { currentUser } = useUserStore()
-    const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
+const AddUser = () => {
+  const [user, setUser] = useState(null)
+  const [added, setAdded] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null) 
 
-    const endRef = useRef(null)
+  const { currentUser } = useUserStore()
 
-    useEffect(() => {
-        endRef.current?.scrollIntoView({ behavior: "smooth"})
-    }, [chat?.messages])
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    setError(null)
 
-    useEffect(() => {
-        setChat(null); // Reset chat state when switching users
-        if (!chatId) return; // Prevent unnecessary fetches
-    
-        const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
-            setChat(res.data());
-        });
-    
-        return () => unSub();
-    }, [chatId]);
-    
-    const handleEmoji = e =>{
-        setText((prev) => prev + e.emoji)
-        setOpen(false)
+    const formData = new FormData(e.target)
+    const username = formData.get("username")
+
+    try {
+      const userRef = collection(db, "users")
+      const q = query(userRef, where("username", "==", username))
+      const querySnapShot = await getDocs(q)
+
+      if (!querySnapShot.empty) {
+        const foundUser = querySnapShot.docs[0].data()
+
+        if (foundUser.id === currentUser.id) {
+          setError("You cannot add yourself!")
+          setUser(null) 
+          return
+        }
+
+        setUser(foundUser)
+        setAdded(false) 
+      } else {
+        setError("User not found!")
+        setUser(null)
+      }
+    } catch (err) {
+      console.log(err)
+      setError("An error occurred while searching.")
     }
+  }
 
-    const lastSentTimeRef = useRef(0);
-    const cooldownTime = 3000; // 3 seconds cooldown
+  const handleAdd = async () => {
+    if (!user || added || loading) return;
+  
+    setLoading(true);
+    setError(null);
+  
+    const chatRef = collection(db, "chats");
+    const userChatsRef = collection(db, "userchats");
+    const currentUserChatsRef = doc(userChatsRef, currentUser.id);
+    const targetUserChatsRef = doc(userChatsRef, user.id);
+  
+    try {
+        // Fetch user chat documents for both users
+        const [currentUserChatsSnap, targetUserChatsSnap] = await Promise.all([
+            getDoc(currentUserChatsRef),
+            getDoc(targetUserChatsRef),
+        ]);
 
-    const handleSend = async () => {
-        if (text === "" || cooldownActive) return;
-    
-        const now = Date.now();
-        if (now - lastSentTimeRef.current < cooldownTime) {
-            setCooldownActive(true);
-            setText("");
-    
-            setTimeout(() => {
-                setCooldownActive(false);
-            }, cooldownTime);
-    
+        // Ensure the userchats document exists for both users
+        if (!currentUserChatsSnap.exists()) {
+            await setDoc(currentUserChatsRef, { chats: [] });
+        }
+        if (!targetUserChatsSnap.exists()) {
+            await setDoc(targetUserChatsRef, { chats: [] });
+        }
+
+        // Get current chats for both users
+        const currentUserChats = currentUserChatsSnap.exists() ? currentUserChatsSnap.data().chats || [] : [];
+        const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
+
+        // Check if the chat already exists for either user
+        const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === user.id);
+        const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
+
+        if (alreadyAddedByCurrentUser || alreadyAddedByTargetUser) {
+            setError("User already added!");
+            setLoading(false);
             return;
         }
-    
-        try {
-            await updateDoc(doc(db, "chats", chatId), {
-                messages: arrayUnion({
-                    senderId: currentUser.id,
-                    text,
-                    createdAt: new Date(),
-                }),
-            });
-    
-            const userIDs = [currentUser.id, user.id];
-    
-            userIDs.forEach(async (id) => {
-                const userChatsRef = doc(db, "userchats", id);
-                const userChatsSnapshot = await getDoc(userChatsRef);
-    
-                if (userChatsSnapshot.exists()) {
-                    const userChatsData = userChatsSnapshot.data();
-    
-                    const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId);
-    
-                    if (chatIndex !== -1) {
-                        userChatsData.chats[chatIndex].lastMessage = text;
-                        userChatsData.chats[chatIndex].isSeen = id === currentUser.id;
-                        userChatsData.chats[chatIndex].updatedAt = Date.now();
-    
-                        await updateDoc(userChatsRef, {
-                            chats: userChatsData.chats,
-                        });
-                    }
-                }
-            });
-    
-            lastSentTimeRef.current = now; // Update cooldown time reference
-            setText(""); // Clear input field
-        } catch (err) {
-            console.log(err);
-        }
-    };
+
+        // Create new chat document
+        const newChatRef = doc(chatRef);
+        await setDoc(newChatRef, {
+            createdAt: serverTimestamp(),
+            messages: [],
+        });
+
+        const chatData = {
+            chatId: newChatRef.id,
+            lastMessage: "",
+            receiverId: user.id,
+            updatedAt: Date.now(),
+        };
+
+        // Add chat reference for both users
+        await updateDoc(currentUserChatsRef, {
+            chats: arrayUnion(chatData),
+        });
+
+        await updateDoc(targetUserChatsRef, {
+            chats: arrayUnion({
+                ...chatData,
+                receiverId: currentUser.id, // Swap receiverId for the target user
+            }),
+        });
+
+        console.log("Chat created:", newChatRef.id);
+        setAdded(true);
+        setTimeout(() => setUser(null), 1000); // Hide the user container after 1 second
+    } catch (err) {
+        console.error(err);
+        setError("An error occurred while adding the user.");
+    } finally {
+        setLoading(false);
+    }
+};
+
+  
 
   return (
-    <div className='chat'>
-        <div className="top">
-            <div className="user">
-                <div className="texts">
-                    <span>{user?.username}</span>
-                </div>
-            </div>
-        </div>
-        <div className="center">
-        <div className="MessageStarter">-------------------------------- Start of your chat -----------------------------</div>
-        {chat?.messages?.map((message, index) => {
-            const currentMessageDate = new Date(message.createdAt?.seconds * 1000).toLocaleDateString();
-            const previousMessageDate = index > 0 
-                ? new Date(chat.messages[index - 1].createdAt?.seconds * 1000).toLocaleDateString() 
-                : null;
+    <div className="addUser">
+      <form onSubmit={handleSearch}>
+        <input type="text" placeholder="Username" name="username" />
+        <button type="submit">Search</button>
+      </form>
 
-            return (
-                <React.Fragment key={message?.createdAt?.seconds}>
-                    {currentMessageDate !== previousMessageDate && (
-                        <div className="date-separator">
-                            --------------------------------- {currentMessageDate} -----------------------------
-                        </div>
-                    )}
-                    <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`}>
-                        <div className="texts">
-                            <p>{message.text}</p>
-                            <span>{new Date(message.createdAt?.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                    </div>
-                </React.Fragment>
-            );
-        })}
-            <div ref={endRef}></div>
-        </div>
-        <div className="bottom">
-            <input 
-                type="text" 
-                placeholder={cooldownActive ? "Wait before sending another message..." : (isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}
-                className={cooldownActive ? "cooldown" : ""}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            />
-            <div className="emoji">
-                <img 
-                    src="./emoji.png" 
-                    alt=""
-                    onClick={() => setOpen((prev) => !prev)}
-                />
-                <div className="picker">
-                <EmojiPicker open={open} onEmojiClick={handleEmoji} />
-                </div>
-            </div>
-            <button className="sendButton" onClick={handleSend} disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}>
-                Send
+      {user && (
+        <div className="user">
+          <div className="detail">
+            <span>{user.username}</span>
+          </div>
+          {!added && !error && (
+            <button onClick={handleAdd} disabled={loading}> 
+              {loading ? "Adding..." : "Add User"}
             </button>
+          )}
+          {added && <span>User Added ✅</span>}
         </div>
+      )}
+      {error && <span style={{ color: "red" }}>{error}</span>}
     </div>
   )
 }
-
-export default Chat
+export default AddUser
