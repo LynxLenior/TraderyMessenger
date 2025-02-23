@@ -201,5 +201,9 @@
                 cursor: not-allowed;
             }
         }
+        
+        .bottom input.cooldown::placeholder {
+            color: red;
+        }
     }
 }
