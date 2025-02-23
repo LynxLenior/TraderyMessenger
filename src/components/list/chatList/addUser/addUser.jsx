@@ -17,17 +17,19 @@ import { useUserStore } from "../../../../lib/userStore"
 
 const AddUser = () => {
   const [user, setUser] = useState(null)
-  const [added, setAdded] = useState(false) 
-  const [error, setError] = useState(null) // For duplicate check error
+  const [added, setAdded] = useState(false)
+  const [loading, setLoading] = useState(false) // Prevents multiple clicks
+  const [error, setError] = useState(null) 
 
   const { currentUser } = useUserStore()
 
   const handleSearch = async (e) => {
     e.preventDefault()
-    setError(null) // Reset error state
+    setError(null) 
 
     const formData = new FormData(e.target)
     const username = formData.get("username")
+
     try {
       const userRef = collection(db, "users")
       const q = query(userRef, where("username", "==", username));
@@ -35,45 +37,43 @@ const AddUser = () => {
 
       if (!querySnapShot.empty) {
         setUser(querySnapShot.docs[0].data())
-        setAdded(false) // Reset added state when searching
+        setAdded(false) 
       }
     } catch (err) {
       console.log(err)  
     }
   }
 
-  const [showAddUser, setShowAddUser] = useState(true)
-
   const handleAdd = async () => {
-    if (!user || added) return; // Prevent multiple clicks
-  
-    setAdded(true); // Disable the button immediately
-    setError(null); // Clear previous errors
-  
-    const chatRef = collection(db, "chats");
-    const userChatsRef = collection(db, "userchats");
-    const currentUserChatsRef = doc(userChatsRef, currentUser.id);
-  
+    if (!user || added || loading) return; 
+
+    setLoading(true) 
+    setError(null)
+
+    const chatRef = collection(db, "chats")
+    const userChatsRef = collection(db, "userchats")
+    const currentUserChatsRef = doc(userChatsRef, currentUser.id)
+
     try {
-      const currentUserChatsSnap = await getDoc(currentUserChatsRef);
-  
+      const currentUserChatsSnap = await getDoc(currentUserChatsRef)
+
       if (currentUserChatsSnap.exists()) {
-        const chats = currentUserChatsSnap.data().chats || [];
-  
-        const alreadyAdded = chats.some(chat => chat.receiverId === user.id);
+        const chats = currentUserChatsSnap.data().chats || []
+        const alreadyAdded = chats.some(chat => chat.receiverId === user.id)
+
         if (alreadyAdded) {
-          setError("User already added!");
-          setAdded(false); // Re-enable button if already added
+          setError("User already added!")
+          setLoading(false) 
           return;
         }
       }
-  
-      const newChatRef = doc(chatRef);
+
+      const newChatRef = doc(chatRef)
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
         messages: [],
-      });
-  
+      })
+
       await updateDoc(doc(userChatsRef, user.id), {
         chats: arrayUnion({
           chatId: newChatRef.id,
@@ -81,8 +81,8 @@ const AddUser = () => {
           receiverId: currentUser.id,
           updatedAt: Date.now(),
         }),
-      });
-  
+      })
+
       await updateDoc(currentUserChatsRef, {
         chats: arrayUnion({
           chatId: newChatRef.id,
@@ -90,17 +90,19 @@ const AddUser = () => {
           receiverId: user.id,
           updatedAt: Date.now(),
         }),
-      });
-  
-      setTimeout(() => setShowAddUser(false), 1000);
-      console.log(newChatRef.id);
-    } catch (err) {
-      console.log(err);
-      setAdded(false); // Re-enable button if an error occurs
-    }
-  };
+      })
 
-  return showAddUser ? (
+      console.log(newChatRef.id)
+      setAdded(true)
+      setLoading(false)
+
+    } catch (err) {
+      console.log(err)
+      setLoading(false) 
+    }
+  }
+
+  return (
     <div className="addUser">
       <form onSubmit={handleSearch}>
         <input type="text" placeholder="Username" name="username" />
@@ -112,13 +114,16 @@ const AddUser = () => {
           <div className="detail">
             <span>{user.username}</span>
           </div>
-          {!added && !error && <button onClick={handleAdd} disabled={added}> {added ? "Adding..." : "Add User"}
-          </button>} 
-          {added && <span>User Added ✅</span>} 
+          {!added && !error && (
+            <button onClick={handleAdd} disabled={loading}> 
+              {loading ? "Adding..." : "Add User"}
+            </button>
+          )}
+          {added && <span>User Added ✅</span>}
           {error && <span style={{ color: "red" }}>{error}</span>} 
         </div>
       )}
     </div>
-  ) : null;
+  )
 }
 export default AddUser
