@@ -18,34 +18,46 @@ import { useUserStore } from "../../../../lib/userStore"
 const AddUser = () => {
   const [user, setUser] = useState(null)
   const [added, setAdded] = useState(false)
-  const [loading, setLoading] = useState(false) // Prevents multiple clicks
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null) 
 
   const { currentUser } = useUserStore()
 
   const handleSearch = async (e) => {
     e.preventDefault()
-    setError(null) 
+    setError(null)
 
     const formData = new FormData(e.target)
     const username = formData.get("username")
 
     try {
       const userRef = collection(db, "users")
-      const q = query(userRef, where("username", "==", username));
+      const q = query(userRef, where("username", "==", username))
       const querySnapShot = await getDocs(q)
 
       if (!querySnapShot.empty) {
-        setUser(querySnapShot.docs[0].data())
+        const foundUser = querySnapShot.docs[0].data()
+
+        if (foundUser.id === currentUser.id) {
+          setError("You cannot add yourself!")
+          setUser(null) 
+          return
+        }
+
+        setUser(foundUser)
         setAdded(false) 
+      } else {
+        setError("User not found!")
+        setUser(null)
       }
     } catch (err) {
-      console.log(err)  
+      console.log(err)
+      setError("An error occurred while searching.")
     }
   }
 
   const handleAdd = async () => {
-    if (!user || added || loading) return; 
+    if (!user || added || loading) return 
 
     setLoading(true) 
     setError(null)
@@ -64,7 +76,7 @@ const AddUser = () => {
         if (alreadyAdded) {
           setError("User already added!")
           setLoading(false) 
-          return;
+          return
         }
       }
 
@@ -98,7 +110,7 @@ const AddUser = () => {
 
     } catch (err) {
       console.log(err)
-      setLoading(false) 
+      setLoading(false)
     }
   }
 
@@ -120,9 +132,9 @@ const AddUser = () => {
             </button>
           )}
           {added && <span>User Added ✅</span>}
-          {error && <span style={{ color: "red" }}>{error}</span>} 
         </div>
       )}
+      {error && <span style={{ color: "red" }}>{error}</span>}
     </div>
   )
 }
