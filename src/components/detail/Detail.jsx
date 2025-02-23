@@ -54,7 +54,6 @@ const Detail = () => {
     if (!user) return;
   
     const currentUserChatRef = doc(db, "userchats", currentUser.id);
-    const otherUserChatRef = doc(db, "userchats", user.id);
   
     try {
       // Retrieve the current user's chat data
@@ -66,7 +65,7 @@ const Detail = () => {
   
       const currentUserChats = currentUserChatSnap.data().chats || [];
   
-      // Find and remove the chat object for the current user
+      // Find and remove the chat object for the current user only
       const chatToRemove = currentUserChats.find(chat => chat.receiverId === user.id);
       if (!chatToRemove) {
         console.log("Chat not found.");
@@ -78,23 +77,10 @@ const Detail = () => {
         chats: arrayRemove(chatToRemove),
       });
   
-      // Remove chat from the other user's chat list
-      const otherUserChatSnap = await getDoc(otherUserChatRef);
-      if (otherUserChatSnap.exists()) {
-        const otherUserChats = otherUserChatSnap.data().chats || [];
-        const otherChatToRemove = otherUserChats.find(chat => chat.receiverId === currentUser.id);
-  
-        if (otherChatToRemove) {
-          await updateDoc(otherUserChatRef, {
-            chats: arrayRemove(otherChatToRemove),
-          });
-        }
-      }
-  
-      // Clear the chat from UI
+      // Clear chat from UI
       useChatStore.setState({ chatId: null, user: null });
   
-      console.log("Chat successfully deleted!");
+      console.log("Chat successfully deleted (for current user only)!");
     } catch (err) {
       console.log("Error deleting chat:", err);
     }

@@ -37,43 +37,56 @@ const Chat = () => {
         setOpen(false)
     }
 
-    const handleSend = async ()=>{
-        if (text === "") return
+    const [lastSentTime, setLastSentTime] = useState(0);
+    const cooldownTime = 3000; // 3 seconds cooldown
 
-        try{
-            await updateDoc(doc(db,"chats", chatId),{
-                messages:arrayUnion({
+    const handleSend = async () => {
+        if (text === "") return;
+    
+        const now = Date.now();
+        if (now - lastSentTime < cooldownTime) {
+            console.log("Please wait before sending another message.");
+            return;
+        }
+    
+        try {
+            await updateDoc(doc(db, "chats", chatId), {
+                messages: arrayUnion({
                     senderId: currentUser.id,
                     text,
                     createdAt: new Date(),
                 }),
-            })
-
-            const userIDs = [currentUser.id, user.id]
-
-            userIDs.forEach(async  (id)=>{
-            const userChatsRef = doc(db,"userchats", id)
-            const userChatsSnapshot = await getDoc(userChatsRef)
-
-            if(userChatsSnapshot.exists()){
-                const userChatsData = userChatsSnapshot.data()
-
-                const chatIndex = userChatsData.chats.findIndex(c=> c.chatId === chatId)
-
-                userChatsData.chats[chatIndex].lastMessage = text
-                userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false
-                userChatsData.chats[chatIndex].updatedAt = Date.now()
-
-                await updateDoc(userChatsRef,{
-                    chats: userChatsData.chats,
-                })
-            }
-        })
-
-        }catch(err){
-            console.log(err)
+            });
+    
+            const userIDs = [currentUser.id, user.id];
+    
+            userIDs.forEach(async (id) => {
+                const userChatsRef = doc(db, "userchats", id);
+                const userChatsSnapshot = await getDoc(userChatsRef);
+    
+                if (userChatsSnapshot.exists()) {
+                    const userChatsData = userChatsSnapshot.data();
+    
+                    const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId);
+    
+                    if (chatIndex !== -1) {
+                        userChatsData.chats[chatIndex].lastMessage = text;
+                        userChatsData.chats[chatIndex].isSeen = id === currentUser.id;
+                        userChatsData.chats[chatIndex].updatedAt = Date.now();
+    
+                        await updateDoc(userChatsRef, {
+                            chats: userChatsData.chats,
+                        });
+                    }
+                }
+            });
+    
+            setLastSentTime(now); // Update last sent time
+            setText(""); // Clear input field
+        } catch (err) {
+            console.log(err);
         }
-
+    };
         setText("")
     }
 
