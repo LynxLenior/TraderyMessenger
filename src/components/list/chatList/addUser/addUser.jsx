@@ -57,62 +57,81 @@ const AddUser = () => {
   }
 
   const handleAdd = async () => {
-    if (!user || added || loading) return 
-
-    setLoading(true) 
-    setError(null)
-
-    const chatRef = collection(db, "chats")
-    const userChatsRef = collection(db, "userchats")
-    const currentUserChatsRef = doc(userChatsRef, currentUser.id)
-
+    if (!user || added || loading) return;
+  
+    setLoading(true);
+    setError(null);
+  
+    const chatRef = collection(db, "chats");
+    const userChatsRef = collection(db, "userchats");
+    const currentUserChatsRef = doc(userChatsRef, currentUser.id);
+    const targetUserChatsRef = doc(userChatsRef, user.id);
+  
     try {
-      const currentUserChatsSnap = await getDoc(currentUserChatsRef)
-
-      if (currentUserChatsSnap.exists()) {
-        const chats = currentUserChatsSnap.data().chats || []
-        const alreadyAdded = chats.some(chat => chat.receiverId === user.id)
-
-        if (alreadyAdded) {
-          setError("User already added!")
-          setLoading(false) 
-          return
-        }
+      // Fetch user chat documents for both users
+      const [currentUserChatsSnap, targetUserChatsSnap] = await Promise.all([
+        getDoc(currentUserChatsRef),
+        getDoc(targetUserChatsRef),
+      ]);
+  
+      // Ensure the userchats document exists for both users
+      if (!currentUserChatsSnap.exists()) {
+        await setDoc(currentUserChatsRef, { chats: [] });
       }
-
-      const newChatRef = doc(chatRef)
+      if (!targetUserChatsSnap.exists()) {
+        await setDoc(targetUserChatsRef, { chats: [] });
+      }
+  
+      // Get current chats for both users
+      const currentUserChats = currentUserChatsSnap.exists() ? currentUserChatsSnap.data().chats || [] : [];
+      const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
+  
+      // Check if the chat already exists for either user
+      const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === user.id);
+      const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
+  
+      if (alreadyAddedByCurrentUser || alreadyAddedByTargetUser) {
+        setError("User already added!");
+        setLoading(false);
+        return;
+      }
+  
+      // Create new chat document
+      const newChatRef = doc(chatRef);
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
         messages: [],
-      })
-
-      await updateDoc(doc(userChatsRef, user.id), {
-        chats: arrayUnion({
-          chatId: newChatRef.id,
-          lastMessage: "",
-          receiverId: currentUser.id,
-          updatedAt: Date.now(),
-        }),
-      })
-
+      });
+  
+      const chatData = {
+        chatId: newChatRef.id,
+        lastMessage: "",
+        receiverId: user.id,
+        updatedAt: Date.now(),
+      };
+  
+      // Add chat reference for both users
       await updateDoc(currentUserChatsRef, {
+        chats: arrayUnion(chatData),
+      });
+  
+      await updateDoc(targetUserChatsRef, {
         chats: arrayUnion({
-          chatId: newChatRef.id,
-          lastMessage: "",
-          receiverId: user.id,
-          updatedAt: Date.now(),
+          ...chatData,
+          receiverId: currentUser.id, // Swap receiverId for the target user
         }),
-      })
-
-      console.log(newChatRef.id)
-      setAdded(true)
-      setLoading(false)
-
+      });
+  
+      console.log("Chat created:", newChatRef.id);
+      setAdded(true);
     } catch (err) {
-      console.log(err)
-      setLoading(false)
+      console.error(err);
+      setError("An error occurred while adding the user.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+  
 
   return (
     <div className="addUser">
