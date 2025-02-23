@@ -1,59 +1,97 @@
-import { useState } from "react"
-import { auth, db } from "../../lib/firebase"
-import { useChatStore } from "../../lib/chatStore"
-import { useUserStore } from "../../lib/userStore"
-import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc  } from "firebase/firestore"
+import { useState } from "react";
+import { auth, db } from "../../lib/firebase";
+import { useChatStore } from "../../lib/chatStore";
+import { useUserStore } from "../../lib/userStore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  updateDoc,
+  serverTimestamp,
+  setDoc,
+  deleteDoc,
+  getDoc
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import "./detail.css"
+import "./detail.css";
 
-const Detail = () => { 
-  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore()
-  const { currentUser } = useUserStore()
-  const [showReport, setShowReport] = useState(false)
-  const [reportReason, setReportReason] = useState("")
+const Detail = () => {
+  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore();
+  const { currentUser } = useUserStore();
+  const [showReport, setShowReport] = useState(false);
+  const [reportReason, setReportReason] = useState("");
   const navigate = useNavigate();
 
   const handleBlock = async () => {
     if (!user) return;
 
-    const userDocRef = doc(db, "users", currentUser.id)
+    const userDocRef = doc(db, "users", currentUser.id);
 
     try {
       await updateDoc(userDocRef, {
         blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id),
-      })
-      changeBlock()
+      });
+      changeBlock();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-  
+  };
 
   const handleReportSubmit = async (e) => {
     e.preventDefault();
     if (!reportReason.trim()) return;
 
     try {
-        const reportRef = doc(db, "reports", `${currentUser.id}_${user.id}`);
-        await setDoc(reportRef, {
-            reporterUsername: currentUser.username,
-            reportedUsername: user.username,
-            reporterId: currentUser.id,
-            reportedUserId: user.id,
-            reason: reportReason,
-            timestamp: serverTimestamp(),
-        });
-        setShowReport(false); // Close modal after submission
-        setReportReason("");
-        console.log("Report submitted");
+      const reportRef = doc(db, "reports", `${currentUser.id}_${user.id}`);
+      await setDoc(reportRef, {
+        reporterUsername: currentUser.username,
+        reportedUsername: user.username,
+        reporterId: currentUser.id,
+        reportedUserId: user.id,
+        reason: reportReason,
+        timestamp: serverTimestamp(),
+      });
+      setShowReport(false);
+      setReportReason("");
+      console.log("Report submitted");
     } catch (err) {
-        console.log("Error submitting report:", err);
+      console.log("Error submitting report:", err);
     }
-};
+  };
+
+  const handleDeleteChat = async () => {
+    if (!chatId || !user) return;
+
+    const currentUserChatsRef = doc(db, "userchats", currentUser.id);
+    const targetUserChatsRef = doc(db, "userchats", user.id);
+    const chatRef = doc(db, "chats", chatId);
+
+    try {
+      // Remove chat from both users' userchats
+      const currentUserChatsSnap = await getDoc(currentUserChatsRef);
+      if (currentUserChatsSnap.exists()) {
+        await updateDoc(currentUserChatsRef, {
+          chats: arrayRemove({ chatId }),
+        });
+      }
+
+      const targetUserChatsSnap = await getDoc(targetUserChatsRef);
+      if (targetUserChatsSnap.exists()) {
+        await updateDoc(targetUserChatsRef, {
+          chats: arrayRemove({ chatId }),
+        });
+      }
+
+      // Delete chat document
+      await deleteDoc(chatRef);
+      console.log("Chat deleted successfully");
+    } catch (err) {
+      console.log("Error deleting chat:", err);
+    }
+  };
 
   return (
     <div className='detail'>
-      {/* Admin Button - Visible Only to Admin */}
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
         <button className="adminButton" onClick={() => navigate("/admin")}>
           Admin Panel
@@ -64,10 +102,10 @@ const Detail = () => {
       </div>
       <div className="info">
         <button onClick={handleBlock}>
-          {isCurrentUserBlocked 
-            ? "You are Blocked!" 
-            : isReceiverBlocked 
-            ? "Unblock User" 
+          {isCurrentUserBlocked
+            ? "You are Blocked!"
+            : isReceiverBlocked
+            ? "Unblock User"
             : "Block User"}
         </button>
         <button className="logout" onClick={() => auth.signOut()}>Logout</button>
@@ -80,19 +118,22 @@ const Detail = () => {
             <button className="closeButton" onClick={() => setShowReport(false)}>X</button>
             <h2>Report {user?.username}</h2>
             <form onSubmit={handleReportSubmit}>
-              <textarea 
-                placeholder="Enter the reason..." 
-                value={reportReason} 
-                onChange={(e) => setReportReason(e.target.value)} 
-                required 
+              <textarea
+                placeholder="Enter the reason..."
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value)}
+                required
               />
               <button type="submit">Submit Report</button>
             </form>
           </div>
         </div>
       )}
-    </div>
-  )
-}
 
-export default Detail
+      {/* Delete Chat Button at the bottom left */}
+      <button className="deleteChat" onClick={handleDeleteChat}>Delete Chat</button>
+    </div>
+  );
+};
+
+export default Detail;

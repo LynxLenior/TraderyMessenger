@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore"
 import { useUserStore } from "../../../../lib/userStore"
 
-const AddUser = () => {
+const AddUser = ({ onClose }) => {
   const [user, setUser] = useState(null)
   const [added, setAdded] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -124,6 +124,7 @@ const AddUser = () => {
   
       console.log("Chat created:", newChatRef.id);
       setAdded(true);
+      setTimeout(() => onClose(), 1000); // Close the component after 1 second
     } catch (err) {
       console.error(err);
       setError("An error occurred while adding the user.");
