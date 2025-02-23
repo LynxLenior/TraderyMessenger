@@ -87,8 +87,6 @@ const Chat = () => {
             console.log(err);
         }
     };
-        setText("")
-    }
 
   return (
     <div className='chat'>
