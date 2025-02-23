@@ -87,9 +87,12 @@ const Admin = () => {
                                         new Date(report.timestamp.seconds * 1000).toLocaleString() : "Unknown";
                                     return (
                                         <li key={report.id} className="report-item">
-                                            <strong>Reporter:</strong> {report.reporterUsername} <br />
-                                            <strong>Reported User:</strong> {report.reportedUsername} <br />
-                                            <strong>Reason:</strong> 
+                                            <p><strong>Reporter:</strong> {selectedReport.reporterUsername}</p>
+                                            <p><strong>Reporter ID:</strong> {selectedReport.reporterId}</p>
+                                            <p><strong>Reported User:</strong> {selectedReport.reportedUsername}</p>
+                                            <p><strong>Reported ID:</strong> {selectedReport.reportedUserId}</p>
+                                            <p><strong>Reason:</strong> {selectedReport.reason}</p>
+                                            <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp?.seconds * 1000).toLocaleString()}</p>
                                             {report.reason.length > 10 ? (
                                                 <>
                                                     {report.reason.substring(0, 10)}...

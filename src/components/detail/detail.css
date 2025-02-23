@@ -142,4 +142,14 @@ button.submitReport {
 button.submitReport:hover {
     background: #dc143c;
 }
+
+/* Delete Chat Button */
+button.deleteChat {
+    background-color: rgba(255, 69, 58, 0.8);
+}
+
+button.deleteChat:hover {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
 }

@@ -68,13 +68,11 @@ const AddUser = ({ onClose }) => {
     const targetUserChatsRef = doc(userChatsRef, user.id);
   
     try {
-      // Fetch user chat documents for both users
       const [currentUserChatsSnap, targetUserChatsSnap] = await Promise.all([
         getDoc(currentUserChatsRef),
         getDoc(targetUserChatsRef),
       ]);
   
-      // Ensure the userchats document exists for both users
       if (!currentUserChatsSnap.exists()) {
         await setDoc(currentUserChatsRef, { chats: [] });
       }
@@ -82,11 +80,9 @@ const AddUser = ({ onClose }) => {
         await setDoc(targetUserChatsRef, { chats: [] });
       }
   
-      // Get current chats for both users
       const currentUserChats = currentUserChatsSnap.exists() ? currentUserChatsSnap.data().chats || [] : [];
       const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
   
-      // Check if the chat already exists for either user
       const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === user.id);
       const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
   
@@ -96,7 +92,6 @@ const AddUser = ({ onClose }) => {
         return;
       }
   
-      // Create new chat document
       const newChatRef = doc(chatRef);
       await setDoc(newChatRef, {
         createdAt: serverTimestamp(),
@@ -110,7 +105,6 @@ const AddUser = ({ onClose }) => {
         updatedAt: Date.now(),
       };
   
-      // Add chat reference for both users
       await updateDoc(currentUserChatsRef, {
         chats: arrayUnion(chatData),
       });
@@ -118,13 +112,18 @@ const AddUser = ({ onClose }) => {
       await updateDoc(targetUserChatsRef, {
         chats: arrayUnion({
           ...chatData,
-          receiverId: currentUser.id, // Swap receiverId for the target user
+          receiverId: currentUser.id,
         }),
       });
   
       console.log("Chat created:", newChatRef.id);
       setAdded(true);
-      setTimeout(() => onClose(), 1000); // Close the component after 1 second
+
+      // Close the component after 1 second
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+
     } catch (err) {
       console.error(err);
       setError("An error occurred while adding the user.");
@@ -133,9 +132,10 @@ const AddUser = ({ onClose }) => {
     }
   };
   
-
   return (
     <div className="addUser">
+      <button className="closeButton" onClick={onClose}>X</button>
+      
       <form onSubmit={handleSearch}>
         <input type="text" placeholder="Username" name="username" />
         <button type="submit">Search</button>
@@ -158,4 +158,5 @@ const AddUser = ({ onClose }) => {
     </div>
   )
 }
+
 export default AddUser
