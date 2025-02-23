@@ -52,13 +52,33 @@ const Detail = () => {
 
   const handleDeleteChat = async () => {
     if (!user) return;
-    
+  
     const userChatRef = doc(db, "userchats", currentUser.id);
+  
     try {
+      // Retrieve user chat data
+      const userChatSnap = await getDoc(userChatRef);
+      if (!userChatSnap.exists()) {
+        console.log("User chat not found.");
+        return;
+      }
+  
+      const userChats = userChatSnap.data().chats || [];
+  
+      // Find the chat object that corresponds to the selected user
+      const chatToRemove = userChats.find(chat => chat.receiverId === user.id);
+  
+      if (!chatToRemove) {
+        console.log("Chat not found.");
+        return;
+      }
+  
+      // Remove the chat object from the array
       await updateDoc(userChatRef, {
-        chats: arrayRemove(user.id)
+        chats: arrayRemove(chatToRemove)
       });
-      console.log("User removed from chat list");
+  
+      console.log("Chat successfully deleted!");
     } catch (err) {
       console.log("Error deleting chat:", err);
     }
