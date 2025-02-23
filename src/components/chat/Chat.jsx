@@ -37,14 +37,14 @@ const Chat = () => {
         setOpen(false)
     }
 
-    const [lastSentTime, setLastSentTime] = useState(0);
+    const lastSentTimeRef = useRef(0);
     const cooldownTime = 3000; // 3 seconds cooldown
 
     const handleSend = async () => {
         if (text === "") return;
     
         const now = Date.now();
-        if (now - lastSentTime < cooldownTime) {
+        if (now - lastSentTimeRef.current < cooldownTime) {
             console.log("Please wait before sending another message.");
             return;
         }
@@ -81,7 +81,7 @@ const Chat = () => {
                 }
             });
     
-            setLastSentTime(now); // Update last sent time
+            lastSentTimeRef.current = now; // Update cooldown time reference
             setText(""); // Clear input field
         } catch (err) {
             console.log(err);
