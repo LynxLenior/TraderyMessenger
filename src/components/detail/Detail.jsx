@@ -2,7 +2,7 @@ import { useState } from "react"
 import { auth, db } from "../../lib/firebase"
 import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
-import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc } from "firebase/firestore"
+import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import "./detail.css"
 
@@ -53,30 +53,46 @@ const Detail = () => {
   const handleDeleteChat = async () => {
     if (!user) return;
   
-    const userChatRef = doc(db, "userchats", currentUser.id);
+    const currentUserChatRef = doc(db, "userchats", currentUser.id);
+    const otherUserChatRef = doc(db, "userchats", user.id);
   
     try {
-      // Retrieve user chat data
-      const userChatSnap = await getDoc(userChatRef);
-      if (!userChatSnap.exists()) {
-        console.log("User chat not found.");
+      // Retrieve the current user's chat data
+      const currentUserChatSnap = await getDoc(currentUserChatRef);
+      if (!currentUserChatSnap.exists()) {
+        console.log("Current user chat not found.");
         return;
       }
   
-      const userChats = userChatSnap.data().chats || [];
+      const currentUserChats = currentUserChatSnap.data().chats || [];
   
-      // Find the chat object that corresponds to the selected user
-      const chatToRemove = userChats.find(chat => chat.receiverId === user.id);
-  
+      // Find and remove the chat object for the current user
+      const chatToRemove = currentUserChats.find(chat => chat.receiverId === user.id);
       if (!chatToRemove) {
         console.log("Chat not found.");
         return;
       }
   
-      // Remove the chat object from the array
-      await updateDoc(userChatRef, {
-        chats: arrayRemove(chatToRemove)
+      // Remove chat from the current user’s chat list
+      await updateDoc(currentUserChatRef, {
+        chats: arrayRemove(chatToRemove),
       });
+  
+      // Remove chat from the other user's chat list
+      const otherUserChatSnap = await getDoc(otherUserChatRef);
+      if (otherUserChatSnap.exists()) {
+        const otherUserChats = otherUserChatSnap.data().chats || [];
+        const otherChatToRemove = otherUserChats.find(chat => chat.receiverId === currentUser.id);
+  
+        if (otherChatToRemove) {
+          await updateDoc(otherUserChatRef, {
+            chats: arrayRemove(otherChatToRemove),
+          });
+        }
+      }
+  
+      // Clear the chat from UI
+      useChatStore.setState({ chatId: null, user: null });
   
       console.log("Chat successfully deleted!");
     } catch (err) {
