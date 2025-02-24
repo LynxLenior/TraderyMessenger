@@ -3,13 +3,15 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: "traderymessenger.firebaseapp.com",
-  projectId: "traderymessenger",
-  storageBucket: "traderymessenger.firebasestorage.app",
-  messagingSenderId: "693590502885",
-  appId: "1:693590502885:web:658531b928cc1f40b1930c"
-};
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: "tradery-messenger-5e90e.firebaseapp.com",
+    projectId: "tradery-messenger-5e90e",
+    storageBucket: "tradery-messenger-5e90e.firebasestorage.app",
+    messagingSenderId: "19382326863",
+    appId: "1:19382326863:web:fff4f5b0813885b44d7c3a",
+    measurementId: "G-F32QNSGEKC"
+  };
+  
 
 const app = initializeApp(firebaseConfig);
 
