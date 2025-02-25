@@ -9,7 +9,6 @@ const firebaseConfig = {
     storageBucket: "tradery-messenger-5e90e.firebasestorage.app",
     messagingSenderId: "19382326863",
     appId: "1:19382326863:web:fff4f5b0813885b44d7c3a",
-    measurementId: "G-F32QNSGEKC"
   };
   
 
