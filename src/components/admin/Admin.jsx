@@ -32,15 +32,18 @@ const Admin = () => {
     }, []);
 
     //Suspend
-    const handleSuspendUser = async (userId) => {
-        if (!window.confirm("Are you sure you want to suspend this user?")) return;
+    const handleSuspendUser = async (userId, isSuspended) => {
+        const action = isSuspended ? "unsuspend" : "suspend";
+        if (!window.confirm(`Are you sure you want to ${action} this user?`)) return;
     
         try {
-            await updateDoc(doc(db, "users", userId), { suspended: true });
-            setUsers(prev => prev.map(user => user.id === userId ? { ...user, suspended: true } : user));
-            console.log("User suspended successfully");
+            await updateDoc(doc(db, "users", userId), { suspended: !isSuspended });
+            setUsers(prev => prev.map(user => 
+                user.id === userId ? { ...user, suspended: !isSuspended } : user
+            ));
+            console.log(`User ${action}ed successfully`);
         } catch (error) {
-            console.error("Error suspending user:", error);
+            console.error(`Error ${action}ing user:`, error);
         }
     };
 
@@ -82,12 +85,12 @@ const Admin = () => {
                                         View Reports
                                     </button>
                                     <button 
-                                        className="suspend-button" 
-                                        onClick={() => handleSuspendUser(user.id)} 
-                                        disabled={user.suspended}
+                                        className={`suspend-button ${user.suspended ? "unsuspend" : "suspend"}`} 
+                                        onClick={() => handleSuspendUser(user.id, user.suspended)}
                                     >
-                                        {user.suspended ? "Suspended" : "Suspend"}
+                                        {user.suspended ? "Unsuspend" : "Suspend"}
                                     </button>
+
 
                                 </li>
                             ))}
