@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../lib/firebase";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-import { deleteUser } from "firebase/auth";
+import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import "./admin.css";
 
 const Admin = () => {
@@ -32,36 +31,19 @@ const Admin = () => {
         fetchData();
     }, []);
 
-    //deleting User
-    const handleDeleteUser = async (userId, authUid) => {
-        if (!window.confirm("Are you sure you want to delete this user and their reports?")) return;
-        
+    //Suspend
+    const handleSuspendUser = async (userId) => {
+        if (!window.confirm("Are you sure you want to suspend this user?")) return;
+    
         try {
-            // Delete user from Firestore
-            await deleteDoc(doc(db, "users", userId));
-
-            // Delete associated reports
-            const userReports = reports.filter(report => report.reportedUserId === userId);
-            for (const report of userReports) {
-                await deleteDoc(doc(db, "reports", report.id));
-            }
-
-            // Remove from Firebase Authentication
-            if (authUid) {
-                const userToDelete = auth.currentUser;
-                if (userToDelete && userToDelete.uid === authUid) {
-                    await deleteUser(userToDelete);
-                }
-            }
-
-            // Update state
-            setUsers(prev => prev.filter(user => user.id !== userId));
-            setReports(prev => prev.filter(report => report.reportedUserId !== userId));
-            setFilteredReports(prev => prev.filter(report => report.reportedUserId !== userId));
+            await updateDoc(doc(db, "users", userId), { suspended: true });
+            setUsers(prev => prev.map(user => user.id === userId ? { ...user, suspended: true } : user));
+            console.log("User suspended successfully");
         } catch (error) {
-            console.error("Error deleting user:", error);
+            console.error("Error suspending user:", error);
         }
     };
+
 
     // Delete a report
     const handleDeleteReport = async (reportId) => {
@@ -99,7 +81,14 @@ const Admin = () => {
                                     <button onClick={() => setFilteredReports(reports.filter(r => r.reportedUserId === user.id))}>
                                         View Reports
                                     </button>
-                                    <button className="delete-user" onClick={() => handleDeleteUser(user.id, user.authUid)}>Delete User</button>
+                                    <button 
+                                        className="suspend-button" 
+                                        onClick={() => handleSuspendUser(user.id)} 
+                                        disabled={user.suspended}
+                                    >
+                                        {user.suspended ? "Suspended" : "Suspend"}
+                                    </button>
+
                                 </li>
                             ))}
                         </ul>

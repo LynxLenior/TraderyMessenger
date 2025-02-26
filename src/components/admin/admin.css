@@ -241,17 +241,23 @@ button {
 .show-all-reports:hover {
     background: #0056b3;
 }
-
-.delete-user {
-    background: #dc3545;
+.suspend-button {
+    background-color: red;
     color: white;
-    padding: 5px 10px;
+    padding: 8px 12px;
+    font-size: 14px;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
-    margin-left: 10px;
+    transition: background 0.3s ease;
 }
 
-.delete-user:hover {
-    background: #a71d2a;
+.suspend-button:hover {
+    background-color: darkred;
+}
+
+/* Disabled state */
+.suspend-button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
 }
