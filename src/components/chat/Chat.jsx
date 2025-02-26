@@ -39,7 +39,7 @@ const Chat = () => {
     }
 
     const lastSentTimeRef = useRef(0);
-    const cooldownTime = 3000; // 3 seconds cooldown
+    const cooldownTime = 1500; // 3 seconds cooldown
 
     const handleSend = async () => {
         if (text === "" || cooldownActive) return;
@@ -116,7 +116,7 @@ const Chat = () => {
                 <React.Fragment key={message?.createdAt?.seconds}>
                     {currentMessageDate !== previousMessageDate && (
                         <div className="date-separator">
-                            --------------------------------- {currentMessageDate} -----------------------------
+                            --------------------------------- {currentMessageDate} ------------------------------
                         </div>
                     )}
                     <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`}>
