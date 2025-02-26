@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../lib/firebase";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { deleteUser } from "firebase/auth";
 import "./admin.css";
 
 const Admin = () => {
@@ -30,6 +31,37 @@ const Admin = () => {
         };
         fetchData();
     }, []);
+
+    //deleting User
+    const handleDeleteUser = async (userId, authUid) => {
+        if (!window.confirm("Are you sure you want to delete this user and their reports?")) return;
+        
+        try {
+            // Delete user from Firestore
+            await deleteDoc(doc(db, "users", userId));
+
+            // Delete associated reports
+            const userReports = reports.filter(report => report.reportedUserId === userId);
+            for (const report of userReports) {
+                await deleteDoc(doc(db, "reports", report.id));
+            }
+
+            // Remove from Firebase Authentication
+            if (authUid) {
+                const userToDelete = auth.currentUser;
+                if (userToDelete && userToDelete.uid === authUid) {
+                    await deleteUser(userToDelete);
+                }
+            }
+
+            // Update state
+            setUsers(prev => prev.filter(user => user.id !== userId));
+            setReports(prev => prev.filter(report => report.reportedUserId !== userId));
+            setFilteredReports(prev => prev.filter(report => report.reportedUserId !== userId));
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    };
 
     // Delete a report
     const handleDeleteReport = async (reportId) => {
@@ -67,6 +99,7 @@ const Admin = () => {
                                     <button onClick={() => setFilteredReports(reports.filter(r => r.reportedUserId === user.id))}>
                                         View Reports
                                     </button>
+                                    <button className="delete-user" onClick={() => handleDeleteUser(user.id, user.authUid)}>Delete User</button>
                                 </li>
                             ))}
                         </ul>

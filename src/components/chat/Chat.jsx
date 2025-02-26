@@ -105,7 +105,7 @@ const Chat = () => {
             </div>
         </div>
         <div className="center">
-        <div className="MessageStarter">-------------------------------- Start of your chat -----------------------------</div>
+        <div className="MessageStarter">-------------------------------- Start of your chat ----------------------------</div>
         {chat?.messages?.map((message, index) => {
             const currentMessageDate = new Date(message.createdAt?.seconds * 1000).toLocaleDateString();
             const previousMessageDate = index > 0 
