@@ -241,27 +241,3 @@ button {
 .show-all-reports:hover {
     background: #0056b3;
 }
-
-.suspend-button {
-    background-color: red;
-    color: white;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.suspend-button.suspend:hover {
-    background-color: darkred;
-}
-
-.suspend-button.unsuspend {
-    background-color: gray;
-}
-
-.suspend-button.unsuspend:hover {
-    background-color: black;
-}
-

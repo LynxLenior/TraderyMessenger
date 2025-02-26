@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../lib/firebase";
-import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./admin.css";
 
 const Admin = () => {
@@ -30,23 +30,6 @@ const Admin = () => {
         };
         fetchData();
     }, []);
-
-    //Suspend
-    const handleSuspendUser = async (userId, isSuspended) => {
-        const action = isSuspended ? "unsuspend" : "suspend";
-        if (!window.confirm(`Are you sure you want to ${action} this user?`)) return;
-    
-        try {
-            await updateDoc(doc(db, "users", userId), { suspended: !isSuspended });
-            setUsers(prev => prev.map(user => 
-                user.id === userId ? { ...user, suspended: !isSuspended } : user
-            ));
-            console.log(`User ${action}ed successfully`);
-        } catch (error) {
-            console.error(`Error ${action}ing user:`, error);
-        }
-    };
-
 
     // Delete a report
     const handleDeleteReport = async (reportId) => {
@@ -84,14 +67,6 @@ const Admin = () => {
                                     <button onClick={() => setFilteredReports(reports.filter(r => r.reportedUserId === user.id))}>
                                         View Reports
                                     </button>
-                                    <button 
-                                        className={`suspend-button ${user.suspended ? "unsuspend" : "suspend"}`} 
-                                        onClick={() => handleSuspendUser(user.id, user.suspended)}
-                                    >
-                                        {user.suspended ? "Unsuspend" : "Suspend"}
-                                    </button>
-
-
                                 </li>
                             ))}
                         </ul>
