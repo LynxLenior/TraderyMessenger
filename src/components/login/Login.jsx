@@ -5,37 +5,59 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import "./login.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
 const Login = () => {
-    const navigate = useNavigate(); 
+    const [loading,setLoading] = useState(false)
 
-    const handleRegister = async (e) => {
-        e.prevenetDefault();
-        const formData = new FormData(e.target);
+    const handleRegister = async e =>{
+        e.preventDefault()
+        setLoading(true)
+        const formData = new FormData(e.target)
 
-        const { username, email, password } = Obkect.formEntries(formData);
+        const { username, email, password } = Object.fromEntries(formData)
 
-        try {
-            
-            const res = await createUserWithEmailAndPassword(auth,email,password);
+        try{
 
-            await setDoc(doc(db, "users", res.user.uid), {
-                id: user.uid, //Uididk
-                email: user.email, //Email
-                username: user.displayName || "New User", //Username
-                createdAt: new Date(),
-                blocked: []
-            });
+        const res = await createUserWithEmailAndPassword(auth, email, password)
 
-            await setDoc(doc(db, "userchats", res.user.uid), {
-             chats: []
-            });
+        await setDoc(doc(db, "users", res.user.uid), {
+            username,
+            email,
+            id: res.user.uid,
+            blocked: [],
+        });
 
-            toast.success("Account Created Lmao");
-        } catch (err) {
+        await setDoc(doc(db, "userchats", res.user.uid), {
+            chats: [],
+          });
+
+          toast.success("Account Created! You can login now!")
+        }   catch(err){
             console.log(err)
             toast.error(err.message)
+        } finally{
+            setLoading(false)
+        }
+    }
+
+    const handleLogin = async e =>{
+        e.preventDefault()
+        setLoading(true)
+
+        const formData = new FormData(e.target)
+        const { email, password } = Object.fromEntries(formData)
+
+        try{
+
+        await signInWithEmailAndPassword(auth, email, password)
+        toast.success("Account Login!")
+        }catch(err){
+            console.log(err)
+            toast.error(err.message)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
