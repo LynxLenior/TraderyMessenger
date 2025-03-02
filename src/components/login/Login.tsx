@@ -35,48 +35,6 @@ const Login = () => {
     const [user, setUser] = useState<TraderyProfiles | null>(null);
     const [userExists, setUserExists] = useState<boolean>()
     const { id } = useParams();
-    useEffect(() => {
-        (async function fetchData() {
-            try {
-                const {userdb} = await findUserDataById(id)
-                setUser(userdb)
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-            try {
-                setLoading(true)            
-                try{
-                    if(!user) return;
-                    const res = await createUserWithEmailAndPassword(auth, user.userEmail, user.userId)            
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        username: user.defaultName,
-                        email: user.userEmail,
-                        id: res.user.uid,
-                        blocked: [],
-                    });            
-                    await setDoc(doc(db, "userchats", res.user.uid), {chats: [],});            
-                        toast.success("Account Created! You can login now!")
-                    } catch(err) {
-                        console.log(err)
-                        toast.error(err.message)
-                    } finally {
-                        setLoading(false)
-                    }
-            } catch {
-                setLoading(true)
-                try{
-                    if(!user) return;
-                    await signInWithEmailAndPassword(auth, user.userEmail, user.userId)
-                    toast.success("Account Login!")
-                } catch(err) {
-                    console.log(err)
-                    toast.error(err.message)
-                } finally {
-                    setLoading(false)
-                }
-                }
-        })();
-    }, []);
 
     const handleSearch = async () => {
         try {
@@ -96,6 +54,55 @@ const Login = () => {
         console.log(err)
         }
     }
+
+    useEffect(() => {
+        (async function fetchData() {
+            try {
+                const {userdb} = await findUserDataById(id)
+                setUser(userdb)
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+            
+            try {
+                await handleSearch();
+                if (!userExists) {
+                    try{
+                        setLoading(true)
+                        if(!user) return;
+                        const res = await createUserWithEmailAndPassword(auth, user.userEmail, user.userId)
+                        await setDoc(doc(db, "users", res.user.uid), {
+                            username: user.defaultName,
+                            email: user.userEmail,
+                            id: res.user.uid,
+                            blocked: [],
+                        });            
+                        await setDoc(doc(db, "userchats", res.user.uid), {chats: [],});            
+                        toast.success("Account Created! You can login now!")
+                    } catch(err) {
+                        console.log(err)
+                        toast.error(err.message)
+                    } finally {
+                        setLoading(false)
+                    }
+                } else {
+                    setLoading(true)
+                    try{
+                        if(!user) return;
+                        await signInWithEmailAndPassword(auth, user.userEmail, user.userId)
+                        toast.success("Account Login!")
+                    } catch(err) {
+                        console.log(err)
+                        toast.error(err.message)
+                    } finally {
+                        setLoading(false)
+                    }
+                }
+            } catch {
+                console.log("failed to login");
+            }
+        })();
+    }, []);
 
     // const handleGoogle = async () => {
     //     try {
