@@ -9,9 +9,9 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 
-const App = () => {
+function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -30,11 +30,11 @@ const App = () => {
   return (
     <Routes>
       {/* Admin route */}
-      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="TraderyMessenger" />} />
+      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
   
       {/* Messenger as the main page */}
       <Route
-        path="TraderyMessenger"
+        path=":id"
         element={
           <div className="container">
             {currentUser ? (
@@ -50,9 +50,6 @@ const App = () => {
           </div>
         }
       />
-  
-      {/* Redirect "/" to "/TraderyMessenger" */}
-      <Route path="" element={<Navigate to="TraderyMessenger" />} />
     </Routes>
   );  
 };
