@@ -29,39 +29,39 @@ function App() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
-    <Routes>
-      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-
-      <Route
-        path=":id"
-        element={
-          <Container fluid className="container">
-            {currentUser ? (
-              <Row className="g-0">
-                <Col xs={12} md={4} lg={3} className="p-2">
-                  <List />
-                </Col>
-
-                {chatId && (
-                  <>
-                    <Col xs={12} md={8} lg={6} className="p-2">
-                      <Chat />
-                    </Col>
-                    <Col xs={12} md={4} lg={3} className="p-2">
-                      <Detail />
-                    </Col>
-                  </>
-                )}
-              </Row>
-            ) : (
-              <Login />
-            )}
-            <Notification />
-          </Container>
-        }
-      />
-    </Routes>
+    <>
+      <Notification />
+      <Routes>
+        <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
+  
+        <Route
+          path=":id"
+          element={
+            <Container fluid className="container">
+              {currentUser ? (
+                <Row className="g-0">
+                  <Col xs={12} sm={4} md={3} className="p-2">
+                    <List />
+                  </Col>
+  
+                  <Col xs={12} sm={8} md={6} className={`p-2 ${chatId ? "" : "d-none d-sm-block"}`}>
+                    {chatId ? <Chat /> : <div className="empty-chat">Select a chat to start messaging</div>}
+                  </Col>
+  
+                  <Col xs={12} sm={12} md={3} className="p-2 d-none d-md-block">
+                    <Detail />
+                  </Col>
+                </Row>
+              ) : (
+                <Login />
+              )}
+            </Container>
+          }
+        />
+      </Routes>
+    </>
   );
+  
 }
 
 export default App;

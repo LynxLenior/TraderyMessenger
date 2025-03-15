@@ -37,21 +37,23 @@ const Login = () => {
     const { id } = useParams();
 
     const handleSearch = async () => {
-        try {
-        const userRef = collection(db, "users")
-        const q = query(userRef, where("username", "==", user?.defaultName))
-        const querySnapShot = await getDocs(q)
-    
-        if (!querySnapShot.empty) {
-            const foundUser = querySnapShot.docs[0].data()
-            if (foundUser.id === currentUser.id) {
-                return setUserExists(true);
+        if (user) {
+            try {
+                const userRef = collection(db, "users")
+                const q = query(userRef, where("username", "==", user?.defaultName))
+                const querySnapShot = await getDocs(q)
+            
+                if (!querySnapShot.empty) {
+                    const foundUser = querySnapShot.docs[0].data()
+                    if (foundUser.id === currentUser.id) {
+                        return setUserExists(true);
+                    }
+            } else {
+                    return setUserExists(false);
+                }
+            } catch (err) {
+                console.log(err)
             }
-        } else {
-            return setUserExists(false);
-        }
-        } catch (err) {
-        console.log(err)
         }
     }
 
