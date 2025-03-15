@@ -30,22 +30,18 @@ function App() {
 
   return (
     <Routes>
-      {/* Admin route */}
       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
 
-      {/* Messenger as the main page */}
       <Route
         path=":id"
         element={
           <Container fluid className="container">
             {currentUser ? (
               <Row className="g-0">
-                {/* Sidebar (List) */}
                 <Col xs={12} md={4} lg={3} className="p-2">
                   <List />
                 </Col>
 
-                {/* Chat and Detail View (Shown only if chatId exists) */}
                 {chatId && (
                   <>
                     <Col xs={12} md={8} lg={6} className="p-2">

@@ -1,4 +1,3 @@
-/* Reset & Global Styles */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +6,6 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-/* Background Styling */
 body {
   background-image: url("/BackgroundWhole.jpg");
   background-size: cover;
@@ -22,7 +20,6 @@ body {
   color: white;
 }
 
-/* Main Container */
 .container {
   width: 80vw;
   height: 90vh;
@@ -33,7 +30,6 @@ body {
   display: flex;
 }
 
-/* Loading Screen */
 .loading {
   padding: 50px;
   font-size: 36px;

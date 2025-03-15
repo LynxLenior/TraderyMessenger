@@ -3,9 +3,9 @@ import { Account, Client, OAuthProvider, Storage, Databases, Teams } from 'appwr
 
 export const client = new Client()
 client
-  .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
+  .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)    
   .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID)
-export { OAuthProvider }
+export { OAuthProvider } 
 
 export const storage = new Storage(client);
 export const database = new Databases(client);
