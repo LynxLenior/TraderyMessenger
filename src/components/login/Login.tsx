@@ -40,7 +40,7 @@ const Login = () => {
         if (user) {
             try {
                 const userRef = collection(db, "users")
-                const q = query(userRef, where("username", "==", user?.defaultName))
+                const q = query(userRef, where("username", "==", user.defaultName))
                 const querySnapShot = await getDocs(q)
             
                 if (!querySnapShot.empty) {
@@ -62,6 +62,7 @@ const Login = () => {
             try {
                 const {userdb} = await findUserDataById(id)
                 setUser(userdb)
+                console.log(user);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
