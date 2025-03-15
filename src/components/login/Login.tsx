@@ -16,8 +16,9 @@ import {
     serverTimestamp, 
     updateDoc, 
     where 
-  } from "firebase/firestore"
+} from "firebase/firestore";
 import { useUserStore } from "../../lib/userStore";
+
 export interface TraderyProfiles {
     userId: string;
     displayName?: string | null;
@@ -30,122 +31,75 @@ export interface TraderyProfiles {
 }
 
 const Login = () => {
-    const { currentUser } = useUserStore()
-    const [loading,setLoading] = useState(false)
+    const { currentUser } = useUserStore();
+    const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<TraderyProfiles | null>(null);
-    const [userExists, setUserExists] = useState<boolean>()
     const { id } = useParams();
 
-    const handleSearch = async () => {
-        if (user) {
-            try {
-                const userRef = collection(db, "users")
-                const q = query(userRef, where("username", "==", user.defaultName))
-                const querySnapShot = await getDocs(q)
-            
-                if (!querySnapShot.empty) {
-                    const foundUser = querySnapShot.docs[0].data()
-                    if (foundUser.id === currentUser.id) {
-                        return setUserExists(true);
-                    }
-            } else {
-                    return setUserExists(false);
-                }
-            } catch (err) {
-                console.log(err)
-            }
+    // Search for the user in Firebase
+    const handleSearch = async (user: TraderyProfiles) => {
+        const userRef = collection(db, "users");
+        const q = query(userRef, where("username", "==", user.defaultName));
+        const querySnapShot = await getDocs(q);
+        
+        if (!querySnapShot.empty) {
+            const foundUser = querySnapShot.docs[0].data();
+            return foundUser.id === currentUser.id;
         }
-    }
+        return false; // If no user exists
+    };
 
     useEffect(() => {
-        (async function fetchData() {
+        const fetchData = async () => {
             try {
-                const {userdb} = await findUserDataById(id)
-                setUser(userdb)
-                console.log(user);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-            
-            try {
-                await handleSearch();
-                if (!userExists) {
-                    try{
-                        setLoading(true)
-                        if(!user) return;
-                        const res = await createUserWithEmailAndPassword(auth, user.userEmail, user.userId)
-                        await setDoc(doc(db, "users", res.user.uid), {
-                            username: user.defaultName,
-                            email: user.userEmail,
-                            id: res.user.uid,
-                            blocked: [],
-                        });            
-                        await setDoc(doc(db, "userchats", res.user.uid), {chats: [],});            
-                        toast.success("Account Created! You can login now!")
-                    } catch(err) {
-                        console.log(err)
-                        toast.error(err.message)
-                    } finally {
-                        setLoading(false)
-                    }
-                } else {
-                    setLoading(true)
-                    try{
-                        if(!user) return;
-                        await signInWithEmailAndPassword(auth, user.userEmail, user.userId)
-                        toast.success("Account Login!")
-                    } catch(err) {
-                        console.log(err)
-                        toast.error(err.message)
-                    } finally {
-                        setLoading(false)
+                const { userdb } = await findUserDataById(id);
+                setUser(userdb);
+                if (userdb) {
+                    const userExists = await handleSearch(userdb);
+
+                    setLoading(true);
+                    if (!userExists) {
+                        try {
+                            // Create account
+                            const res = await createUserWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+                            await setDoc(doc(db, "users", res.user.uid), {
+                                username: userdb.defaultName,
+                                email: userdb.userEmail,
+                                id: res.user.uid,
+                                blocked: [],
+                            });
+                            await setDoc(doc(db, "userchats", res.user.uid), { chats: [] });
+                            toast.success("Account Created! You can login now!");
+                        } catch (err) {
+                            console.log(err);
+                            toast.error(err.message);
+                        }
+                    } else {
+                        // Sign in user
+                        try {
+                            await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+                            toast.success("Account Login!");
+                        } catch (err) {
+                            console.log(err);
+                            toast.error(err.message);
+                        }
                     }
                 }
-            } catch {
-                console.log("failed to login");
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                toast.error("Failed to fetch user data.");
+            } finally {
+                setLoading(false);
             }
-        })();
-    }, []);
+        };
 
-    // const handleGoogle = async () => {
-    //     try {
-    //         const provider = new GoogleAuthProvider();
-    //         const result = await signInWithPopup(auth, provider);
-    //         const user = result.user;
-
-    //         const userRef = doc(db, "users", user.uid);
-    //         const userSnap = await getDoc(userRef);
-
-    //         if (!userSnap.exists()) {
-    //             await setDoc(userRef, {
-    //                 id: user.uid,
-    //                 email: user.email,
-    //                 username: user.displayName || "New User",
-    //                 createdAt: new Date(),
-    //                 blocked: []
-    //             });
-    //             await setDoc(doc(db, "userchats", user.uid), {
-    //                 chats: [],
-    //             });
-    //         }
-
-    //         // ✅ Redirect to admin if email matches
-    //         if (user.email === "bagus.anselliam@ue.edu.ph") {
-    //             navigate("/admin");
-    //         }
-
-    //         setTimeout(() => {
-    //             window.location.reload();
-    //         }, 500);
-
-    //     } catch (error) {
-    //         console.log("Error:", error);
-    //     }
-    // };
+        fetchData();
+    }, [id, currentUser]);
 
     return (
         <div className="login">
-            
+            {/* Loading and UI components */}
+            {loading ? <div>Loading...</div> : <div>Welcome to Tradery Messenger!</div>}
         </div>
     );
 };
