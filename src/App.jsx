@@ -9,7 +9,8 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
@@ -31,27 +32,40 @@ function App() {
     <Routes>
       {/* Admin route */}
       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-  
+
       {/* Messenger as the main page */}
       <Route
         path=":id"
         element={
-          <div className="container">
+          <Container fluid className="container">
             {currentUser ? (
-              <>
-                <List />
-                {chatId && <Chat />}
-                {chatId && <Detail />}
-              </>
+              <Row className="g-0">
+                {/* Sidebar (List) */}
+                <Col xs={12} md={4} lg={3} className="p-2">
+                  <List />
+                </Col>
+
+                {/* Chat and Detail View (Shown only if chatId exists) */}
+                {chatId && (
+                  <>
+                    <Col xs={12} md={8} lg={6} className="p-2">
+                      <Chat />
+                    </Col>
+                    <Col xs={12} md={4} lg={3} className="p-2">
+                      <Detail />
+                    </Col>
+                  </>
+                )}
+              </Row>
             ) : (
               <Login />
             )}
             <Notification />
-          </div>
+          </Container>
         }
       />
     </Routes>
-  );  
-};
+  );
+}
 
 export default App;
