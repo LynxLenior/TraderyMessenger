@@ -40,6 +40,14 @@ export async function findUserDataById(userId) {
         import.meta.env.VITE_APPWRITE_DATABASE_ID, 
         import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, userId);
     return {
-        userdb: mapDocumentToItem(document)
+        userdb: mapUserToItem(document)
     }
+}
+
+function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
+  return {
+      name: user.name,
+      $id: user.$id,
+      email: user.email
+  };
 }
