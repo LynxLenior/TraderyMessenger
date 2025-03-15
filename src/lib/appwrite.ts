@@ -47,8 +47,8 @@ export async function findUserDataById(userId) {
 
 function mapUserToItem(document: Models.Document) {
   const userdb: TraderyProfiles = {
-    defaultName: document.name,
-    userId: document.$id,
+    defaultName: document.defaultName,
+    userId: document.userId,
     userEmail: document.userEmail,
     profileImageId: '',
     profileImageWidth: 0,

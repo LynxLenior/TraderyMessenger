@@ -33,6 +33,7 @@ const Login = () => {
             try {
                 setLoading(true);
                 const { userdb } = await findUserDataById(id);
+                console.log(userdb);
 
                 if (!userdb || !userdb.userEmail || !userdb.userId) {
                     toast.error("Invalid user data from Appwrite.");
