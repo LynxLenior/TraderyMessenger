@@ -8,17 +8,7 @@ import { toast } from "react-toastify";
 import React from "react";
 import { findUserDataById } from "../../lib/appwrite";
 import { useUserStore } from "../../lib/userStore";
-
-export interface TraderyProfiles {
-    userId: string;
-    displayName?: string | null;
-    defaultName: string;
-    profileImageId: string;
-    profileSummary?: string | null;
-    profileImageWidth: number;
-    profileImageHeight: number;
-    userEmail: string;
-}
+import { TraderyProfiles } from "../../lib/appwrite";
 
 const Login = () => {
     const { currentUser } = useUserStore();

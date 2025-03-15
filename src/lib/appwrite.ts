@@ -10,10 +10,15 @@ export const storage = new Storage(client);
 export const database = new Databases(client);
 export const account = new Account(client);
 
-export interface TraderyUser {
-  name: string;
-  $id: string;
-  email: string;
+export interface TraderyProfiles {
+  userId: string;
+  displayName?: string | null;
+  defaultName: string;
+  profileImageId: string;
+  profileSummary?: string | null;
+  profileImageWidth: number;
+  profileImageHeight: number;
+  userEmail: string;
 }
 
 export async function getCurrentSession() {
@@ -40,10 +45,14 @@ export async function findUserDataById(userId) {
     }
 }
 
-function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
-  return {
-      name: user.name,
-      $id: user.$id,
-      email: user.email
-  };
+function mapUserToItem(document: Models.Document) {
+  const userdb: TraderyProfiles = {
+    defaultName: document.name,
+    userId: document.$id,
+    userEmail: document.userEmail,
+    profileImageId: '',
+    profileImageWidth: 0,
+    profileImageHeight: 0
+  }
+  return userdb;
 }
