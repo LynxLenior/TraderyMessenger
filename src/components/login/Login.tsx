@@ -35,7 +35,7 @@ const Login = () => {
                 console.log("Fetched user:", userdb);
 
                 // 🔹 Check if user exists in Firestore
-                const userDoc = await getDoc(doc(db, "email", userdb.userEmail));
+                const userDoc = await getDoc(doc(db, "users", userdb.userEmail));
                 const userExists = userDoc.exists();
 
                 if (userExists) {
@@ -61,8 +61,8 @@ const Login = () => {
 
                     // 🔹 Store user data in Firestore using correct UID
                     await setDoc(doc(db, "users", auth.currentUser.uid), {
-                        username: userdb.defaultName ?? "UnknownUser",
-                        email: userdb.userEmail ?? "no-email@appwrite.com",
+                        username: userdb.defaultName,
+                        email: userdb.userEmail,
                         id: auth.currentUser.uid,
                         blocked: [],
                     });
