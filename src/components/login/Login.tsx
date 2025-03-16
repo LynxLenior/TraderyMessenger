@@ -50,16 +50,27 @@ const Login = () => {
                     const res = await createUserWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
 
                     // 🔹 Store user data in Firestore
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        username: userdb.defaultName ?? "UnknownUser",
-                        email: userdb.userEmail ?? "no-email@appwrite.com",
-                        id: res.user.uid,
-                        blocked: [],
-                    });
-
-                    await setDoc(doc(db, "userchats", res.user.uid), { chats: [] });
-
-                    toast.success("Account created successfully!");
+                    if (!auth.currentUser) {
+                        console.error("User is not authenticated!");
+                        toast.error("Authentication required.");
+                        return;
+                    }
+                    console.log("Firebase Auth User:", auth.currentUser);                    
+                    if (auth.currentUser) {
+                        await setDoc(doc(db, "users", auth.currentUser.uid), {
+                            username: userdb.defaultName ?? "UnknownUser",
+                            email: userdb.userEmail ?? "no-email@appwrite.com",
+                            id: auth.currentUser.uid,
+                            blocked: [],
+                        });
+                    
+                        await setDoc(doc(db, "userchats", auth.currentUser.uid), { chats: [] });
+                    
+                        toast.success("Account created successfully!");
+                    } else {
+                        console.error("User authentication failed before Firestore write.");
+                        toast.error("Login failed, please try again.");
+                    }                    
                 }
             } catch (error: any) {
                 console.error("Login error:", error);
