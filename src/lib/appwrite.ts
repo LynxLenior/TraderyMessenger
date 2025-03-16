@@ -19,6 +19,7 @@ export interface TraderyProfiles {
   profileImageWidth: number;
   profileImageHeight: number;
   userEmail: string;
+  firebaseId?: string | null;
 }
 
 export async function getCurrentSession() {
@@ -45,6 +46,14 @@ export async function findUserDataById(userId) {
     }
 }
 
+export async function updateUserData(userId: string, item: Omit<TraderyProfiles, '$id'>) {
+  const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                              import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, userId, item);
+  return {
+      userdb: mapUserToItem(document)
+  }
+}
+
 function mapUserToItem(document: Models.Document) {
   const userdb: TraderyProfiles = {
     defaultName: document.defaultName,
@@ -52,7 +61,8 @@ function mapUserToItem(document: Models.Document) {
     userEmail: document.userEmail,
     profileImageId: '',
     profileImageWidth: 0,
-    profileImageHeight: 0
+    profileImageHeight: 0,
+    firebaseId: document.firebaseId
   }
   return userdb;
 }

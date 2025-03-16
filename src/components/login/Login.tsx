@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { findUserDataById } from "../../lib/appwrite";
+import { findUserDataById, updateUserData } from "../../lib/appwrite";
 import { TraderyProfiles } from "../../lib/appwrite";
 import { toast } from "react-toastify";
 import React from "react";
@@ -11,7 +11,7 @@ import React from "react";
 const Login = () => {
     const { id } = useParams(); // Get Appwrite user ID from the URL
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState<TraderyProfiles | null>(null);
+    const [firebaseId, setFirebaseId] = useState<boolean>();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,15 +30,14 @@ const Login = () => {
                     toast.error("Invalid user data from Appwrite.");
                     return;
                 }
-
-                setUser(userdb);
                 console.log("Fetched user:", userdb);
 
-                // 🔹 Check if user exists in Firestore
-                const userDoc = await getDoc(doc(db, "users", userdb.userEmail));
-                const userExists = userDoc.exists();
+                // 🔹 Check if firebaseId is stored in appwrite
+                if (userdb) {
+                    setFirebaseId(userdb.firebaseId != null); // Sets true if not null/undefined, otherwise false
+                }
 
-                if (userExists) {
+                if (firebaseId) {
                     // 🔹 If user exists, log in with Firebase
                     console.log("User exists, logging in...");
                     await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
@@ -70,6 +69,11 @@ const Login = () => {
                     await setDoc(doc(db, "userchats", auth.currentUser.uid), { chats: [] });
 
                     toast.success("Account created successfully!");
+                    await updateUserData(userdb.userId, {
+                        ...userdb,
+                        firebaseId: auth.currentUser.uid
+                    });
+                    console.log(userdb)
                 }
             } catch (error: any) {
                 console.error("Login error:", error);
