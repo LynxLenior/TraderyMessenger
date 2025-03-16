@@ -45,11 +45,12 @@ const Login = () => {
 
                 if (!userExists) {
                     // Create new Firebase account
+                    if (!user) return;
                     try {
-                        const res = await createUserWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+                        const res = await createUserWithEmailAndPassword(auth, user.userEmail, user.userId);
                         await setDoc(doc(db, "users", res.user.uid), {
-                            username: userdb.defaultName,
-                            email: userdb.userEmail,
+                            username: user.defaultName,
+                            email: user.userEmail,
                             id: res.user.uid,
                             blocked: [],
                         });
@@ -62,7 +63,8 @@ const Login = () => {
                 } else {
                     // Log in existing user
                     try {
-                        await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+                        if (!user) return;
+                        await signInWithEmailAndPassword(auth, user.userEmail, user.userId);
                         toast.success("Account Logged In!");
                     } catch (err: any) {
                         console.error("Login Error:", err);
