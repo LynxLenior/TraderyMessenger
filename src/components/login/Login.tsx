@@ -35,7 +35,7 @@ const Login = () => {
                 console.log("Fetched user:", userdb);
 
                 // 🔹 Check if user exists in Firestore
-                const userDoc = await getDoc(doc(db, "users", userdb.userId));
+                const userDoc = await getDoc(doc(db, "email", userdb.userEmail));
                 const userExists = userDoc.exists();
 
                 if (userExists) {
