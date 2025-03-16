@@ -11,7 +11,6 @@ import React from "react";
 const Login = () => {
     const { id } = useParams(); // Get Appwrite user ID from the URL
     const [loading, setLoading] = useState(false);
-    const [firebaseId, setFirebaseId] = useState<boolean>();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -32,12 +31,7 @@ const Login = () => {
                 }
                 console.log("Fetched user:", userdb);
 
-                // 🔹 Check if firebaseId is stored in appwrite
-                if (userdb) {
-                    setFirebaseId(userdb.firebaseId != null); // Sets true if not null/undefined, otherwise false
-                }
-
-                if (firebaseId) {
+                if (userdb.firebaseId) {
                     // 🔹 If user exists, log in with Firebase
                     console.log("User exists, logging in...");
                     await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
