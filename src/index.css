@@ -21,8 +21,8 @@ body{
 }
 
 .container{
-  width: 90vw;
-  height: 95vh;
+  width: 80vw;
+  height: 90vh;
   background-color: rgba(10, 0, 0, 0.84);
   backdrop-filter: blur(19px) saturate(180%);
   border-radius: 12px;
@@ -39,7 +39,7 @@ body{
 
 @media screen and (max-width: 1024px) {
   .container {
-    width: 90vw;
+    width: 900vw;
     height: 85vh;
   }
 }
