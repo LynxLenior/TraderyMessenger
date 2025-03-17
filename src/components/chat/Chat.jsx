@@ -39,7 +39,7 @@ const Chat = () => {
     }
 
     const lastSentTimeRef = useRef(0);
-    const cooldownTime = 1500; // 3 seconds cooldown
+    const cooldownTime = 1000; // 3 seconds cooldown
 
     const handleSend = async () => {
         if (text === "" || cooldownActive) return;

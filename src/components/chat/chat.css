@@ -63,27 +63,18 @@
         overflow-anchor: auto;
          
 
-        .MessageStarter {
-            left: 50%;
-            top: 55%;
-            position: relative;
-            transform: translate(-50%, -50%);
-            font-size: 12px;
-            max-width: 100%;
+        .MessageStarter,
+        .date-separator {
             display: flex;
+            justify-content: center;
             align-items: center;
-          }
-        .date-separator{
-            left: 50%;
-            top: 55%;
-            position: relative;
-            transform: translate(-50%, -50%);
+            width: 100%;
             font-size: 12px;
-            max-width: 100%;
-            display: flex;
-            align-items: center;
+            color: gray;
+            padding: 10px 0;
+            margin-bottom: 5px;
         }
-
+        
         .message .texts p {
 
             word-wrap: break-word; 
