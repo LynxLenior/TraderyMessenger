@@ -45,7 +45,45 @@
                 width: 20px;
                 height: 20px;
             }
-        }  
+        } 
+        .detailsButton {
+            background-color: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #5183fe;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
+        
+        /* Mobile-friendly adjustments */
+        @media (max-width: 768px) {
+            .top {
+                padding: 15px;
+            }
+        
+            .detailsButton {
+                font-size: 14px;
+                padding: 8px;
+            }
+        
+            .center {
+                padding: 10px;
+            }
+        
+            .bottom {
+                padding: 10px;
+                gap: 10px;
+            }
+        
+            .bottom input {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
     }
 
     .center{
