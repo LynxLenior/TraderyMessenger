@@ -103,7 +103,7 @@
             }
             .message:not(.own) {
                 align-self: flex-start;
-                margin-right: auto; /* Pushes received messages fully to the left */
+                margin-right: auto; 
             }
 
             img{
