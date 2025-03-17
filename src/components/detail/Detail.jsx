@@ -87,10 +87,11 @@ const Detail = () => {
             }
         }
 
+        // Fully delete the chat document instead of just clearing messages
         const chatSnap = await getDoc(chatRef);
         if (chatSnap.exists()) {
             console.log("Deleting chat document...");
-            await updateDoc(chatRef, { messages: [] });
+            await deleteDoc(chatRef);
         }
 
         useChatStore.setState({ chatId: null, user: null });
