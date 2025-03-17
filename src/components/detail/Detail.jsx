@@ -55,26 +55,31 @@ const Detail = () => {
 
     const currentUserChatRef = doc(db, "userchats", currentUser.id);
     const otherUserChatRef = doc(db, "userchats", user.id);
-    const chatRef = doc(db, "chats", chatId); // Chat document reference
+    const chatRef = doc(db, "chats", chatId);
 
     try {
-        // 1️⃣ Remove the chat from the current user's "userchats"
         const currentUserChatSnap = await getDoc(currentUserChatRef);
-        if (currentUserChatSnap.exists()) {
-            const currentUserChats = currentUserChatSnap.data().chats || [];
-            const chatToRemove = currentUserChats.find(chat => chat.chatId === chatId);
-            if (chatToRemove) {
-                await updateDoc(currentUserChatRef, {
-                    chats: arrayRemove(chatToRemove),
-                });
-            }
+        if (!currentUserChatSnap.exists()) {
+            console.log("Current user chat not found.");
+            return;
         }
 
-        // 2️⃣ Remove the chat from the other user's "userchats"
+        const currentUserChats = currentUserChatSnap.data().chats || [];
+        const chatToRemove = currentUserChats.find(chat => chat.chatId === chatId);
+        if (!chatToRemove) {
+            console.log("Chat not found in current user's list.");
+            return;
+        }
+
+        await updateDoc(currentUserChatRef, {
+            chats: arrayRemove(chatToRemove),
+        });
+
         const otherUserChatSnap = await getDoc(otherUserChatRef);
         if (otherUserChatSnap.exists()) {
             const otherUserChats = otherUserChatSnap.data().chats || [];
             const otherChatToRemove = otherUserChats.find(chat => chat.chatId === chatId);
+
             if (otherChatToRemove) {
                 await updateDoc(otherUserChatRef, {
                     chats: arrayRemove(otherChatToRemove),
@@ -82,21 +87,17 @@ const Detail = () => {
             }
         }
 
-        // 3️⃣ Delete the actual chat document from the "chats" collection
         const chatSnap = await getDoc(chatRef);
         if (chatSnap.exists()) {
-            console.log("Deleting chat document completely...");
-            await deleteDoc(chatRef); // This will **fully remove** the chat document
-        } else {
-            console.log("Chat document already deleted.");
+            console.log("Deleting chat document...");
+            await updateDoc(chatRef, { messages: [] });
         }
 
-        // 4️⃣ Reset the chat store state
         useChatStore.setState({ chatId: null, user: null });
 
-        console.log("Chat fully deleted from Firestore!");
+        console.log("Chat successfully deleted for both users!");
     } catch (err) {
-        console.error("Error deleting chat:", err);
+        console.log("Error deleting chat:", err);
     }
 };
 
