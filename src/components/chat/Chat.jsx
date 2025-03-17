@@ -6,15 +6,12 @@ import { db } from "../../lib/firebase"
 import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
 import React from "react";
-import { MessageCircle } from "lucide-react";
 
 const Chat = () => {
     const [chat, setChat] = useState()
     const [open, setOpen] = useState(false)
     const [text, setText] = useState("")
     const [cooldownActive, setCooldownActive] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const [showDetails, setShowDetails] = useState(false);
     
     const { currentUser } = useUserStore()
     const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
@@ -35,13 +32,6 @@ const Chat = () => {
     
         return () => unSub();
     }, [chatId]);
-
-    useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 768);
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
     
     const handleEmoji = e =>{
         setText((prev) => prev + e.emoji)
@@ -49,7 +39,7 @@ const Chat = () => {
     }
 
     const lastSentTimeRef = useRef(0);
-    const cooldownTime = 1000; // 3 seconds cooldown
+    const cooldownTime = 1500; // 3 seconds cooldown
 
     const handleSend = async () => {
         if (text === "" || cooldownActive) return;
@@ -164,18 +154,6 @@ const Chat = () => {
                 Send
             </button>
         </div>
-        {isMobile && (
-            <button className="fixed top-4 right-4 bg-blue-500 p-3 rounded-full text-white shadow-lg hover:bg-blue-600 transition" onClick={() => setShowDetails(!showDetails)}>
-                <MessageCircle size={24} />
-            </button>
-        )}
-        {showDetails && isMobile && (
-            <div className="fixed bottom-0 left-0 w-full h-2/3 bg-white shadow-md p-4 transition-all">
-                <button className="absolute top-2 right-4 text-gray-600" onClick={() => setShowDetails(false)}>✖</button>
-                <h2 className="text-lg font-bold">Details Tab</h2>
-                <p>Here are your details...</p>
-            </div>
-        )}
     </div>
   )
 }
