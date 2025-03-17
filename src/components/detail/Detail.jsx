@@ -55,10 +55,10 @@ const Detail = () => {
 
     const currentUserChatRef = doc(db, "userchats", currentUser.id);
     const otherUserChatRef = doc(db, "userchats", user.id);
-    const chatRef = doc(db, "chats", chatId);
+    const chatRef = doc(db, "chats", chatId); // Chat document reference
 
     try {
-        // Remove the chat from the current user's chat list
+        // 1️⃣ Remove the chat from the current user's "userchats"
         const currentUserChatSnap = await getDoc(currentUserChatRef);
         if (currentUserChatSnap.exists()) {
             const currentUserChats = currentUserChatSnap.data().chats || [];
@@ -70,7 +70,7 @@ const Detail = () => {
             }
         }
 
-        // Remove the chat from the other user's chat list
+        // 2️⃣ Remove the chat from the other user's "userchats"
         const otherUserChatSnap = await getDoc(otherUserChatRef);
         if (otherUserChatSnap.exists()) {
             const otherUserChats = otherUserChatSnap.data().chats || [];
@@ -82,21 +82,21 @@ const Detail = () => {
             }
         }
 
-        // Delete the chat document from the "chats" collection
+        // 3️⃣ Delete the actual chat document from the "chats" collection
         const chatSnap = await getDoc(chatRef);
         if (chatSnap.exists()) {
-            console.log("Deleting chat document...");
-            await deleteDoc(chatRef); // Completely deletes the document from Firestore
+            console.log("Deleting chat document completely...");
+            await deleteDoc(chatRef); // This will **fully remove** the chat document
         } else {
-            console.log("Chat document not found.");
+            console.log("Chat document already deleted.");
         }
 
-        // Reset chat store state
+        // 4️⃣ Reset the chat store state
         useChatStore.setState({ chatId: null, user: null });
 
-        console.log("Chat fully deleted!");
+        console.log("Chat fully deleted from Firestore!");
     } catch (err) {
-        console.log("Error deleting chat:", err);
+        console.error("Error deleting chat:", err);
     }
 };
 
