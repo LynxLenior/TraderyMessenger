@@ -5,7 +5,7 @@ import { useUserStore } from "../../lib/userStore";
 import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./detail.css";
-import ChatDetail from "./ChatDetail";  // Import the renamed component
+import ChatDetail from "./Detail";  // Import the renamed component
 
 const Detail = () => { 
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore();
