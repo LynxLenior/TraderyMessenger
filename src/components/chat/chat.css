@@ -197,4 +197,54 @@
             color: red;
         }
     }
+
+@media (max-width: 768px) {
+    .chat-container {
+      flex-direction: column;
+    }
+  
+    .chat-list {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: white;
+      transform: translateX(0);
+    }
+  
+    .chat-messages {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background: white;
+      transform: translateX(0);
+    }
+  
+    .show-chat .chat-list {
+      transform: translateX(-100%);
+    }
+  
+    .show-chat .chat-messages {
+      transform: translateX(-100%);
+    }
+  
+    .back-button {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: none;
+      background: #5183fe;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  
+    /* Hide chat list when chat is open */
+    .chat-list.hidden {
+      display: none;
+    }
+  }
 }

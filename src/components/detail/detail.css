@@ -147,4 +147,25 @@ button.deleteChat:hover {
     background-color: rgba(255, 0, 0, 0.9);
 }
 
+@media (max-width: 768px) {
+    .detail {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .info {
+      flex-direction: column; /* Stack buttons vertically */
+    }
+  
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    .reportPopup {
+      width: 90%;
+      max-width: 350px;
+    }
+  }
 }

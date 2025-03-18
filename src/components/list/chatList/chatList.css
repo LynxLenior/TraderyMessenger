@@ -82,4 +82,9 @@
             
         }
     }
+    @media (max-width: 768px) {
+        .chatList {
+          max-width: 100%; /* Full width on smaller screens */
+        }
+      }
 }
