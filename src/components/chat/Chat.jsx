@@ -39,7 +39,7 @@ const Chat = () => {
     }
 
     const lastSentTimeRef = useRef(0);
-    const cooldownTime = 1000; // 3 seconds cooldown
+    const cooldownTime = 1500; // 3 seconds cooldown
 
     const handleSend = async () => {
         if (text === "" || cooldownActive) return;
@@ -105,7 +105,7 @@ const Chat = () => {
             </div>
         </div>
         <div className="center">
-        <div className="MessageStarter">-------------------------------- Start of your chat ----------------------------</div>
+        <div className="MessageStarter">Start of your chat</div>
         {chat?.messages?.map((message, index) => {
             const currentMessageDate = new Date(message.createdAt?.seconds * 1000).toLocaleDateString();
             const previousMessageDate = index > 0 
@@ -115,9 +115,7 @@ const Chat = () => {
             return (
                 <React.Fragment key={message?.createdAt?.seconds}>
                     {currentMessageDate !== previousMessageDate && (
-                        <div className="date-separator">
-                            --------------------------------- {currentMessageDate} ------------------------------
-                        </div>
+                        <div className="date-separator"> {currentMessageDate} </div>
                     )}
                     <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`}>
                         <div className="texts">
