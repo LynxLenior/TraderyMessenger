@@ -2,7 +2,7 @@ import { useState } from "react"
 import { auth, db } from "../../lib/firebase"
 import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
-import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc, deleteDoc } from "firebase/firestore"
+import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import "./detail.css"
 
@@ -71,10 +71,9 @@ const Detail = () => {
             return;
         }
 
-        // await updateDoc(currentUserChatRef, {
-        //     chats: arrayRemove(chatToRemove),
-        // });
-        await deleteDoc(chatToRemove)
+        await updateDoc(currentUserChatRef, {
+            chats: arrayRemove(chatToRemove),
+        });
 
         const otherUserChatSnap = await getDoc(otherUserChatRef);
         if (otherUserChatSnap.exists()) {
