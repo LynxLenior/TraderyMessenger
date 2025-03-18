@@ -74,7 +74,7 @@ const Detail = () => {
         // await updateDoc(currentUserChatRef, {
         //     chats: arrayRemove(chatToRemove),
         // });
-        await deleteDoc(chat.chatId)
+        await deleteDoc(currentUserChatRef);
 
         const otherUserChatSnap = await getDoc(otherUserChatRef);
         if (otherUserChatSnap.exists()) {
