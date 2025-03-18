@@ -5,30 +5,21 @@ import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
-import ResponsiveChat from "../../MobileChat/ResponsiveChat"; // Import mobile version
 
-const ChatList = () => {
+const ChatList = ({ onSelectChat }) => {
     const [chats, setChats] = useState([]);
     const [addMode, setAddMode] = useState(false);
     const [input, setInput] = useState("");
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const { currentUser } = useUserStore();
-    const { chatId, changeChat } = useChatStore();
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    const { changeChat } = useChatStore();
 
     useEffect(() => {
         if (!currentUser?.id) return;
 
         const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
             const items = res.data().chats;
+
             const promises = items.map(async (item) => {
                 const userDocRef = doc(db, "users", item.receiverId);
                 const userDocSnap = await getDoc(userDocRef);
@@ -53,13 +44,13 @@ const ChatList = () => {
 
         const chatIndex = userChats.findIndex((item) => item.chatId === chat.chatId);
         userChats[chatIndex].isSeen = true;
+
         const userChatsRef = doc(db, "userchats", currentUser.id);
 
         try {
-            await updateDoc(userChatsRef, {
-                chats: userChats,
-            });
+            await updateDoc(userChatsRef, { chats: userChats });
             changeChat(chat.chatId, chat.user);
+            onSelectChat(chat); 
         } catch (err) {
             console.log(err);
         }
@@ -69,20 +60,20 @@ const ChatList = () => {
         c.user.username.toLowerCase().includes(input.toLowerCase())
     );
 
-    if (isMobile) {
-        return <ResponsiveChat chats={filteredChats} onSelectChat={handleSelect} />;
-    }
-
     return (
-        <div className='chatList'>
+        <div className="chatList">
             <div className="search">
                 <div className="searchBar">
-                    <img src="./search.png" alt="" />
-                    <input type="text" placeholder="Search" onChange={(e) => setInput(e.target.value)} />
+                    <img src="./search.png" alt="Search Icon" />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        onChange={(e) => setInput(e.target.value)}
+                    />
                 </div>
                 <img
                     src={addMode ? "./minus.png" : "./plus.png"}
-                    alt=""
+                    alt="Toggle Add User"
                     className="add"
                     onClick={() => setAddMode((prev) => !prev)}
                 />
@@ -97,7 +88,11 @@ const ChatList = () => {
                     }}
                 >
                     <div className="texts">
-                        <span>{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
+                        <span>
+                            {chat.user.blocked.includes(currentUser.id)
+                                ? "User"
+                                : chat.user.username}
+                        </span>
                         <p>{chat.lastMessage}</p>
                     </div>
                 </div>

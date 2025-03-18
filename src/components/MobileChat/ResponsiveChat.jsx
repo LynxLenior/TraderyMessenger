@@ -1,44 +1,26 @@
 import { useState } from "react";
+import ChatList from "../list/ChatList";
+import Chat from "../chat/Chat";
+import Detail from "../detail/Detail";
 import "./ResponsiveChat.css";
-import { useChatStore } from "../../lib/chatStore";
 
-const ResponsiveChat = ({ chats, onSelectChat }) => {
-    const { chatId } = useChatStore();
-    const [showChat, setShowChat] = useState(false);
+const ResponsiveChat = () => {
+    const [view, setView] = useState("list"); // "list", "chat", "detail"
+    const [selectedChat, setSelectedChat] = useState(null);
 
-    const handleChatSelect = (chat) => {
-        onSelectChat(chat);
-        setShowChat(true);
+    const handleSelectChat = (chat) => {
+        setSelectedChat(chat);
+        setView("chat");
     };
 
     return (
-        <div className="responsiveChat">
-            {!showChat ? (
-                // Show Chat List
-                <div className="chatList">
-                    <h2>Chats</h2>
-                    {chats.map((chat) => (
-                        <div
-                            className="chatItem"
-                            key={chat.chatId}
-                            onClick={() => handleChatSelect(chat)}
-                        >
-                            <div className="chatTexts">
-                                <span>{chat.user.username}</span>
-                                <p>{chat.lastMessage}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                // Show Chat Details
-                <div className="chatDetail">
-                    <button className="backButton" onClick={() => setShowChat(false)}>
-                        ← Back
-                    </button>
-                    <h2>Chat with {chatId}</h2>
-                    {/* Chat messages & input field can be added here */}
-                </div>
+        <div className="responsive-chat">
+            {view === "list" && <ChatList onSelectChat={handleSelectChat} />}
+            {view === "chat" && selectedChat && (
+                <Chat chat={selectedChat} onBack={() => setView("list")} onOpenDetail={() => setView("detail")} />
+            )}
+            {view === "detail" && (
+                <Detail chat={selectedChat} onBack={() => setView("chat")} />
             )}
         </div>
     );
