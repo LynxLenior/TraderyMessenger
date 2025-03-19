@@ -175,12 +175,12 @@ function App() {
             <Row className="app-content">
               {currentUser ? (
                 <>
-                  {/* Chat List - Show on Mobile or Desktop */}
+                  {/* Chat List - Always Visible on Desktop, Hidden if Chat Opened on Mobile */}
                   <Col xs={12} md={4} className={`list-container ${chatId ? "d-none d-md-block" : "d-block"}`}>
                     <List />
                   </Col>
 
-                  {/* Chat Window - Hidden on Mobile if No Chat Selected */}
+                  {/* Chat Window - Fullscreen on Mobile when a Chat is Opened */}
                   {chatId && (
                     <Col xs={12} md={8} className="chat-container">
                       <Chat />
@@ -203,7 +203,7 @@ function App() {
                     </Offcanvas.Body>
                   </Offcanvas>
 
-                  {/* Detail Panel - Visible on Desktop */}
+                  {/* Detail Panel - Always Visible on Desktop */}
                   <Col md={4} className="d-none d-md-block">
                     {chatId && <Detail />}
                   </Col>

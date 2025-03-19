@@ -36,10 +36,11 @@ body{
   background-color: rgba(17, 25, 40, 0.9);
 }
 
-/* Main container with glass effect */
+/* Fullscreen Container */
 .app-container {
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6); 
+  height: 100vh; /* Fullscreen */
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -48,14 +49,13 @@ body{
 
 /* Messenger Layout */
 .app-content {
-  width: 90%;
-  max-width: 1200px;
-  height: 90vh;
+  height: 100vh;
+  width: 100%;
   display: flex;
   overflow: hidden;
   background: rgba(50, 50, 50, 0.8);
-  border-radius: 20px;
-  padding: 10px;
+  border-radius: 0px;
+  padding: 0;
 }
 
 /* List Container */
@@ -65,7 +65,6 @@ body{
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   padding: 10px;
-  border-radius: 10px;
 }
 
 /* Chat Section */
@@ -75,10 +74,9 @@ body{
   flex-direction: column;
   background: rgba(0, 0, 0, 0.4);
   padding: 10px;
-  border-radius: 10px;
 }
 
-/* Detail Panel */
+/* Detail Button (Mobile Only) */
 .detail-btn {
   width: 100%;
   margin-top: 10px;
