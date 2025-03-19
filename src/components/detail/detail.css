@@ -176,25 +176,3 @@ button.submitReport:hover {
     background: #dc143c;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .detail {
-        width: 100%;
-        padding: 15px;
-    }
-
-    .info {
-        flex-direction: column; /* Stack buttons vertically */
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .reportPopup {
-        width: 90%;
-        max-width: 350px;
-    }
-}

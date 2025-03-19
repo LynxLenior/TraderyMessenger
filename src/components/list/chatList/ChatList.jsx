@@ -12,7 +12,7 @@ const ChatList = () => {
     const [input, setInput]= useState("");
 
     const {currentUser} = useUserStore()
-    const { chatId, changeChat} = useChatStore()
+    const { changeChat} = useChatStore()
     
     useEffect(()=>{
 

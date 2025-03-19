@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
@@ -15,7 +15,6 @@ function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [activeSection, setActiveSection] = useState("list"); // "list" | "chat" | "detail"
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -31,38 +30,22 @@ function App() {
   return (
     <Routes>
       {/* Admin route */}
-      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
+      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="/" />} />
 
-      {/* Messenger as the main page */}
+      {/* Main Messenger Page */}
       <Route
-        path=":id"
+        path="/"
         element={
-          <div className="container">
-            {currentUser ? (
-              <>
-                {/* Show only one section at a time on mobile */}
-                <div className={`chat-container ${activeSection}`}>
-                  {activeSection === "list" && (
-                    <List onSelectChat={() => setActiveSection("chat")} />
-                  )}
-
-                  {activeSection === "chat" && chatId && (
-                    <Chat
-                      onShowDetails={() => setActiveSection("detail")}
-                      onBack={() => setActiveSection("list")}
-                    />
-                  )}
-
-                  {activeSection === "detail" && chatId && (
-                    <Detail onBack={() => setActiveSection("chat")} />
-                  )}
-                </div>
-              </>
-            ) : (
-              <Login />
-            )}
-            <Notification />
-          </div>
+          currentUser ? (
+            <div className="container">
+              <List />
+              {chatId && <Chat />}
+              {chatId && <Detail />}
+              <Notification />
+            </div>
+          ) : (
+            <Login />
+          )
         }
       />
     </Routes>
