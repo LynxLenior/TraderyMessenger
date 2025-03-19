@@ -68,15 +68,13 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showChat, setShowChat] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -87,26 +85,13 @@ function App() {
     return () => unSub();
   }, [fetchUserInfo]);
 
-  // Track window resizing
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   if (isLoading) return <div className="loading">Loading...</div>;
-
-  const handleUserClick = () => {
-    if (isMobile) {
-      setShowChat(true);
-    }
-  };
 
   return (
     <Routes>
       {/* Admin route */}
       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-
+  
       {/* Messenger as the main page */}
       <Route
         path=":id"
@@ -114,17 +99,22 @@ function App() {
           <div className="container-fluid">
             {currentUser ? (
               <div className="row">
-                {/* Chat List - Left (Always visible on desktop) */}
-                {!isMobile || !showChat ? (
-                  <div className="col-md-3 p-3 bg-dark text-light">
-                    <List onUserClick={handleUserClick} />
-                  </div>
-                ) : null}
+                {/* Chat List - Left */}
+                <div className="col-md-3 p-3 bg-dark text-light">
+                  <List />
+                </div>
 
                 {/* Chat Window - Center */}
-                {(chatId && (isMobile ? showChat : true)) && (
-                  <div className="col-md-9 p-3 bg-secondary text-light">
+                {chatId && (
+                  <div className="col-md-6 p-3 bg-secondary text-light">
                     <Chat />
+                  </div>
+                )}
+
+                {/* Details - Right */}
+                {chatId && (
+                  <div className="col-md-3 p-3 bg-dark text-light">
+                    <Detail />
                   </div>
                 )}
               </div>
@@ -136,7 +126,7 @@ function App() {
         }
       />
     </Routes>
-  );
-}
+  );  
+};
 
 export default App;

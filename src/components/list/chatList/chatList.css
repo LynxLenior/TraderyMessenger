@@ -171,14 +171,28 @@
             }     
         }
     }
-    @media (max-width: 768px) {
-        .chatList {
-          max-width: 100%;
-          transition: transform 0.3s ease;
-        }
-      
-        .chatList.hidden {
-          transform: translateX(-100%);
-        }
-      }
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+    .chatList {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .search {
+        padding: 5px;
+    }
+
+    .searchBar {
+        padding: 5px;
+    }
+
+    .item {
+        padding: 8px;
+    }
+
+    .texts p {
+        max-width: 150px;
+    }
 }
