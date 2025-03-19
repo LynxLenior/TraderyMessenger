@@ -479,12 +479,3 @@
         font-size: 12px;
     }
 }
-
-/* Desktop and larger view (hide buttons) */
-@media (min-width: 769px) {
-    .back-button,
-    .detail-button {
-        display: none;
-    }
-}
-
