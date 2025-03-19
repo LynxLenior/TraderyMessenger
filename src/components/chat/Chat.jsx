@@ -1,61 +1,61 @@
-import "./chat.css";
-import EmojiPicker from "emoji-picker-react";
-import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
-import { db } from "../../lib/firebase";
-import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
+import "./chat.css"
+import EmojiPicker from "emoji-picker-react"
+import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore"
+import { useState, useRef, useEffect } from 'react'
+import { db } from "../../lib/firebase"
+import { useChatStore } from "../../lib/chatStore"
+import { useUserStore } from "../../lib/userStore"
 import React from "react";
 
-const Chat = ({ chat: selectedChat, onBack, onOpenDetail }) => {
-    const [chatData, setChatData] = useState(null);
-    const [open, setOpen] = useState(false);
-    const [text, setText] = useState("");
+const Chat = () => {
+    const [chat, setChat] = useState()
+    const [open, setOpen] = useState(false)
+    const [text, setText] = useState("")
     const [cooldownActive, setCooldownActive] = useState(false);
     
-    const { currentUser } = useUserStore();
-    const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore();
+    const { currentUser } = useUserStore()
+    const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
 
-    const endRef = useRef(null);
-
-    useEffect(() => {
-        endRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [chatData?.messages]);
+    const endRef = useRef(null)
 
     useEffect(() => {
-        setChatData(null); // Reset when switching users
-        if (!chatId) return;
+        endRef.current?.scrollIntoView({ behavior: "smooth" })
+    }, [chat?.messages])
 
+    useEffect(() => {
+        setChat(null); // Reset chat state when switching users
+        if (!chatId) return; // Prevent unnecessary fetches
+    
         const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
-            setChatData(res.data());
+            setChat(res.data());
         });
-
+    
         return () => unSub();
     }, [chatId]);
-
-    const handleEmoji = (e) => {
-        setText((prev) => prev + e.emoji);
-        setOpen(false);
-    };
+    
+    const handleEmoji = e => {
+        setText((prev) => prev + e.emoji)
+        setOpen(false)
+    }
 
     const lastSentTimeRef = useRef(0);
-    const cooldownTime = 1500;
+    const cooldownTime = 1500; // 1.5 seconds cooldown
 
     const handleSend = async () => {
         if (text === "" || cooldownActive) return;
-
+    
         const now = Date.now();
         if (now - lastSentTimeRef.current < cooldownTime) {
             setCooldownActive(true);
             setText("");
-
+    
             setTimeout(() => {
                 setCooldownActive(false);
             }, cooldownTime);
-
+    
             return;
         }
-
+    
         try {
             await updateDoc(doc(db, "chats", chatId), {
                 messages: arrayUnion({
@@ -64,43 +64,40 @@ const Chat = ({ chat: selectedChat, onBack, onOpenDetail }) => {
                     createdAt: new Date(),
                 }),
             });
-
+    
             const userIDs = [currentUser.id, user.id];
-
+    
             userIDs.forEach(async (id) => {
                 const userChatsRef = doc(db, "userchats", id);
                 const userChatsSnapshot = await getDoc(userChatsRef);
-
+    
                 if (userChatsSnapshot.exists()) {
                     const userChatsData = userChatsSnapshot.data();
-                    const chatIndex = userChatsData.chats.findIndex((c) => c.chatId === chatId);
-
+    
+                    const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId);
+    
                     if (chatIndex !== -1) {
                         userChatsData.chats[chatIndex].lastMessage = text;
                         userChatsData.chats[chatIndex].isSeen = id === currentUser.id;
                         userChatsData.chats[chatIndex].updatedAt = Date.now();
-
+    
                         await updateDoc(userChatsRef, {
                             chats: userChatsData.chats,
                         });
                     }
                 }
             });
-
-            lastSentTimeRef.current = now;
-            setText("");
+    
+            lastSentTimeRef.current = now; // Update cooldown time reference
+            setText(""); // Clear input field
         } catch (err) {
             console.log(err);
         }
     };
 
-    if (!chatData) return <div>Loading...</div>;
-
     return (
-        <div className="chat">
+        <div className='chat'>
             <div className="top">
-                <button onClick={onBack}>Back</button>
-                <button onClick={onOpenDetail}>Details</button>
                 <div className="user">
                     <div className="texts">
                         <span>{user?.username}</span>
@@ -109,25 +106,27 @@ const Chat = ({ chat: selectedChat, onBack, onOpenDetail }) => {
             </div>
             <div className="center">
                 <div className="MessageStarter">Start of your chat</div>
-                {chatData?.messages?.map((message, index) => {
-                    const messageDate = message.createdAt?.seconds
-                        ? new Date(message.createdAt.seconds * 1000)
-                        : new Date(message.createdAt);
-                    const currentMessageDate = messageDate.toLocaleDateString();
-                    const previousMessageDate =
-                        index > 0
-                            ? new Date(chatData.messages[index - 1].createdAt?.seconds * 1000).toLocaleDateString()
-                            : null;
+                {chat?.messages?.map((message, index) => {
+                    const currentMessageDate = message.createdAt?.seconds 
+                        ? new Date(message.createdAt.seconds * 1000).toLocaleDateString() 
+                        : null;
+                    const previousMessageDate = index > 0 && chat.messages[index - 1].createdAt?.seconds
+                        ? new Date(chat.messages[index - 1].createdAt.seconds * 1000).toLocaleDateString()
+                        : null;
 
                     return (
-                        <React.Fragment key={messageDate.getTime()}>
+                        <React.Fragment key={message?.createdAt?.seconds || index}>
                             {currentMessageDate !== previousMessageDate && (
                                 <div className="date-separator">{currentMessageDate}</div>
                             )}
                             <div className={`message ${message.senderId === currentUser.id ? "own" : ""}`}>
                                 <div className="texts">
                                     <p>{message.text}</p>
-                                    <span>{messageDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+                                    <span>
+                                        {message.createdAt?.seconds 
+                                            ? new Date(message.createdAt.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+                                            : "Unknown Time"}
+                                    </span>
                                 </div>
                             </div>
                         </React.Fragment>
@@ -136,15 +135,9 @@ const Chat = ({ chat: selectedChat, onBack, onOpenDetail }) => {
                 <div ref={endRef}></div>
             </div>
             <div className="bottom">
-                <input
-                    type="text"
-                    placeholder={
-                        cooldownActive
-                            ? "Wait before sending another message..."
-                            : isCurrentUserBlocked || isReceiverBlocked
-                            ? "You cannot send a message"
-                            : "Type a message..."
-                    }
+                <input 
+                    type="text" 
+                    placeholder={cooldownActive ? "Wait before sending another message..." : (isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}
@@ -152,21 +145,23 @@ const Chat = ({ chat: selectedChat, onBack, onOpenDetail }) => {
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 />
                 <div className="emoji">
-                    <img src="./emoji.png" alt="" onClick={() => setOpen((prev) => !prev)} />
-                    <div className="picker">
-                        <EmojiPicker open={open} onEmojiClick={handleEmoji} />
-                    </div>
+                    <img 
+                        src="./emoji.png" 
+                        alt="emoji"
+                        onClick={() => setOpen((prev) => !prev)}
+                    />
+                    {open && (
+                        <div className="picker">
+                            <EmojiPicker open={open} onEmojiClick={handleEmoji} />
+                        </div>
+                    )}
                 </div>
-                <button
-                    className="sendButton"
-                    onClick={handleSend}
-                    disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}
-                >
+                <button className="sendButton" onClick={handleSend} disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}>
                     Send
                 </button>
             </div>
         </div>
     );
-};
+}
 
 export default Chat;
