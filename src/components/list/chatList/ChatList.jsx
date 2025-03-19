@@ -144,9 +144,10 @@ const ChatList = ({ onUserClick }) => {
     return () => {
       unSub();
     };
-  }, [currentUser.id]);
+  }, [currentUser?.id]);
 
   const handleSelect = async (chat) => {
+    console.log("Chat clicked: ", chat);
     onUserClick?.();
 
     const userChats = chats.map((item) => {
@@ -156,17 +157,19 @@ const ChatList = ({ onUserClick }) => {
 
     const chatIndex = userChats.findIndex((item) => item.chatId === chat.chatId);
 
-    userChats[chatIndex].isSeen = true;
+    if (chatIndex !== -1) {
+      userChats[chatIndex].isSeen = true;
 
-    const userChatsRef = doc(db, "userchats", currentUser.id);
+      const userChatsRef = doc(db, "userchats", currentUser.id);
 
-    try {
-      await updateDoc(userChatsRef, {
-        chats: userChats,
-      });
-      changeChat(chat.chatId, chat.user);
-    } catch (err) {
-      console.log(err);
+      try {
+        await updateDoc(userChatsRef, {
+          chats: userChats,
+        });
+        changeChat(chat.chatId, chat.user);
+      } catch (err) {
+        console.error("Error updating chat: ", err);
+      }
     }
   };
 
@@ -178,7 +181,7 @@ const ChatList = ({ onUserClick }) => {
     <div className="chatList">
       <div className="search">
         <div className="searchBar">
-          <img src="./search.png" alt="" />
+          <img src="./search.png" alt="Search Icon" />
           <input
             type="text"
             placeholder="Search"
@@ -187,7 +190,7 @@ const ChatList = ({ onUserClick }) => {
         </div>
         <img
           src={addMode ? "./minus.png" : "./plus.png"}
-          alt=""
+          alt="Add or Remove Icon"
           className="add"
           onClick={() => setAddMode((prev) => !prev)}
         />
@@ -199,6 +202,7 @@ const ChatList = ({ onUserClick }) => {
           onClick={() => handleSelect(chat)}
           style={{
             backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
+            pointerEvents: chat.user.blocked.includes(currentUser.id) ? 'none' : 'auto'
           }}
         >
           <div className="texts">
