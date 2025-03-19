@@ -11,11 +11,11 @@ import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Routes, Route, Navigate, useParams } from "react-router-dom";
 
-
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [activeSection, setActiveSection] = useState("list"); // "list" | "chat" | "detail"
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -32,7 +32,7 @@ function App() {
     <Routes>
       {/* Admin route */}
       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-  
+
       {/* Messenger as the main page */}
       <Route
         path=":id"
@@ -40,9 +40,23 @@ function App() {
           <div className="container">
             {currentUser ? (
               <>
-                <List />
-                {chatId && <Chat />}
-                {chatId && <Detail />}
+                {/* Show only one section at a time on mobile */}
+                <div className={`chat-container ${activeSection}`}>
+                  {activeSection === "list" && (
+                    <List onSelectChat={() => setActiveSection("chat")} />
+                  )}
+
+                  {activeSection === "chat" && chatId && (
+                    <Chat
+                      onShowDetails={() => setActiveSection("detail")}
+                      onBack={() => setActiveSection("list")}
+                    />
+                  )}
+
+                  {activeSection === "detail" && chatId && (
+                    <Detail onBack={() => setActiveSection("chat")} />
+                  )}
+                </div>
               </>
             ) : (
               <Login />
@@ -52,7 +66,7 @@ function App() {
         }
       />
     </Routes>
-  );  
-};
+  );
+}
 
 export default App;

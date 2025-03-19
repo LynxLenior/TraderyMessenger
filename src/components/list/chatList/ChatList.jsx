@@ -6,7 +6,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 
-const ChatList = () => {
+const ChatList = ({ onSelectChat }) => {
     const [chats, setChats]= useState([]);
     const [addMode, setAddMode]= useState(false);
     const [input, setInput]= useState("");
@@ -70,6 +70,8 @@ const ChatList = () => {
 
   return (
     <div className='chatList'>
+         <button onClick={onSelectChat}>Open Chat</button>
+
         <div className="search">
             <div className="searchBar">
                 <img src="./search.png" alt="" />

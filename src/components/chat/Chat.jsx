@@ -7,7 +7,7 @@ import { useChatStore } from "../../lib/chatStore"
 import { useUserStore } from "../../lib/userStore"
 import React from "react";
 
-const Chat = () => {
+const Chat = ({ onBack, onOpenDetails }) => {
     const [chat, setChat] = useState()
     const [open, setOpen] = useState(false)
     const [text, setText] = useState("")
@@ -99,9 +99,15 @@ const Chat = () => {
         <div className='chat'>
             <div className="top">
                 <div className="user">
+                    {/* Back button (only visible in mobile mode) */}
+                    {onBack && <button className="backButton" onClick={onBack}>← Back</button>}
+                    
                     <div className="texts">
                         <span>{user?.username}</span>
                     </div>
+
+                    {/* Open Details button (only visible in mobile mode) */}
+                    {onOpenDetails && <button className="detailsButton" onClick={onOpenDetails}>Details</button>}
                 </div>
             </div>
             <div className="center">

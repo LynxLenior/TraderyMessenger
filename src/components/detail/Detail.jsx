@@ -6,7 +6,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDo
 import { useNavigate } from "react-router-dom";
 import "./detail.css"
 
-const Detail = () => { 
+const Detail = ({ onBack }) => { 
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore()
   const { currentUser } = useUserStore()
   const [showReport, setShowReport] = useState(false)
@@ -103,6 +103,8 @@ const Detail = () => {
 
   return (
     <div className='detail'>
+      <button className="back-button" onClick={onBack}>Back</button>
+      
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
         <button className="adminButton" onClick={() => navigate("/admin")}>
           Admin Panel
