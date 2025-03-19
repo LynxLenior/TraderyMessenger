@@ -90,39 +90,33 @@
             }
         }
     }
+    .hidden {
+        display: none !important;  /* Hide the chat list */
+    }
 }
 
 /* Mobile Styles */
 @media (max-width: 768px) {
-    .chatList {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        z-index: 15;
-        transform: translateX(0);
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .show-chat .chatList {
-        transform: translateX(-100%);
-    }
-
-    .backButton {
-        display: block;
-        padding: 8px;
-        border: none;
-        background: #5183fe;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
-    /* Hide .chatList when chat is open */
-    .chatList.hidden {
-        display: none;
+    @media (max-width: 768px) {
+        .chatList {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 15;
+        }
+    
+        .backButton {
+            display: block;
+            padding: 8px;
+            border: none;
+            background: #5183fe;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     }
 }
