@@ -76,8 +76,7 @@ function App() {
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showChat, setShowChat] = useState(false);
-
-  const isMobile = window.innerWidth <= 768;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -87,6 +86,13 @@ function App() {
 
     return () => unSub();
   }, [fetchUserInfo]);
+
+  // Track window resizing
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (isLoading) return <div className="loading">Loading...</div>;
 
@@ -100,7 +106,7 @@ function App() {
     <Routes>
       {/* Admin route */}
       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-  
+
       {/* Messenger as the main page */}
       <Route
         path=":id"
@@ -108,15 +114,15 @@ function App() {
           <div className="container-fluid">
             {currentUser ? (
               <div className="row">
-                {/* Chat List - Left */}
-                {!showChat && (
+                {/* Chat List - Left (Always visible on desktop) */}
+                {!isMobile || !showChat ? (
                   <div className="col-md-3 p-3 bg-dark text-light">
                     <List onUserClick={handleUserClick} />
                   </div>
-                )}
+                ) : null}
 
                 {/* Chat Window - Center */}
-                {chatId && showChat && (
+                {(chatId && (isMobile ? showChat : true)) && (
                   <div className="col-md-9 p-3 bg-secondary text-light">
                     <Chat />
                   </div>

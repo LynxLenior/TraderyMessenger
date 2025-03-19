@@ -113,7 +113,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 
-const ChatList = ({ onUserClick }) => {
+const ChatList = ({ onUserClick, isMobile, showChat }) => {
   const [chats, setChats] = useState([]);
   const [addMode, setAddMode] = useState(false);
   const [input, setInput] = useState("");
@@ -132,12 +132,10 @@ const ChatList = ({ onUserClick }) => {
         const userDocSnap = await getDoc(userDocRef);
 
         const user = userDocSnap.data();
-
         return { ...item, user };
       });
 
       const chatData = await Promise.all(promises);
-
       setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
     });
 
@@ -178,7 +176,7 @@ const ChatList = ({ onUserClick }) => {
   );
 
   return (
-    <div className="chatList">
+    <div className={`chatList ${isMobile && showChat ? "hidden" : ""}`}>
       <div className="search">
         <div className="searchBar">
           <img src="./search.png" alt="Search Icon" />
