@@ -1,18 +1,17 @@
-.chatList {
+.chatList{
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
     z-index: 10;
     display: flex;
     flex-direction: column;
-
-    .search {
+    .search{
         display: flex;
         align-items: center;
         gap: 20px;
         padding: 20px;
 
-        .searchBar {
+        .searchBar{
             flex: 1;
             background-color: rgba(17, 25, 40, 0.5);
             display: flex;
@@ -28,14 +27,13 @@
                 color: white;
                 flex: 1;
             }
-
-            img {
+            img{
                 width: 20px;
                 height: 20px;
             }
         }
-
-        .add {
+        
+        .add{
             width: 36px;
             height: 36px;
             background-color: rgba(17, 25, 40, 0.5);
@@ -45,53 +43,48 @@
             z-index: 10;
         }
     }
-
-    .item {
+    
+    .item{
         display: flex;
         align-items: center;
         gap: 20px;
         padding: 20px;
         cursor: pointer;
         border-bottom: 1px solid #dddddd35;
-        transition: background-color 0.3s ease;
 
-        &:hover {
-            background-color: rgba(17, 25, 40, 0.2);
-        }
-
-        img {
+        img{
             width: 50px;
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
         }
 
-        .texts {
+        .texts{
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 10px;
+
             overflow: hidden;
 
-            span {
+            span{
                 font-weight: 500;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 180px; /* Adjusted for better mobile behavior */
             }
 
             p {
                 font-size: 14px;
                 font-weight: 300;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 180px; /* Prevents long messages from breaking layout */
+                white-space: nowrap; /* Prevents wrapping */
+                overflow: hidden; /* Hides overflow */
+                text-overflow: ellipsis; /* Adds "..." when text overflows */
+                max-width: 200px; /* Set a reasonable width for truncation */
+                
             }
+            
         }
     }
-    .hidden {
-        display: none !important;  /* Hide the chat list */
-    }
+    @media (max-width: 768px) {
+        .chatList {
+          max-width: 100%; /* Full width on smaller screens */
+        }
+      }
 }
-

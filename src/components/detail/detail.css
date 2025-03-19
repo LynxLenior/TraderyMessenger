@@ -2,30 +2,8 @@
     flex: 1;
     flex-direction: column;
     display: flex;
-    background: white;
-    transition: transform 0.3s ease-in-out;
-}
 
-/* Hide .detail by default on mobile */
-@media (max-width: 768px) {
-    .detail {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        z-index: 20;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-    }
 
-    .show-detail .detail {
-        transform: translateX(0);
-    }
-}
-
-/* User Info */
 .user {
     padding: 30px 20px;
     display: flex;
@@ -42,7 +20,6 @@
     object-fit: cover;
 }
 
-/* Detail Info Section */
 .info {
     flex: 1;
     display: flex;
@@ -53,7 +30,6 @@
     gap: 25px;
 }
 
-/* Options */
 .option .title {
     display: flex;
     align-items: center;
@@ -69,7 +45,6 @@
     cursor: pointer;
 }
 
-/* Icons */
 .icon {
     width: 30px;
     height: 30px;
@@ -87,7 +62,6 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -101,15 +75,6 @@ button.report {
 
 button.report:hover {
     background-color: rgba(255, 140, 0, 0.9);
-}
-
-/* Delete Chat Button */
-button.deleteChat {
-    background-color: rgba(255, 69, 58, 0.8);
-}
-
-button.deleteChat:hover {
-    background-color: rgba(255, 0, 0, 0.9);
 }
 
 /* Report Popup Modal */
@@ -134,7 +99,6 @@ button.deleteChat:hover {
     position: relative;
 }
 
-/* Close Button */
 .closeButton {
     position: absolute;
     top: 10px;
@@ -147,7 +111,6 @@ button.deleteChat:hover {
     border-radius: 50%;
 }
 
-/* Textarea */
 textarea {
     width: 100%;
     height: 100px;
@@ -160,7 +123,6 @@ textarea {
     resize: none;
 }
 
-/* Submit Report Button */
 button.submitReport {
     margin-top: 10px;
     padding: 10px;
@@ -176,3 +138,34 @@ button.submitReport:hover {
     background: #dc143c;
 }
 
+/* Delete Chat Button */
+button.deleteChat {
+    background-color: rgba(255, 69, 58, 0.8);
+}
+
+button.deleteChat:hover {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+@media (max-width: 768px) {
+    .detail {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .info {
+      flex-direction: column; /* Stack buttons vertically */
+    }
+  
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    .reportPopup {
+      width: 90%;
+      max-width: 350px;
+    }
+  }
+}
