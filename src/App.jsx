@@ -144,14 +144,14 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [showDetail, setShowDetail] = useState(false); // Controls the Detail panel
+  const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -165,21 +165,22 @@ function App() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
-    <Container fluid>
+    <Container fluid className="app-container">
       <Routes>
-        {/* Admin route */}
         <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-
-        {/* Messenger as the main page */}
+  
         <Route
           path=":id"
           element={
-            <Row className="app-container">
+            <Row className="app-content">
               {currentUser ? (
                 <>
+                  {/* Chat List - Show on Mobile or Desktop */}
                   <Col xs={12} md={4} className={`list-container ${chatId ? "d-none d-md-block" : "d-block"}`}>
                     <List />
                   </Col>
+
+                  {/* Chat Window - Hidden on Mobile if No Chat Selected */}
                   {chatId && (
                     <Col xs={12} md={8} className="chat-container">
                       <Chat />
@@ -191,7 +192,8 @@ function App() {
                       </Button>
                     </Col>
                   )}
-                  {/* Detail Offcanvas for mobile */}
+
+                  {/* Detail Offcanvas for Mobile */}
                   <Offcanvas show={showDetail} onHide={() => setShowDetail(false)} placement="end">
                     <Offcanvas.Header closeButton>
                       <Offcanvas.Title>Chat Details</Offcanvas.Title>
@@ -200,6 +202,11 @@ function App() {
                       <Detail />
                     </Offcanvas.Body>
                   </Offcanvas>
+
+                  {/* Detail Panel - Visible on Desktop */}
+                  <Col md={4} className="d-none d-md-block">
+                    {chatId && <Detail />}
+                  </Col>
                 </>
               ) : (
                 <Login />

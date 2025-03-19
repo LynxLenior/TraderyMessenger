@@ -36,27 +36,69 @@ body{
   background-color: rgba(17, 25, 40, 0.9);
 }
 
-.Backbtn{
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 10;
-  
+/* Main container with glass effect */
+.app-container {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Messenger Layout */
+.app-content {
+  width: 90%;
+  max-width: 1200px;
+  height: 90vh;
+  display: flex;
+  overflow: hidden;
+  background: rgba(50, 50, 50, 0.8);
+  border-radius: 20px;
+  padding: 10px;
+}
+
+/* List Container */
 .list-container {
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
-  border-right: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  border-radius: 10px;
 }
 
+/* Chat Section */
 .chat-container {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  border-radius: 10px;
 }
 
+/* Detail Panel */
 .detail-btn {
   width: 100%;
   margin-top: 10px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .app-content {
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .list-container {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .chat-container {
+    width: 100%;
+    border-radius: 0;
+  }
 }
