@@ -145,13 +145,14 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Container, Row, Col, Modal } from "react-bootstrap";
+import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
-  const { chatId } = useChatStore();
+  const { chatId, changeChat } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [showChatList, setShowChatList] = useState(true);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -168,29 +169,34 @@ function App() {
     <Container fluid className="app-container">
       <Routes>
         <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
-  
+
         <Route
           path=":id"
           element={
             <Row className="app-content">
               {currentUser ? (
                 <>
-                  {/* Chat List - Always Visible on Desktop, Hidden on Mobile if Chat Open */}
-                  <Col xs={12} md={4} className={`list-container ${chatId ? "d-none d-md-block" : "d-block"}`}>
-                    <List />
-                  </Col>
+                  {/* Chat List - Hidden on Mobile if Chat is Open */}
+                  {showChatList && (
+                    <Col xs={12} md={4} className="list-container">
+                      <List onChatSelect={() => setShowChatList(false)} />
+                    </Col>
+                  )}
 
-                  {/* Chat Section - Full Width on Mobile when Opened */}
+                  {/* Chat Section - Full Width on Mobile when Open */}
                   {chatId && (
                     <Col xs={12} md={8} className="chat-container">
-                      <Chat openDetail={() => setShowDetail(true)} />
+                      <Chat
+                        openDetail={() => setShowDetail(true)}
+                        goBackToChatList={() => setShowChatList(true)}
+                      />
                     </Col>
                   )}
 
                   {/* Detail Modal for Both Mobile and Desktop */}
                   <Modal show={showDetail} onHide={() => setShowDetail(false)} centered>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Chat Details</Modal.Title>
+                    <Modal.Header>
+                      <CloseButton onClick={() => setShowDetail(false)} />
                     </Modal.Header>
                     <Modal.Body>
                       <Detail />

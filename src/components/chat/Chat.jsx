@@ -176,7 +176,7 @@ import { useUserStore } from "../../lib/userStore";
 import { Button } from "react-bootstrap";
 import React from "react";
 
-const Chat = ({ openDetail }) => {
+const Chat = ({ openDetail, goBackToChatList }) => {
     const [chat, setChat] = useState();
     const [open, setOpen] = useState(false);
     const [text, setText] = useState("");
@@ -185,6 +185,7 @@ const Chat = ({ openDetail }) => {
     const { currentUser } = useUserStore();
     const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore();
     const endRef = useRef(null);
+    const emojiRef = useRef(null);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -200,6 +201,17 @@ const Chat = ({ openDetail }) => {
 
         return () => unSub();
     }, [chatId]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (emojiRef.current && !emojiRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleEmoji = (e) => {
         setText((prev) => prev + e.emoji);
@@ -231,6 +243,9 @@ const Chat = ({ openDetail }) => {
                     <Button variant="link" onClick={openDetail} className="user-button">
                         {user?.username}
                     </Button>
+                    <Button variant="secondary" onClick={goBackToChatList} className="back-button d-md-none">
+                        Back
+                    </Button>
                 </div>
             </div>
             <div className="center">
@@ -256,7 +271,7 @@ const Chat = ({ openDetail }) => {
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 />
-                <div className="emoji">
+                <div className="emoji" ref={emojiRef}>
                     <img 
                         src="./emoji.png" 
                         alt="emoji"
@@ -268,7 +283,7 @@ const Chat = ({ openDetail }) => {
                         </div>
                     )}
                 </div>
-                <button className="sendButton" onClick={handleSend}>
+                <button className="sendButton d-none d-md-block" onClick={handleSend}>
                     Send
                 </button>
             </div>
