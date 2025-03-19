@@ -57,6 +57,82 @@
 
 // export default App;
 
+// import { useEffect, useState } from "react";
+// import Chat from "./components/chat/Chat";
+// import Detail from "./components/detail/Detail";
+// import List from "./components/list/List";
+// import Login from "./components/login/Login";
+// import Notification from "./components/notification/Notification";
+// import Admin from "./components/admin/Admin";
+// import { auth } from "./lib/firebase";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { useUserStore } from "./lib/userStore";
+// import { useChatStore } from "./lib/chatStore";
+// import { Routes, Route, Navigate } from "react-router-dom";
+// import { Row, Col } from "react-bootstrap";
+
+// export const switchGrid = (gridNumber) => {
+//   setCurrentGrid(gridNumber);
+// };
+
+// function App() {
+//   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
+//   const { chatId } = useChatStore();
+//   const [isAdmin, setIsAdmin] = useState(false);
+//   const [currentGrid, setCurrentGrid] = useState(1);
+  
+//   useEffect(() => {
+//     const unSub = onAuthStateChanged(auth, (user) => {
+//       fetchUserInfo(user?.uid);
+//       setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
+//     });
+
+    
+
+//     return () => unSub();
+//   }, [fetchUserInfo]);
+
+//   if (isLoading) return <div className="loading">Loading...</div>;
+
+//   return (
+//     <Routes>
+//       {/* Admin route */}
+//       <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
+
+//       {/* Messenger as the main page */}
+//       <Route
+//         path=":id"
+//         element={
+//           <div className="container">
+//             {currentUser ? (
+//               <>
+//                 <Row>
+//                   <Col xs={12} md={4} className={currentGrid === 1 ? "d-block" : "d-none"}>
+//                     <List switchGrid={switchGrid} />
+//                   </Col>
+//                   <Col xs={12} md={4} className={currentGrid === 2 ? "d-block" : "d-none"}>
+//                     <Button variant="outline-light" onClick={() => switchGrid(1)} className="Backbtn">Back</Button>
+//                     {chatId && <Chat />}
+//                   </Col>
+//                   <Col xs={12} md={4} className={currentGrid === 3 ? "d-block" : "d-none"}>
+//                     <Button variant="outline-light" onClick={() => switchGrid(2)} className="Backbtn">Back</Button>
+//                     {chatId && <Detail />}
+//                   </Col>
+//                 </Row>
+//               </>
+//             ) : (
+//               <Login />
+//             )}
+//             <Notification />
+//           </div>
+//         }
+//       />
+//     </Routes>
+//   );
+// }
+
+// export default App;
+
 import { useEffect, useState } from "react";
 import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
@@ -68,18 +144,14 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Row, Col, Button } from "react-bootstrap";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [currentGrid, setCurrentGrid] = useState(1);
-
-  const switchGrid = (gridNumber) => {
-    setCurrentGrid(gridNumber);
-  };
+  const [showDetail, setShowDetail] = useState(false); // Controls the Detail panel
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -93,39 +165,51 @@ function App() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
-    <Routes>
-      {/* Admin route */}
-      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
+    <Container fluid>
+      <Routes>
+        {/* Admin route */}
+        <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
 
-      {/* Messenger as the main page */}
-      <Route
-        path=":id"
-        element={
-          <div className="container">
-            {currentUser ? (
-              <>
-                <Row>
-                  <Col xs={12} md={4} className={currentGrid === 1 ? "d-block" : "d-none"}>
-                    <List switchGrid={switchGrid} />
+        {/* Messenger as the main page */}
+        <Route
+          path=":id"
+          element={
+            <Row className="app-container">
+              {currentUser ? (
+                <>
+                  <Col xs={12} md={4} className={`list-container ${chatId ? "d-none d-md-block" : "d-block"}`}>
+                    <List />
                   </Col>
-                  <Col xs={12} md={4} className={currentGrid === 2 ? "d-block" : "d-none"}>
-                    <Button variant="outline-light" onClick={() => switchGrid(1)} className="Backbtn">Back</Button>
-                    {chatId && <Chat />}
-                  </Col>
-                  <Col xs={12} md={4} className={currentGrid === 3 ? "d-block" : "d-none"}>
-                    <Button variant="outline-light" onClick={() => switchGrid(2)} className="Backbtn">Back</Button>
-                    {chatId && <Detail />}
-                  </Col>
-                </Row>
-              </>
-            ) : (
-              <Login />
-            )}
-            <Notification />
-          </div>
-        }
-      />
-    </Routes>
+                  {chatId && (
+                    <Col xs={12} md={8} className="chat-container">
+                      <Chat />
+                      <Button 
+                        className="detail-btn d-md-none" 
+                        onClick={() => setShowDetail(true)}
+                      >
+                        View Details
+                      </Button>
+                    </Col>
+                  )}
+                  {/* Detail Offcanvas for mobile */}
+                  <Offcanvas show={showDetail} onHide={() => setShowDetail(false)} placement="end">
+                    <Offcanvas.Header closeButton>
+                      <Offcanvas.Title>Chat Details</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+                      <Detail />
+                    </Offcanvas.Body>
+                  </Offcanvas>
+                </>
+              ) : (
+                <Login />
+              )}
+              <Notification />
+            </Row>
+          }
+        />
+      </Routes>
+    </Container>
   );
 }
 

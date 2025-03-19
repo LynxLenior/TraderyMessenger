@@ -43,3 +43,20 @@ body{
   z-index: 10;
   
 }
+
+.list-container {
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-btn {
+  width: 100%;
+  margin-top: 10px;
+}
