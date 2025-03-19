@@ -1,4 +1,4 @@
-.detail {
+/* .detail {
     flex: 1;
     flex-direction: column;
     display: flex;
@@ -54,7 +54,7 @@
     cursor: pointer;
 }
 
-/* Buttons */
+
 button {
     padding: 15px 20px;
     background-color: rgba(230, 74, 105, 0.553);
@@ -68,7 +68,7 @@ button:hover {
     background-color: rgba(220, 20, 60, 0.796);
 }
 
-/* Report Button */
+
 button.report {
     background-color: rgba(255, 165, 0, 0.7);
 }
@@ -77,7 +77,7 @@ button.report:hover {
     background-color: rgba(255, 140, 0, 0.9);
 }
 
-/* Report Popup Modal */
+
 .reportPopup {
     position: fixed;
     top: 0;
@@ -138,7 +138,7 @@ button.submitReport:hover {
     background: #dc143c;
 }
 
-/* Delete Chat Button */
+
 button.deleteChat {
     background-color: rgba(255, 69, 58, 0.8);
 }
@@ -154,7 +154,7 @@ button.deleteChat:hover {
     }
   
     .info {
-      flex-direction: column; /* Stack buttons vertically */
+      flex-direction: column; 
     }
   
     button {
@@ -168,4 +168,84 @@ button.deleteChat:hover {
       max-width: 350px;
     }
   }
+} */
+
+.detail {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+}
+
+.user {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #dddddd35;
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    overflow: auto;
+    padding: 20px;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Buttons */
+button {
+    padding: 15px 20px;
+    background-color: rgba(230, 74, 105, 0.553);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(220, 20, 60, 0.796);
+}
+
+/* Back Button */
+.back-button {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background: #5183fe;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: none; /* Hidden by default */
+}
+
+.back-button:hover {
+    background: #4169e1;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .detail {
+      width: 100%;
+      padding: 15px;
+    }
+
+    .info {
+      flex-direction: column;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    /* Show back button only on mobile */
+    .back-button {
+        display: block;
+    }
 }
