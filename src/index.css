@@ -38,7 +38,7 @@ body{
 
 /* Fullscreen Container */
 .app-container {
-  height: 100vh; /* Fullscreen */
+  height: 100vh;
   width: 100vw;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
@@ -54,7 +54,6 @@ body{
   display: flex;
   overflow: hidden;
   background: rgba(50, 50, 50, 0.8);
-  border-radius: 0px;
   padding: 0;
 }
 
@@ -74,29 +73,12 @@ body{
   flex-direction: column;
   background: rgba(0, 0, 0, 0.4);
   padding: 10px;
+  width: 100%; /* Expanded to Full Width */
 }
 
-/* Detail Button (Mobile Only) */
-.detail-btn {
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .app-content {
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-  }
-
-  .list-container {
-    width: 100%;
-    border-radius: 0;
-  }
-
-  .chat-container {
-    width: 100%;
-    border-radius: 0;
-  }
+/* Modal Customization */
+.modal-content {
+  background: rgba(30, 30, 30, 0.9);
+  color: white;
+  border-radius: 10px;
 }

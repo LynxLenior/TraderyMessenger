@@ -145,7 +145,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
+import { Container, Row, Col, Modal } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
@@ -175,38 +175,27 @@ function App() {
             <Row className="app-content">
               {currentUser ? (
                 <>
-                  {/* Chat List - Always Visible on Desktop, Hidden if Chat Opened on Mobile */}
+                  {/* Chat List - Always Visible on Desktop, Hidden on Mobile if Chat Open */}
                   <Col xs={12} md={4} className={`list-container ${chatId ? "d-none d-md-block" : "d-block"}`}>
                     <List />
                   </Col>
 
-                  {/* Chat Window - Fullscreen on Mobile when a Chat is Opened */}
+                  {/* Chat Section - Full Width on Mobile when Opened */}
                   {chatId && (
                     <Col xs={12} md={8} className="chat-container">
-                      <Chat />
-                      <Button 
-                        className="detail-btn d-md-none" 
-                        onClick={() => setShowDetail(true)}
-                      >
-                        View Details
-                      </Button>
+                      <Chat openDetail={() => setShowDetail(true)} />
                     </Col>
                   )}
 
-                  {/* Detail Offcanvas for Mobile */}
-                  <Offcanvas show={showDetail} onHide={() => setShowDetail(false)} placement="end">
-                    <Offcanvas.Header closeButton>
-                      <Offcanvas.Title>Chat Details</Offcanvas.Title>
-                    </Offcanvas.Header>
-                    <Offcanvas.Body>
+                  {/* Detail Modal for Both Mobile and Desktop */}
+                  <Modal show={showDetail} onHide={() => setShowDetail(false)} centered>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Chat Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                       <Detail />
-                    </Offcanvas.Body>
-                  </Offcanvas>
-
-                  {/* Detail Panel - Always Visible on Desktop */}
-                  <Col md={4} className="d-none d-md-block">
-                    {chatId && <Detail />}
-                  </Col>
+                    </Modal.Body>
+                  </Modal>
                 </>
               ) : (
                 <Login />
