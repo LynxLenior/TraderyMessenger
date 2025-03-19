@@ -69,26 +69,23 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-
-
+import { Row, Col, Button } from "react-bootstrap";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
   const [currentGrid, setCurrentGrid] = useState(1);
-  
+
+  const switchGrid = (gridNumber) => {
+    setCurrentGrid(gridNumber);
+  };
+
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
       setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
     });
-    
-    const switchGrid = (gridNumber) => {
-      setCurrentGrid(gridNumber);
-    };
-    
 
     return () => unSub();
   }, [fetchUserInfo]);

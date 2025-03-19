@@ -6,7 +6,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 
-const ChatList = ( switchGrid ) => {
+const ChatList = ({ switchGrid }) => {
     const [chats, setChats]= useState([]);
     const [addMode, setAddMode]= useState(false);
     const [input, setInput]= useState("");
@@ -41,7 +41,7 @@ const ChatList = ( switchGrid ) => {
     }, [currentUser.id])
 
     const handleSelect = async (chat) =>{
-        await switchGrid(2)
+        await switchGrid(1)
         const userChats = chats.map(item=>{
             const {user, ...rest } = item
             return rest
