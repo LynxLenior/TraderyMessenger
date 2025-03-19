@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
 import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
@@ -10,6 +9,8 @@ import { auth } from "./lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
+
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
@@ -30,26 +31,28 @@ function App() {
   return (
     <Routes>
       {/* Admin route */}
-      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="/" />} />
-
-      {/* Main Messenger Page */}
+      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="" />} />
+  
+      {/* Messenger as the main page */}
       <Route
-        path="/"
+        path=":id"
         element={
-          currentUser ? (
-            <div className="container">
-              <List />
-              {chatId && <Chat />}
-              {chatId && <Detail />}
-              <Notification />
-            </div>
-          ) : (
-            <Login />
-          )
+          <div className="container">
+            {currentUser ? (
+              <>
+                <List />
+                {chatId && <Chat />}
+                {chatId && <Detail />}
+              </>
+            ) : (
+              <Login />
+            )}
+            <Notification />
+          </div>
         }
       />
     </Routes>
-  );
-}
+  );  
+};
 
 export default App;
