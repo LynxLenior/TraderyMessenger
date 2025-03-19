@@ -73,23 +73,21 @@ import { Row, Col } from "react-bootstrap";
 
 
 
-const [currentGrid, setCurrentGrid] = useState(1);
-export const switchGrid = (gridNumber) => {
-  setCurrentGrid(gridNumber);
-};
-
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentGrid, setCurrentGrid] = useState(1);
   
-
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
       setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
     });
-
+    
+    const switchGrid = (gridNumber) => {
+      setCurrentGrid(gridNumber);
+    };
     
 
     return () => unSub();
