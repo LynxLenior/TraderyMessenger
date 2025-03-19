@@ -256,7 +256,7 @@
     display: flex;
     flex-direction: column;
 
-    .top{
+    .top {
         padding: 20px;
         display: flex;
         align-items: center;
@@ -264,17 +264,17 @@
         border-bottom: 1px solid #dddddd35;
         z-index: 2;
     
-        .user{
+        .user {
             display: flex;
             align-items: center;
             gap: 20px;
 
-            .texts{
+            .texts {
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
 
-                span{
+                span {
                     font-size: 18px;
                     font-weight: bold;
                 }
@@ -287,18 +287,18 @@
             }
         }
 
-        .icons{
+        .icons {
             display: flex;
             gap: 20px;
 
-            img{
+            img {
                 width: 20px;
                 height: 20px;
             }
-        } 
+        }
     }
 
-    .center{
+    .center {
         padding: 20px;
         flex: 1;
         overflow: auto;
@@ -311,8 +311,7 @@
         scroll-behavior: smooth;
         left: 52%;
         overflow-anchor: auto;
-         
-
+        
         .MessageStarter,
         .date-separator {
             display: flex;
@@ -324,70 +323,72 @@
             padding: 10px 0;
             margin-bottom: 5px;
         }
-        
-        .message .texts p {
 
-            word-wrap: break-word; 
-            overflow-wrap: break-word; 
-            white-space: normal; 
+        .message .texts p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
             display: flex;
         }
 
-        .message{
+        .message {
             display: flex;
             gap: 20px;
             align-items: flex-start;
             z-index: 1;
             max-width: 35%;
 
-            &.own{
+            &.own {
                 align-self: flex-end;
                 margin-left: auto;
 
-                .texts{
+                .texts {
                     p {
                         background-color: #5183fe;
-                        color:white;
+                        color: white;
                     }
                 }
             }
+
             .message:not(.own) {
                 align-self: flex-start;
-                margin-right: auto; 
+                margin-right: auto;
             }
 
-            img{
+            img {
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
                 object-fit: cover;
             }
-            .texts{
+
+            .texts {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 gap: 5px;
                 z-index: 1;
 
-                p{
+                p {
                     padding: 12px 16px;
                     background-color: rgba(17, 25, 40, 0.3);
                     border-radius: 10px;
                     word-break: break-word;
                     overflow-wrap: break-word;
-                    min-width: 80px; 
-                    max-width: 100%; 
+                    min-width: 80px;
+                    max-width: 100%;
                     display: inline-block;
-                    white-space: pre-wrap; 
+                    white-space: pre-wrap;
                 }
 
-                span{
+                span {
                     font-size: 13px;
                 }
             }
         }
     }
-    .bottom{
+
+    .bottom {
         padding: 20px;
         display: flex;
         align-items: center;
@@ -396,14 +397,13 @@
         gap: 20px;
         margin-top: auto;
         z-index: 2;
-        
 
-        .icons{
+        .icons {
             display: flex;
             gap: 20px;
         }
 
-        input{
+        input {
             flex: 1;
             background-color: rgba(17, 25, 40, 0.5);
             border: none;
@@ -414,12 +414,12 @@
             font-size: 16px;
             z-index: 2;
 
-            &:disabled{
+            &:disabled {
                 cursor: not-allowed;
             }
         }
 
-        .emoji{
+        .emoji {
             position: relative;
 
             .picker {
@@ -429,7 +429,7 @@
             }
         }
 
-        .sendButton{
+        .sendButton {
             background-color: #5183fe;
             color: white;
             padding: 10px 20px;
@@ -437,17 +437,18 @@
             border-radius: 5px;
             cursor: pointer;
 
-            &:disabled{
+            &:disabled {
                 background-color: #5182feb4;
                 cursor: not-allowed;
             }
         }
-        
+
         .bottom input.cooldown::placeholder {
             color: red;
         }
     }
 }
+
 /* Mobile View */
 @media (max-width: 768px) {
     .chat {
@@ -471,11 +472,45 @@
         max-width: 80%;
     }
 
-    /* Show buttons only on mobile */
+    /* Show back and details buttons only on mobile */
     .back-button,
     .detail-button {
         display: block;
         padding: 6px 12px;
         font-size: 12px;
+    }
+
+    .back-button {
+        margin-right: auto;
+    }
+
+    .detail-button {
+        margin-left: auto;
+    }
+
+    /* Hide on larger screens */
+    @media (min-width: 769px) {
+        .back-button,
+        .detail-button {
+            display: none;
+        }
+    }
+
+    /* Add these styles to control the visibility of Chat and Detail */
+    .chat .center {
+        display: block; /* Show Chat only if Detail is hidden */
+    }
+
+    .chat .detail {
+        display: none; /* Hide Detail initially */
+    }
+
+    .chat .detail.show {
+        display: block; /* Show Detail when 'show' class is added */
+    }
+
+    /* Optionally hide the chat section when Detail is shown */
+    .chat .center.hide {
+        display: none; /* Hide Chat when Detail is visible */
     }
 }

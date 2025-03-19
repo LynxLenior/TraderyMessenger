@@ -89,10 +89,7 @@ function App() {
   return (
     <Routes>
       {/* Admin route */}
-      <Route
-        path="admin"
-        element={isAdmin ? <Admin /> : <Navigate to="/" />}
-      />
+      <Route path="admin" element={isAdmin ? <Admin /> : <Navigate to="/" />} />
 
       {/* Messenger as the main page */}
       <Route
@@ -102,12 +99,12 @@ function App() {
             {currentUser ? (
               <>
                 <div className="row">
-                  {/* Chat List shown only on mobile */}
+                  {/* Chat List (Mobile only) */}
                   <div className="col-12 d-md-none">
                     <List />
                   </div>
 
-                  {/* Chat and Detail shown on mobile */}
+                  {/* Chat and Detail for Mobile */}
                   {chatId && (
                     <>
                       <div className="col-12 d-md-none">
@@ -119,12 +116,12 @@ function App() {
                     </>
                   )}
 
-                  {/* Chat List shown on Desktop */}
+                  {/* Chat List for Desktop */}
                   <div className="col-md-4 d-none d-md-block">
                     <List />
                   </div>
 
-                  {/* Chat and Detail shown on Desktop */}
+                  {/* Chat and Detail for Desktop */}
                   {chatId && (
                     <>
                       <div className="col-md-8 d-none d-md-block">

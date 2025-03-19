@@ -227,7 +227,7 @@ const ChatList = () => {
           </div>
         )}
 
-        {/* Show Chat when a chat item is selected */}
+        {/* Show Chat when a chat item is selected, only show Chat */}
         {isChatSelected && selectedChat && (
           <div className='col-12'>
             {/* Chat Component */}
