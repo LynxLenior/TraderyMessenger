@@ -247,7 +247,7 @@ const Detail = () => {
   return (
     <div className="detail">
       {/* Back Button (Visible Only on Mobile) */}
-      <button className="back-button" onClick={handleBack}>Back</button>
+      <button className="back-button d-md-none" onClick={handleBack}>Back</button>
 
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
         <button className="adminButton" onClick={() => navigate("/admin")}>

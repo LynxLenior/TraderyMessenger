@@ -101,13 +101,41 @@ function App() {
           <div className="container">
             {currentUser ? (
               <>
-                <List />
-                {chatId && (
-                  <>
-                    <Chat />
-                    <Detail />
-                  </>
-                )}
+                <div className="row">
+                  {/* Chat List shown only on mobile */}
+                  <div className="col-12 d-md-none">
+                    <List />
+                  </div>
+
+                  {/* Chat and Detail shown on mobile */}
+                  {chatId && (
+                    <>
+                      <div className="col-12 d-md-none">
+                        <Chat />
+                      </div>
+                      <div className="col-12 d-md-none">
+                        <Detail />
+                      </div>
+                    </>
+                  )}
+
+                  {/* Chat List shown on Desktop */}
+                  <div className="col-md-4 d-none d-md-block">
+                    <List />
+                  </div>
+
+                  {/* Chat and Detail shown on Desktop */}
+                  {chatId && (
+                    <>
+                      <div className="col-md-8 d-none d-md-block">
+                        <Chat />
+                      </div>
+                      <div className="col-md-8 d-none d-md-block">
+                        <Detail />
+                      </div>
+                    </>
+                  )}
+                </div>
               </>
             ) : (
               <Login />
@@ -121,3 +149,5 @@ function App() {
 }
 
 export default App;
+
+

@@ -114,97 +114,134 @@ import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
 
 const ChatList = () => {
-    const [chats, setChats] = useState([]);
-    const [addMode, setAddMode] = useState(false);
-    const [input, setInput] = useState("");
+  const [chats, setChats] = useState([]);
+  const [addMode, setAddMode] = useState(false);
+  const [input, setInput] = useState("");
 
-    const { currentUser } = useUserStore();
-    const { changeChat } = useChatStore();
-    
-    useEffect(() => {
-        if (!currentUser?.id) return;
+  // State for switching between ChatList and Chat view
+  const [isChatSelected, setIsChatSelected] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(null);
 
-        const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
-            const items = res.data().chats;
+  const { currentUser } = useUserStore();
+  const { changeChat } = useChatStore();
 
-            const promises = items.map(async (item) => {
-                const userDocRef = doc(db, "users", item.receiverId);
-                const userDocSnap = await getDoc(userDocRef);
+  useEffect(() => {
+    if (!currentUser?.id) return;
 
-                const user = userDocSnap.data();
+    const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) => {
+      const items = res.data().chats;
 
-                return { ...item, user };
-            });
+      const promises = items.map(async (item) => {
+        const userDocRef = doc(db, "users", item.receiverId);
+        const userDocSnap = await getDoc(userDocRef);
 
-            const chatData = await Promise.all(promises);
+        const user = userDocSnap.data();
 
-            setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
-        });
-    
-        return () => {
-            unSub();
-        };
-    }, [currentUser.id]);
+        return { ...item, user };
+      });
 
-    const handleSelect = async (chat) => {
-        const userChats = chats.map(item => {
-            const { user, ...rest } = item;
-            return rest;
-        });
+      const chatData = await Promise.all(promises);
 
-        const chatIndex = userChats.findIndex(item => item.chatId === chat.chatId);
-        userChats[chatIndex].isSeen = true;
+      setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+    });
 
-        const userChatsRef = doc(db, "userchats", currentUser.id);
-
-        try {
-            await updateDoc(userChatsRef, {
-                chats: userChats,
-            });
-            changeChat(chat.chatId, chat.user);
-        } catch (err) {
-            console.log(err);
-        }
+    return () => {
+      unSub();
     };
+  }, [currentUser.id]);
 
-    const filteredChats = chats.filter(c => c.user.username.toLowerCase().includes(input.toLowerCase()));
+  const handleSelect = async (chat) => {
+    const userChats = chats.map(item => {
+      const { user, ...rest } = item;
+      return rest;
+    });
 
-    return (
-        <div className='chatList container-fluid p-3'>
-            <div className='row'>
-                <div className='col-12'>
-                    <div className="search d-flex align-items-center gap-2 p-2">
-                        <div className="searchBar flex-grow-1 d-flex align-items-center bg-dark rounded p-2">
-                            <img src="./search.png" alt="" className="me-2" />
-                            <input type="text" className="form-control bg-transparent border-0 text-white" placeholder="Search" onChange={(e) => setInput(e.target.value)} />
-                        </div>
-                        <img src={addMode ? "./minus.png" : "./plus.png"} 
-                            alt="" 
-                            className="add bg-dark p-2 rounded cursor-pointer" 
-                            onClick={() => setAddMode((prev) => !prev)}
-                        />
-                    </div>
-                </div>
-                <div className='col-12'>
-                    {filteredChats.map((chat) => (
-                        <div className="item d-flex align-items-center gap-2 p-2 border-bottom" 
-                            key={chat.chatId} 
-                            onClick={() => handleSelect(chat)}
-                            style={{
-                                backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
-                            }}
-                        >
-                            <div className="texts d-flex flex-column overflow-hidden">
-                                <span className="fw-bold">{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
-                                <p className="small text-truncate" style={{ maxWidth: "200px" }}>{chat.lastMessage}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {addMode && <AddUser />}
+    const chatIndex = userChats.findIndex(item => item.chatId === chat.chatId);
+    userChats[chatIndex].isSeen = true;
+
+    const userChatsRef = doc(db, "userchats", currentUser.id);
+
+    try {
+      await updateDoc(userChatsRef, {
+        chats: userChats,
+      });
+      changeChat(chat.chatId, chat.user);
+
+      // Set selected chat and switch to Chat view
+      setSelectedChat(chat);
+      setIsChatSelected(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const filteredChats = chats.filter(c => c.user.username.toLowerCase().includes(input.toLowerCase()));
+
+  return (
+    <div className='chatList container-fluid p-3'>
+      <div className='row'>
+        {/* Show ChatList only if no chat is selected */}
+        {!isChatSelected && (
+          <div className='col-12'>
+            <div className="search d-flex align-items-center gap-2 p-2">
+              <div className="searchBar flex-grow-1 d-flex align-items-center bg-dark rounded p-2">
+                <img src="./search.png" alt="" className="me-2" />
+                <input
+                  type="text"
+                  className="form-control bg-transparent border-0 text-white"
+                  placeholder="Search"
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              </div>
+              <img
+                src={addMode ? "./minus.png" : "./plus.png"}
+                alt=""
+                className="add bg-dark p-2 rounded cursor-pointer"
+                onClick={() => setAddMode((prev) => !prev)}
+              />
             </div>
-        </div>
-    );
+            <div className='col-12'>
+              {filteredChats.map((chat) => (
+                <div
+                  className="item d-flex align-items-center gap-2 p-2 border-bottom"
+                  key={chat.chatId}
+                  onClick={() => handleSelect(chat)}
+                  style={{
+                    backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
+                  }}
+                >
+                  <div className="texts d-flex flex-column overflow-hidden">
+                    <span className="fw-bold">
+                      {chat.user.blocked.includes(currentUser.id)
+                        ? "User"
+                        : chat.user.username}
+                    </span>
+                    <p className="small text-truncate" style={{ maxWidth: "200px" }}>
+                      {chat.lastMessage}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {addMode && <AddUser />}
+          </div>
+        )}
+
+        {/* Show Chat when a chat item is selected */}
+        {isChatSelected && selectedChat && (
+          <div className='col-12'>
+            {/* Chat Component */}
+            <p>Chat with {selectedChat.user.username}</p>
+            <div className="messages">
+              {/* Implement your message list UI here */}
+              <p>Messages for {selectedChat.chatId}...</p>
+            </div>
+            {/* Add any other content for the selected chat */}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ChatList;

@@ -265,15 +265,19 @@ const Chat = ({ onBack, onOpenDetail }) => {
 
     return (
         <div className='chat'>
-            <div className="top">
-                <button className="back-button" onClick={onBack}>Back</button>
+            <div className="top d-flex justify-content-between align-items-center">
+                {/* Back Button on Mobile */}
+                <button className="back-button d-md-none" onClick={onBack}>Back</button>
+                {/* User Info */}
                 <div className="user">
                     <div className="texts">
                         <span>{user?.username}</span>
                     </div>
                 </div>
-                <button className="detail-button" onClick={onOpenDetail}>Details</button>
+                {/* Details Button on Mobile */}
+                <button className="detail-button d-md-none" onClick={onOpenDetail}>Details</button>
             </div>
+
             <div className="center">
                 <div className="MessageStarter">Start of your chat</div>
                 {chat?.messages?.map((message, index) => {
@@ -304,7 +308,9 @@ const Chat = ({ onBack, onOpenDetail }) => {
                 })}
                 <div ref={endRef}></div>
             </div>
-            <div className="bottom">
+
+            <div className="bottom d-flex justify-content-between">
+                {/* Message Input Field */}
                 <input 
                     type="text" 
                     placeholder={cooldownActive ? "Wait before sending another message..." : (isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
@@ -326,6 +332,7 @@ const Chat = ({ onBack, onOpenDetail }) => {
                         </div>
                     )}
                 </div>
+                {/* Send Button */}
                 <button className="sendButton" onClick={handleSend} disabled={cooldownActive || isCurrentUserBlocked || isReceiverBlocked}>
                     Send
                 </button>
@@ -335,3 +342,4 @@ const Chat = ({ onBack, onOpenDetail }) => {
 }
 
 export default Chat;
+
